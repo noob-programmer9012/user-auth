@@ -83,10 +83,7 @@ const DashboardPage = () => {
               }
             </Box>
             {/* Main Content */}
-            <Box sx={{ flex: 7 }}>
-              {/* <Dashboard data={{ user, firm }} /> */}
-              {component}
-            </Box>
+            <Box sx={{ flex: 2 }}>{component}</Box>
           </Stack>
         </Container>
       </>

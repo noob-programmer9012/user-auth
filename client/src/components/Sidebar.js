@@ -22,8 +22,8 @@ const Sidebar = props => {
         display: 'flex',
         flexDirection: 'column',
         minHeight: 'calc(100vh - 64px)',
-        justifyContent: 'space-between'
-        // borderRight: '1px solid #EAEBED'
+        justifyContent: 'space-between',
+        borderRight: '1px solid #EAEBED'
       }}
     >
       <Box>
