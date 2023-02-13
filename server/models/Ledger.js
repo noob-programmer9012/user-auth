@@ -36,7 +36,6 @@ const LedgerSchema = new mongoose.Schema({
   gst_no: {
     type: String,
     required: [true, 'Please add Gst Number'],
-    unique: true,
     match: [
       /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/,
       'Please enter valid GST Number.'
@@ -49,7 +48,7 @@ const LedgerSchema = new mongoose.Schema({
   pan_no: String,
   mobile: {
     type: String,
-    default: '0000000000',
+    default: null,
     minlength: 10,
     maxlength: 10,
     match: [/^(\s*|\d+)$/, 'please enter a valid number']
@@ -60,8 +59,7 @@ const LedgerSchema = new mongoose.Schema({
     match: [
       /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
       'Please enter an valid email address'
-    ],
-    unique: true
+    ]
   }
 })
 
