@@ -1,87 +1,126 @@
-import { Box, Divider, Typography } from '@mui/material'
+import { Box, Divider, LinearProgress, Typography } from '@mui/material'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
+
+import colors from '../utils/colors'
+import UserContext from './context/userContext'
 
 export default function ClientNames () {
-  const colors = [
-    '#0179A8',
-    '#346CB0',
-    '#5F4B8B',
-    '#B76BA3',
-    '#EA6759',
-    '#EC935E',
-    '#F7C46C',
-    '#A7C796',
-    '#00A28A',
-    '#3686A0',
-    '#0179A8',
-    '#346CB0'
-  ]
-  const names = ['Zathunicon', 'Faxquote', 'Opentech', 'Codehow']
-  // const randomNumber = Math.floor(Math.random() * colors.length)
+  const navigate = useNavigate()
+  const { firm } = useContext(UserContext)
+  const [names, setNames] = useState(null)
 
-  // const randomColor = colors[randomNumber]
+  useEffect(() => {
+    async function getClients () {
+      const token = localStorage.getItem('authToken')
+      const firmId = JSON.parse(firm)
+      try {
+        const data = await axios.get(`/api/ledgers/getdebtors/${firmId._id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        })
+        setNames(JSON.stringify(data.data.data))
+      } catch (error) {
+        console.log(error)
+        navigate('/login')
+      }
+    }
+    getClients()
+  }, [firm, names, setNames, navigate])
+
   return (
-    <Box
-      sx={{
-        overflowY: 'auto',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        mt: 1
-      }}
-    >
-      {names.map(name => (
-        <>
-          <Box
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-start',
-              gap: 2,
-              cursor: 'pointer'
-            }}
-            onClick={e => alert(e.target.id)}
-            key={names.indexOf(name)}
-          >
-            <Box
-              sx={{
-                borderRadius: '50%',
-                width: '40px',
-                height: '40px',
-                background: colors[Math.floor(Math.random() * colors.length)],
-                border: 0,
-                ml: 2,
-                color: 'white',
-                fontSize: '1.2rem',
-                fontWeight: 600,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              {name[0]}
-            </Box>
-            <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 400, color: '#234875' }}>
-                {name}
-              </Typography>
-              <Typography
-                variant='p'
-                sx={{ fontSize: '0.9rem', fontWeight: 400, color: '#234875' }}
-              >
-                San Francisco, United States
-              </Typography>
-            </Box>
-          </Box>
-          <Divider
-            sx={{
-              background: '1px solid #E0E1E5',
-              mt: 1.5,
-              width: '80%',
-              alignSelf: 'flex-end'
-            }}
-          />
-        </>
-      ))}
-    </Box>
+    <>
+      <Box
+        sx={{
+          overflowY: 'auto',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          mt: 1
+        }}
+      >
+        {names ? (
+          [JSON.parse(names)].map(x =>
+            x.map(name => (
+              <>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'flex-start',
+                    gap: 2,
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      borderRadius: '50%',
+                      width: '40px',
+                      height: '40px',
+                      background:
+                        colors[Math.floor(Math.random() * colors.length)],
+                      border: 0,
+                      ml: 2,
+                      color: 'white',
+                      fontSize: '1.2rem',
+                      fontWeight: 600,
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center'
+                    }}
+                    id={name.companyName}
+                    onClick={e => alert(e.target.id)}
+                  >
+                    {name.companyName[0]}
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      flex: 2,
+                      mb: 1
+                    }}
+                  >
+                    <Typography
+                      sx={{
+                        fontWeight: 400,
+                        color: '#234875'
+                      }}
+                      className='company'
+                    >
+                      {name.companyName}
+                    </Typography>
+                    <Typography
+                      variant='p'
+                      sx={{
+                        fontSize: '0.9rem',
+                        fontWeight: 400,
+                        color: '#234875'
+                      }}
+                    >
+                      {name.address ? name.address.line3 : 'Not given'}
+                    </Typography>
+                    <Divider
+                      sx={{
+                        borderColor: '1px solid #E0E1E5',
+                        mt: 1.5,
+                        width: '100%',
+                        alignSelf: 'flex-start'
+                      }}
+                    />
+                  </Box>
+                </Box>
+              </>
+            ))
+          )
+        ) : (
+          <LinearProgress />
+        )}
+      </Box>
+    </>
   )
 }

@@ -10,7 +10,7 @@ import { protect } from '../middleware/auth.js'
 const router = express.Router()
 
 router.route('/createledger').post(protect, createLedger)
-router.route('/getdebtors').get(protect, getDebtors)
-router.route('/getcreditors').get(protect, getCreditors)
+router.route('/getdebtors/:id').get(protect, getDebtors)
+router.route('/getcreditors/:id').get(protect, getCreditors)
 
 export default router

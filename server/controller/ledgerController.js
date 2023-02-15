@@ -49,11 +49,9 @@ export async function createLedger (req, res, next) {
 }
 
 export async function getDebtors (req, res, next) {
-  const { firmId } = req.body
-
   try {
     const debtors = await Ledger.find({
-      $and: [{ firmId, ledgerGroup: 'Sundry Debtors' }]
+      $and: [{ firmId: req.params.id, ledgerGroup: 'Sundry Debtors' }]
     })
 
     if (!debtors) {
@@ -70,11 +68,9 @@ export async function getDebtors (req, res, next) {
 }
 
 export async function getCreditors (req, res, next) {
-  const { firmId } = req.body
-
   try {
     const creditors = await Ledger.find({
-      $and: [{ firmId, ledgerGroup: 'Sundry Creditors' }]
+      $and: [{ firmId: req.params.id, ledgerGroup: 'Sundry Creditors' }]
     })
 
     if (!creditors) {
