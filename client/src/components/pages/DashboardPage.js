@@ -49,9 +49,20 @@ const DashboardPage = () => {
   function Success () {
     return (
       <>
-        <Navbar data={{ user, setUser, width, setWidth }} />
+        <Navbar
+          data={{
+            user,
+            setUser,
+            width,
+            setWidth,
+            component,
+            setComponent,
+            active,
+            setActive
+          }}
+        />
         {/* Sidebar & Main Content */}
-        <Container maxWidth='xxl' sx={{ mt: 2, Width: { xs: 'device-width' } }}>
+        <Container maxWidth='xxl' sx={{ mt: 2 }}>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 1, sm: 2, md: 2 }}

@@ -3,6 +3,7 @@ import { useState } from 'react'
 import {
   AppBar,
   Box,
+  Drawer,
   IconButton,
   Menu,
   MenuItem,
@@ -13,8 +14,35 @@ import MenuIcon from '@mui/icons-material/Menu'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MoreIcon from '@mui/icons-material/MoreVert'
 
+import SidebarMobile from './sidebarMobile'
+
 function Success (props) {
-  const { user, setUser, width, setWidth } = props.data
+  const {
+    user,
+    setUser,
+    width,
+    setWidth,
+    component,
+    setComponent,
+    active,
+    setActive
+  } = props.data
+  const [mobile, setMobile] = useState(false)
+
+  const mobileSidebar = () => {
+    return (
+      <div style={{ width: 250 }} onClick={() => setMobile(false)}>
+        <SidebarMobile
+          components={{
+            component,
+            setComponent,
+            active,
+            setActive
+          }}
+        />
+      </div>
+    )
+  }
 
   const [anchorEl, setAnchorEl] = useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
@@ -127,13 +155,30 @@ function Success (props) {
             edge='start'
             color='inherit'
             aria-label='open drawer'
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, display: { xs: 'none', md: 'none', lg: 'block' } }}
             onClick={() =>
               width === '250px' ? setWidth('60px') : setWidth('250px')
             }
           >
             <MenuIcon />
           </IconButton>
+          <IconButton
+            size='large'
+            edge='start'
+            color='inherit'
+            aria-label='open drawer'
+            sx={{ mr: 2, display: { xs: 'block', md: 'block', lg: 'none' } }}
+            onClick={() => setMobile(true)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Drawer
+            open={mobile}
+            anchor={'left'}
+            onClose={() => setMobile(false)}
+          >
+            {mobileSidebar()}
+          </Drawer>
           <Typography
             variant='h6'
             noWrap
