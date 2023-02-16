@@ -16,6 +16,7 @@ import ResponsiveDialog from './addClientForm'
 
 export default function ClientList () {
   const [open, setOpen] = useState(false)
+  const [listChanged, setListChanged] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -100,7 +101,7 @@ export default function ClientList () {
         <CustomizedInputBase />
       </Box>
       {/* Client Names */}
-      <ClientNames />
+      <ClientNames data={{ listChanged }} />
       <Fab
         color='primary'
         aria-label='add'
@@ -109,7 +110,9 @@ export default function ClientList () {
       >
         <AddIcon fontSize='large' />
       </Fab>
-      <ResponsiveDialog data={{ open, fullScreen, handleClose }} />
+      <ResponsiveDialog
+        data={{ open, fullScreen, handleClose, setListChanged }}
+      />
     </Box>
   )
 }

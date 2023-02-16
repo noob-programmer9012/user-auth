@@ -6,10 +6,11 @@ import { useContext, useEffect, useState } from 'react'
 import colors from '../utils/colors'
 import UserContext from './context/userContext'
 
-export default function ClientNames () {
+export default function ClientNames (props) {
   const navigate = useNavigate()
   const { firm } = useContext(UserContext)
   const [names, setNames] = useState(null)
+  const { listChanged } = props.data
 
   useEffect(() => {
     async function getClients () {
@@ -30,7 +31,7 @@ export default function ClientNames () {
       }
     }
     getClients()
-  }, [firm, names, setNames, navigate])
+  }, [firm, setNames, names, navigate, listChanged])
 
   return (
     <>

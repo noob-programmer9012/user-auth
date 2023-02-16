@@ -5,7 +5,7 @@ import AddClient from './Forms/AddClient'
 import { Box } from '@mui/material'
 
 export default function ResponsiveDialog (props) {
-  const { open, fullScreen, handleClose } = props.data
+  const { open, fullScreen, handleClose, setListChanged } = props.data
 
   return (
     <div>
@@ -16,7 +16,7 @@ export default function ResponsiveDialog (props) {
         aria-labelledby='responsive-dialog-title'
       >
         <Box sx={{ p: 5 }}>
-          <AddClient data={{ handleClose }} />
+          <AddClient data={{ handleClose, setListChanged }} />
         </Box>
       </Dialog>
     </div>
