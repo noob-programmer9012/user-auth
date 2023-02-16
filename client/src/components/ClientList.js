@@ -1,10 +1,32 @@
-import { Box, Fab, IconButton, InputBase, Paper } from '@mui/material'
+import { useState } from 'react'
+import {
+  Box,
+  Fab,
+  IconButton,
+  InputBase,
+  Paper,
+  useMediaQuery,
+  useTheme
+} from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import AddIcon from '@mui/icons-material/Add'
 
 import ClientNames from './ClientNames'
+import ResponsiveDialog from './addClientForm'
 
 export default function ClientList () {
+  const [open, setOpen] = useState(false)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
   function CustomizedInputBase () {
     function handleSearch (e) {
       const clients = document.getElementsByClassName('company')
@@ -52,7 +74,8 @@ export default function ClientList () {
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        minWidth: { xs: '90%', md: '350px' },
+        minWidth: { xs: '98%', sm: '250px', md: '350px' },
+        ml: { xs: -1.4 },
         position: 'fixed',
         minHeight: { xs: 'calc(100vh - 57px)', md: 'calc(100vh - 64px)' },
         maxHeight: { xs: 'calc(100vh - 57px)', md: 'calc(100vh - 64px)' },
@@ -82,9 +105,11 @@ export default function ClientList () {
         color='primary'
         aria-label='add'
         sx={{ position: 'absolute', bottom: 0, right: 0, mr: 2, mb: 2 }}
+        onClick={handleClickOpen}
       >
         <AddIcon fontSize='large' />
       </Fab>
+      <ResponsiveDialog data={{ open, fullScreen, handleClose }} />
     </Box>
   )
 }

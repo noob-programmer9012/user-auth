@@ -65,6 +65,7 @@ export default function ClientNames () {
                         colors[Math.floor(Math.random() * colors.length)],
                       border: 0,
                       ml: 2,
+                      mt: -1.7,
                       color: 'white',
                       fontSize: '1.2rem',
                       fontWeight: 600,
