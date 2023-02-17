@@ -36,7 +36,7 @@ const LedgerSchema = new mongoose.Schema({
   gst_no: {
     type: String,
     match: [
-      /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/,
+      /^$|[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/,
       'Please enter valid GST Number.'
     ],
     uppercase: true,
@@ -48,7 +48,7 @@ const LedgerSchema = new mongoose.Schema({
     type: String,
     default: null,
     maxlength: 10,
-    match: [/^(\s*|\d+)$/, 'please enter a valid number']
+    match: [/^$|(\s*|\d+)$/, 'please enter a valid number']
   },
   email: {
     type: String,
@@ -63,10 +63,15 @@ LedgerSchema.pre('save', function (next) {
   this.pan_no = this.gst_no.slice(2, 12)
   this.companyName = titleCase(this.companyName)
   const gstCode = parseInt(this.gst_no.slice(0, 2))
-  this.gst_state = Object.keys(gstStates).filter(x => gstCode === parseInt(x))
-    .length
-    ? gstStates[gstCode]
-    : next(new ErrorResponse('Please enter valid GST Number', 400))
+  this.address.line1 = this.address.line1 ? titleCase(this.address.line1) : ''
+  this.address.line2 = this.address.line2 ? titleCase(this.address.line2) : ''
+  this.address.line3 = this.address.line3 ? titleCase(this.address.line3) : ''
+  if (this.gst_no) {
+    this.gst_state = Object.keys(gstStates).filter(x => gstCode === parseInt(x))
+      .length
+      ? gstStates[gstCode]
+      : next(new ErrorResponse('Please enter valid GST Number', 400))
+  }
   next()
 })
 

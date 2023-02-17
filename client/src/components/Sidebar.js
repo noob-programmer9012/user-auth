@@ -103,7 +103,7 @@ const Sidebar = props => {
           alignItems: 'center'
         }}
       >
-        <MenuList>
+        <MenuList sx={{ flex: 1 }}>
           <MenuItem>
             <ListItemIcon>
               <DarkModeIcon fontSize={width === '60px' ? 'medium' : 'small'} />

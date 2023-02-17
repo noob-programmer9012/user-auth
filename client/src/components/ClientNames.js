@@ -1,7 +1,7 @@
 import { Box, Divider, LinearProgress, Typography } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 
 import colors from '../utils/colors'
 import UserContext from './context/userContext'
@@ -10,8 +10,9 @@ export default function ClientNames (props) {
   const navigate = useNavigate()
   const { firm } = useContext(UserContext)
   const [names, setNames] = useState(null)
-  const { listChanged } = props.data
+  const { listChanged, setListChanged } = props.data
 
+  setListChanged(false)
   useEffect(() => {
     async function getClients () {
       const token = localStorage.getItem('authToken')
@@ -31,23 +32,23 @@ export default function ClientNames (props) {
       }
     }
     getClients()
-  }, [firm, setNames, names, navigate, listChanged])
+  }, [firm, navigate, listChanged])
 
   return (
     <>
       <Box
         sx={{
           overflowY: 'auto',
+          mt: 1.2,
           display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center',
-          mt: 1
+          justifyContent: 'center'
         }}
       >
         {names ? (
           [JSON.parse(names)].map(x =>
             x.map(name => (
-              <>
+              <React.Fragment key={name._id}>
                 <Box
                   sx={{
                     display: 'flex',
@@ -116,7 +117,7 @@ export default function ClientNames (props) {
                     />
                   </Box>
                 </Box>
-              </>
+              </React.Fragment>
             ))
           )
         ) : (

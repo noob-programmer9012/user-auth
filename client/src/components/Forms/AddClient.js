@@ -6,12 +6,15 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee'
+
 import {
   Alert,
   Autocomplete,
   Button,
   Collapse,
-  IconButton
+  IconButton,
+  InputAdornment
 } from '@mui/material'
 
 import UserContext from '../context/userContext'
@@ -138,6 +141,13 @@ export default function AddClient (props) {
             label='Opening Balance'
             fullWidth
             defaultValue={'0.0'}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position='start'>
+                  <CurrencyRupeeIcon fontSize='small' />
+                </InputAdornment>
+              )
+            }}
             variant='standard'
             onChange={e => {
               e.target.value = e.target.value.replace(/[^0-9.]/g, '')
@@ -170,6 +180,7 @@ export default function AddClient (props) {
             id='city'
             name='city'
             label='City'
+            required
             fullWidth
             variant='standard'
             onChange={e => setAddress3(e.target.value)}
@@ -214,6 +225,7 @@ export default function AddClient (props) {
             }}
             fullWidth
             variant='standard'
+            inputProps={{ maxLength: 10 }}
           />
         </Grid>
         <Grid item xs={12}>
@@ -230,7 +242,14 @@ export default function AddClient (props) {
           <Button
             variant='contained'
             endIcon={<AddCircleIcon />}
-            onClick={postClient}
+            onClick={() => {
+              if (address3) {
+                postClient()
+              } else {
+                setError('Please enter city name!')
+                setShow(true)
+              }
+            }}
           >
             Add Client
           </Button>
