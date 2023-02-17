@@ -62,7 +62,7 @@ const DashboardPage = () => {
           }}
         />
         {/* Sidebar & Main Content */}
-        <Container maxWidth='xxl' sx={{ mt: 2 }}>
+        <Container maxWidth='xxl' sx={{ mt: 2, background: 'inherit' }}>
           <Stack
             direction={{ xs: 'column', sm: 'row' }}
             spacing={{ xs: 1, sm: 2, md: 2 }}

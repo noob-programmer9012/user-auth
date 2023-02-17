@@ -1,14 +1,23 @@
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
 
-import { Box, LinearProgress, Typography } from '@mui/material'
+import {
+  Box,
+  LinearProgress,
+  Typography,
+  useMediaQuery,
+  useTheme
+} from '@mui/material'
 import BusinessIcon from '@mui/icons-material/Business'
 
-import FirmForm from './FirmForm'
 import UserContext from './context/userContext'
+import AddFirmForm from './addFirmForm'
 
 export default function Dashboard (props) {
   const { user, firm, setFirm } = useContext(UserContext)
+  const [open, setOpen] = useState(true)
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   useEffect(() => {
     const token = localStorage.getItem('authToken')
@@ -33,7 +42,7 @@ export default function Dashboard (props) {
   const firms = JSON.parse(firm)
 
   if (!user.firm) {
-    return <FirmForm />
+    return <AddFirmForm data={{ open, setOpen, fullScreen }} />
   }
 
   return (

@@ -75,14 +75,14 @@ export default function ClientList () {
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        minWidth: { xs: '98%', sm: '250px', md: '350px' },
+        minWidth: { xs: '100%', md: '350px' },
         ml: { xs: -1.4 },
-        position: 'fixed',
-        minHeight: { xs: 'calc(100vh - 57px)', md: 'calc(100vh - 64px)' },
-        maxHeight: { xs: 'calc(100vh - 57px)', md: 'calc(100vh - 64px)' },
-        borderRight: '1px solid #E0E1E5',
-        borderLeft: '1px solid #E0E1E5',
-        top: { xs: 57, md: 64 }
+        position: { lg: 'fixed', xs: 'absolute' },
+        minHeight: { xs: 'calc(100vh - 60px)', md: 'calc(100vh - 64px)' },
+        maxHeight: { xs: 'calc(100vh - 60px)', md: 'calc(100vh - 64px)' },
+        borderRight: { xs: 'none', md: 'none', lg: '1px solid #E0E1E5' },
+        borderLeft: { xs: 'none', md: 'none', lg: '1px solid #E0E1E5' },
+        top: { xs: 55, md: 64 }
       }}
     >
       <Box
@@ -105,7 +105,13 @@ export default function ClientList () {
       <Fab
         color='primary'
         aria-label='add'
-        sx={{ position: 'absolute', bottom: 0, right: 0, mr: 2, mb: 2 }}
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          mr: 2,
+          mb: { xs: 3, md: 3, lg: 2 }
+        }}
         onClick={handleClickOpen}
       >
         <AddIcon fontSize='large' />

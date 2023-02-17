@@ -6,7 +6,13 @@ import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import CloseIcon from '@mui/icons-material/Close'
-import { Alert, Autocomplete, Button, IconButton } from '@mui/material'
+import {
+  Alert,
+  Autocomplete,
+  Button,
+  Collapse,
+  IconButton
+} from '@mui/material'
 
 import UserContext from '../context/userContext'
 
@@ -27,8 +33,8 @@ export default function AddClient (props) {
   const [gstNo, setGstNo] = React.useState('')
   const [mobile, setMobile] = React.useState('')
   const [email, setEmail] = React.useState(null)
-  const [showError, setShowError] = React.useState(false)
   const [error, setError] = React.useState(null)
+  const [show, setShow] = React.useState(false)
 
   const token = localStorage.getItem('authToken')
 
@@ -59,7 +65,7 @@ export default function AddClient (props) {
       props.data.setListChanged(true)
     } catch (error) {
       setError(error.response.data.message)
-      setShowError(true)
+      setShow(true)
     }
   }
 
@@ -70,10 +76,16 @@ export default function AddClient (props) {
 
   return (
     <React.Fragment>
-      {showError && (
-        <Grid item xs={12} sx={{ mb: 2 }}>
-          <Alert severity='error'>{error}</Alert>
-        </Grid>
+      {show && (
+        <>
+          <Grid item xs={12} sx={{ mb: 2 }}>
+            <Collapse in={show}>
+              <Alert onClose={() => setShow(false)} severity='error'>
+                {error}
+              </Alert>
+            </Collapse>
+          </Grid>
+        </>
       )}
       <Grid container sx={{ justifyContent: 'space-between' }}>
         <Typography fullWidth variant='h6' gutterBottom>
@@ -98,10 +110,10 @@ export default function AddClient (props) {
             autoComplete='given-name'
             variant='standard'
             onChange={e => {
-              setShowError(false)
+              setShow(false)
               if (e.target.value === '') {
                 setError('Company name field can not be blank!')
-                setShowError(true)
+                setShow(true)
               }
               setCompanyName(e.target.value)
             }}

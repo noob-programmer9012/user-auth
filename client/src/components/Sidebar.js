@@ -65,7 +65,10 @@ const Sidebar = props => {
               {width !== '60px' && <ListItemText>Clients</ListItemText>}
             </MenuItem>
             <MenuItem
-              onClick={() => setActive('settings')}
+              onClick={() => {
+                setActive('settings')
+                setComponent(<h1>Settings</h1>)
+              }}
               sx={{ color: active === 'settings' ? '#f58802' : '#525252' }}
             >
               <ListItemIcon>
@@ -77,7 +80,10 @@ const Sidebar = props => {
               {width !== '60px' && <ListItemText>Settings</ListItemText>}
             </MenuItem>
             <MenuItem
-              onClick={() => setActive('events')}
+              onClick={() => {
+                setActive('events')
+                setComponent(<h1>Events</h1>)
+              }}
               sx={{ color: active === 'events' ? '#f58802' : '#525252' }}
             >
               <ListItemIcon>
