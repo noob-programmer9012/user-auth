@@ -39,10 +39,7 @@ export default function ClientNames (props) {
       <Box
         sx={{
           overflowY: 'auto',
-          mt: 1.2,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center'
+          mt: 1.2
         }}
       >
         {names ? (

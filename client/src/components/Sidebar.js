@@ -35,7 +35,10 @@ const Sidebar = props => {
         >
           <MenuList>
             <MenuItem
-              sx={{ color: active === 'dashboard' ? '#f58802' : '#525252' }}
+              sx={{
+                color: active === 'dashboard' ? '#f58802' : '#525252',
+                '&:hover': { background: 'inherit' }
+              }}
               onClick={() => {
                 setActive('dashboard')
                 setComponent(<Dashboard />)
@@ -44,13 +47,18 @@ const Sidebar = props => {
               <ListItemIcon>
                 <HomeIcon
                   fontSize={width === '60px' ? 'medium' : 'small'}
-                  sx={{ color: active === 'dashboard' ? '#f58802' : '#525252' }}
+                  sx={{
+                    color: active === 'dashboard' ? '#f58802' : '#525252'
+                  }}
                 />
               </ListItemIcon>
               {width !== '60px' && <ListItemText>Dashboard</ListItemText>}
             </MenuItem>
             <MenuItem
-              sx={{ color: active === 'clients' ? '#f58802' : '#525252' }}
+              sx={{
+                color: active === 'clients' ? '#f58802' : '#525252',
+                '&:hover': { background: 'inherit' }
+              }}
               onClick={() => {
                 setActive('clients')
                 setComponent(<ClientsPage />)
@@ -59,7 +67,9 @@ const Sidebar = props => {
               <ListItemIcon>
                 <PeopleAltIcon
                   fontSize={width === '60px' ? 'medium' : 'small'}
-                  sx={{ color: active === 'clients' ? '#f58802' : '#525252' }}
+                  sx={{
+                    color: active === 'clients' ? '#f58802' : '#525252'
+                  }}
                 />
               </ListItemIcon>
               {width !== '60px' && <ListItemText>Clients</ListItemText>}
@@ -69,12 +79,17 @@ const Sidebar = props => {
                 setActive('settings')
                 setComponent(<h1>Settings</h1>)
               }}
-              sx={{ color: active === 'settings' ? '#f58802' : '#525252' }}
+              sx={{
+                color: active === 'settings' ? '#f58802' : '#525252',
+                '&:hover': { background: 'inherit' }
+              }}
             >
               <ListItemIcon>
                 <SettingsIcon
                   fontSize={width === '60px' ? 'medium' : 'small'}
-                  sx={{ color: active === 'settings' ? '#f58802' : '#525252' }}
+                  sx={{
+                    color: active === 'settings' ? '#f58802' : '#525252'
+                  }}
                 />
               </ListItemIcon>
               {width !== '60px' && <ListItemText>Settings</ListItemText>}
@@ -84,12 +99,17 @@ const Sidebar = props => {
                 setActive('events')
                 setComponent(<h1>Events</h1>)
               }}
-              sx={{ color: active === 'events' ? '#f58802' : '#525252' }}
+              sx={{
+                color: active === 'events' ? '#f58802' : '#525252',
+                '&:hover': { background: 'inherit' }
+              }}
             >
               <ListItemIcon>
                 <EventNoteIcon
                   fontSize={width === '60px' ? 'medium' : 'small'}
-                  sx={{ color: active === 'events' ? '#f58802' : '#525252' }}
+                  sx={{
+                    color: active === 'events' ? '#f58802' : '#525252'
+                  }}
                 />
               </ListItemIcon>
               {width !== '60px' && <ListItemText>Events</ListItemText>}
@@ -104,7 +124,11 @@ const Sidebar = props => {
         }}
       >
         <MenuList sx={{ flex: 1 }}>
-          <MenuItem>
+          <MenuItem
+            sx={{
+              '&:hover': { background: 'inherit' }
+            }}
+          >
             <ListItemIcon>
               <DarkModeIcon fontSize={width === '60px' ? 'medium' : 'small'} />
             </ListItemIcon>

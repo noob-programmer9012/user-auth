@@ -76,14 +76,14 @@ export default function ClientList () {
         display: 'flex',
         flexDirection: 'column',
         flex: 1,
-        maxWidth: { xs: '100%', sm: '90%', md: '350px' },
-        minWidth: { xs: '98%', sm: '90%', md: '350px' },
+        maxWidth: { xs: '95%', sm: '90%', md: '350px' },
+        minWidth: { xs: '95%', sm: '90%', md: '350px' },
         ml: { xs: -1.4 },
         position: { lg: 'fixed', xs: 'fixed' },
-        minHeight: { xs: 'calc(100vh - 64px)', md: 'calc(100vh - 64px)' },
-        maxHeight: { xs: 'calc(100vh - 64px)', md: 'calc(100vh - 64px)' },
-        borderRight: { xs: 'none', md: 'none', lg: '1px solid #E0E1E5' },
-        borderLeft: { xs: 'none', md: 'none', lg: '1px solid #E0E1E5' },
+        minHeight: { xs: 'calc(100vh - 90px)', md: 'calc(100vh - 64px)' },
+        maxHeight: { xs: 'calc(100vh - 90px)', md: 'calc(100vh - 64px)' },
+        borderRight: { xs: 'none', md: '1px solid #E0E1E5' },
+        borderLeft: { xs: 'none', md: '1px solid #E0E1E5' },
         top: { xs: 60, md: 65 }
       }}
     >
