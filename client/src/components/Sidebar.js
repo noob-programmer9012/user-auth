@@ -1,10 +1,19 @@
-import { Box, ListItemText, MenuItem, MenuList, Paper } from '@mui/material'
+import {
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  MenuItem,
+  MenuList,
+  Paper
+} from '@mui/material'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import HomeIcon from '@mui/icons-material/Home'
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt'
 import SettingsIcon from '@mui/icons-material/Settings'
 import EventNoteIcon from '@mui/icons-material/EventNote'
 import DarkModeIcon from '@mui/icons-material/DarkMode'
+import InventoryIcon from '@mui/icons-material/Inventory'
 
 import Dashboard from './Dashboard'
 import ClientsPage from './pages/ClientsPage'
@@ -114,6 +123,18 @@ const Sidebar = props => {
               </ListItemIcon>
               {width !== '60px' && <ListItemText>Events</ListItemText>}
             </MenuItem>
+            <List>
+              <MenuItem>
+                <ListItem disablePadding>
+                  <ListItemIcon>
+                    <InventoryIcon
+                      fontSize={width === '60px' ? 'medium' : 'small'}
+                    />
+                  </ListItemIcon>
+                  {width !== '60px' && <ListItemText>Products</ListItemText>}
+                </ListItem>
+              </MenuItem>
+            </List>
           </MenuList>
         </Paper>
       </Box>

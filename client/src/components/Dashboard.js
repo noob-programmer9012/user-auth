@@ -46,7 +46,7 @@ export default function Dashboard (props) {
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+    <Box sx={{ display: 'flex', gap: 2, alignItems: 'center', p: 2 }}>
       {firm && <BusinessIcon sx={{ fontSize: '3rem' }} />}
       <Box>
         <Typography variant='h3' sx={{ fontWeight: 300 }}>
