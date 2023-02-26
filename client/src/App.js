@@ -1,10 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
-import { UserState } from './components/context/UserState'
-
-import DashboardPage from './components/pages/DashboardPage'
-import LoginPage from './components/pages/signIn'
-import RegisterPage from './components/pages/RegisterPage'
+import UserState from './Context/UserState'
+import DashboardPage from './Pages/DashboardPage'
 
 function App () {
   return (
@@ -12,9 +9,9 @@ function App () {
       <Router>
         <UserState>
           <Routes>
-            <Route exact path='/' element={<DashboardPage />}></Route>
-            <Route exact path='/login' element={<LoginPage />}></Route>
-            <Route exact path='/register' element={<RegisterPage />}></Route>
+            <Route path='/' element={<DashboardPage />}></Route>
+            <Route path='/login' element={<h1>Login Route</h1>}></Route>
+            <Route path='/register' element={<h1>Register Route</h1>}></Route>
           </Routes>
         </UserState>
       </Router>
