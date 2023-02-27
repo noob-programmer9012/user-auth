@@ -4,17 +4,27 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import CssBaseline from '@mui/material/CssBaseline'
 import TextField from '@mui/material/TextField'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox from '@mui/material/Checkbox'
+// import FormControlLabel from '@mui/material/FormControlLabel'
+// import Checkbox from '@mui/material/Checkbox'
 import Link from '@mui/material/Link'
 import Grid from '@mui/material/Grid'
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
+import Visibility from '@mui/icons-material/Visibility'
+import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { Navigate, useNavigate } from 'react-router-dom'
-import { Alert, Collapse } from '@mui/material'
+import {
+  Alert,
+  Collapse,
+  FormControl,
+  IconButton,
+  InputAdornment,
+  InputLabel,
+  OutlinedInput
+} from '@mui/material'
 
 import UserContext from '../Context/UserContext'
 
@@ -27,8 +37,8 @@ function Copyright (props) {
       {...props}
     >
       {'Copyright © '}
-      <Link color='inherit' href='https://localhost:3000/'>
-        Your Website
+      <Link color='inherit' href='https://the-erp.in/'>
+        the-erp.in
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -45,6 +55,14 @@ export default function LoginPage () {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState('')
   const navigate = useNavigate()
+
+  const [showPassword, setShowPassword] = React.useState(false)
+
+  const handleClickShowPassword = () => setShowPassword(show => !show)
+
+  const handleMouseDownPassword = event => {
+    event.preventDefault()
+  }
 
   const token = localStorage.getItem('authToken')
   if (token) {
@@ -115,24 +133,37 @@ export default function LoginPage () {
                 setShow(false)
               }}
             />
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              name='password'
-              label='Password'
-              type='password'
-              id='password'
-              autoComplete='current-password'
-              onChange={e => {
-                setPassword(e.target.value)
-                setShow(false)
-              }}
-            />
-            <FormControlLabel
+            <FormControl variant='outlined' fullWidth sx={{ mt: 1 }}>
+              <InputLabel htmlFor='outlined-adornment-password'>
+                Password
+              </InputLabel>
+              <OutlinedInput
+                id='outlined-adornment-password'
+                type={showPassword ? 'text' : 'password'}
+                autoComplete='current-password'
+                onChange={e => {
+                  setPassword(e.target.value)
+                  setShow(false)
+                }}
+                endAdornment={
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='toggle password visibility'
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge='end'
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label='Password'
+              />
+            </FormControl>
+            {/* <FormControlLabel
               control={<Checkbox value='remember' color='primary' />}
               label='Remember me'
-            />
+            /> */}
             <Button
               type='submit'
               fullWidth

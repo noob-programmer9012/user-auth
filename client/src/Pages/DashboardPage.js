@@ -24,7 +24,6 @@ const DashboardPage = () => {
       try {
         const data = await axios.get(`${serverUrl}/api/dashboard`, config)
         setUser(JSON.stringify(data.data))
-        console.log(user)
       } catch (error) {
         console.log(error.request.response)
         localStorage.removeItem('authToken')
@@ -36,14 +35,15 @@ const DashboardPage = () => {
   }, [user, setUser, navigate, serverUrl])
 
   function Success () {
+    const { username } = JSON.parse(user).data
     return (
       <React.Fragment>
-        <h1>Dashboard Page</h1>
+        <h1>Welcome, {username}</h1>
       </React.Fragment>
     )
   }
 
-  return <>{user ? <Success /> : <LinearProgress />}</>
+  return user ? <Success /> : <LinearProgress />
 }
 
 export default DashboardPage
