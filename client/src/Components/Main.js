@@ -1,12 +1,14 @@
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
+import MenuIcon from '@mui/icons-material/Menu'
+
 import { useState, useContext } from 'react'
 
 import UserContext from '../Context/UserContext'
 
-function Main () {
-  const { user, setUser } = useContext(UserContext)
-  const { username } = JSON.parse(user).data
+function Main (props) {
+  const { handleDrawerToggle } = props.action
+  const { setUser, component } = useContext(UserContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -25,7 +27,18 @@ function Main () {
         top={0}
         sx={{ boxShadow: 0, background: '#346CB0' }}
       >
-        <Toolbar sx={{ dipslay: 'flex', justifyContent: 'flex-end' }}>
+        <Toolbar sx={{ dipslay: 'flex', justifyContent: 'space-between' }}>
+          <div>
+            <IconButton
+              color='inherit'
+              aria-label='open drawer'
+              edge='start'
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
           <div>
             <IconButton
               size='large'
@@ -67,9 +80,7 @@ function Main () {
       </AppBar>
 
       {/* Main Content */}
-      <Box sx={{ p: 2 }}>
-        <h1>Welcome, {username}!</h1>
-      </Box>
+      <Box sx={{ p: 2 }}>{component}</Box>
     </Box>
   )
 }
