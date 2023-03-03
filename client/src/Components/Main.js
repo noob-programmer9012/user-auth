@@ -2,13 +2,37 @@ import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MenuIcon from '@mui/icons-material/Menu'
 
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 
 import UserContext from '../Context/UserContext'
+import axios from 'axios'
 
 function Main (props) {
+  const { user, setUser, setFirm, serverUrl, component } =
+    useContext(UserContext)
+  const { _id } = JSON.parse(user).data
+
+  useEffect(() => {
+    const token = localStorage.getItem('authToken')
+    const getFirmData = async () => {
+      try {
+        const data = await axios.get(`${serverUrl}/api/firm/getfirm/${_id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token}`
+          }
+        })
+        const json = JSON.stringify(data.data.data)
+        setFirm(json)
+      } catch (error) {
+        console.log(error.message)
+      }
+    }
+    getFirmData()
+  }, [setFirm, _id, serverUrl])
+
   const { handleDrawerToggle } = props.action
-  const { setUser, component } = useContext(UserContext)
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -80,7 +104,7 @@ function Main (props) {
       </AppBar>
 
       {/* Main Content */}
-      <Box sx={{ p: 2 }}>{component}</Box>
+      <Box>{component}</Box>
     </Box>
   )
 }

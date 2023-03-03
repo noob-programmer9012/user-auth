@@ -25,7 +25,6 @@ const DashboardPage = () => {
       try {
         const data = await axios.get(`${serverUrl}/api/dashboard`, config)
         setUser(JSON.stringify(data.data))
-        console.log(data)
       } catch (error) {
         console.log(error.request.response)
         localStorage.removeItem('authToken')

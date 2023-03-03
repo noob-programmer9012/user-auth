@@ -22,8 +22,7 @@ import DashboardData from '../Pages/DashboardData'
 import DebtorsPage from '../Pages/DebtorsPage'
 
 export const SidebarList = () => {
-  const { setComponent } = useContext(UserContext)
-  const [active, setActive] = useState('Dashboard')
+  const { setComponent, active, setActive } = useContext(UserContext)
   const [open, setOpen] = useState(true)
 
   const handleClick = () => {
@@ -97,10 +96,10 @@ export const SidebarList = () => {
             </ListItemButton>
           </List>
         </Collapse>
-
+        {/* 
         <MenuItem onClick={() => setActive('Ledgers')}>
           <ListItemIcon></ListItemIcon>
-        </MenuItem>
+        </MenuItem> */}
       </MenuList>
     </div>
   )
