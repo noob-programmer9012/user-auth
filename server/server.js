@@ -6,6 +6,7 @@ import userRoutes from './routes/userRoutes.js'
 import dashboardRoute from './routes/dashboard.js'
 import firmRoute from './routes/firmRoutes.js'
 import ledgerRoutes from './routes/ledgerRoutes.js'
+import transporterRoutes from './routes/transporter.js'
 import connDB from './config/db.js'
 import { errorHandler } from './middleware/errorHandler.js'
 
@@ -24,6 +25,7 @@ async function main () {
   app.use('/api/dashboard', dashboardRoute)
   app.use('/api/firm', firmRoute)
   app.use('/api/ledgers', ledgerRoutes)
+  app.use('/api/trasnporter', transporterRoutes)
   app.use('*', (req, res, next) => {
     res.status(404).json({ error: 'Path Not Found' })
   })
