@@ -10,7 +10,7 @@ export default function ClientNames (props) {
   const navigate = useNavigate()
   const { firm, serverUrl } = useContext(UserContext)
   const [names, setNames] = useState(null)
-  const { listChanged, setListChanged, setDebtor } = props.data
+  const { listChanged, setListChanged, setDebtor, setShowlist } = props.data
 
   setListChanged(false)
   useEffect(() => {
@@ -30,7 +30,6 @@ export default function ClientNames (props) {
         )
         setNames(JSON.stringify(data.data.data))
       } catch (error) {
-        console.log(error)
         navigate('/login')
       }
     }
@@ -58,7 +57,10 @@ export default function ClientNames (props) {
                     cursor: 'pointer'
                   }}
                   id='id'
-                  onClick={() => setDebtor(name)}
+                  onClick={() => {
+                    setDebtor(name)
+                    setShowlist(false)
+                  }}
                 >
                   <Box
                     sx={{

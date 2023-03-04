@@ -13,7 +13,7 @@ export default function ColorTabs (props) {
   }
 
   return (
-    <Box sx={{ width: '100%', mt: 2 }}>
+    <Box sx={{ width: '100%', p: 2 }}>
       <Tabs
         value={value}
         onChange={handleChange}

@@ -27,6 +27,7 @@ function Main (props) {
         setFirm(json)
       } catch (error) {
         console.log(error.message)
+        return
       }
     }
     getFirmData()

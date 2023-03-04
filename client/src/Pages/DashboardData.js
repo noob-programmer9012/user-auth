@@ -15,11 +15,7 @@ function DashboardData () {
   return (
     <Box>
       <h1>Welcome, {username}!</h1>
-      {firm ? (
-        <h6>{firm}</h6>
-      ) : (
-        <AddFirmForm data={{ open, setOpen, fullScreen }} />
-      )}
+      {!firm && <AddFirmForm data={{ open, setOpen, fullScreen }} />}
     </Box>
   )
 }

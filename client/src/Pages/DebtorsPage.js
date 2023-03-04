@@ -59,6 +59,7 @@ function Debtors () {
   const [listChanged, setListChanged] = useState(false)
   const [debtor, setDebtor] = useState(null)
   const [open, setOpen] = useState(false)
+  const [showlist, setShowlist] = useState(true)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -75,12 +76,13 @@ function Debtors () {
       {/* List */}
       <Box
         sx={{
-          maxWidth: { xs: '100%', sm: '350px' },
+          maxWidth: { xs: '100%', md: '350px' },
           height: { xs: 'calc(100vh - 49px)', sm: 'calc(100vh - 64px)' },
           flex: 1,
           overflowY: 'auto',
           background: '#FFFFFF',
-          borderRight: '1px solid #D8D9DA'
+          borderRight: '1px solid #D8D9DA',
+          display: { xs: showlist ? 'block' : 'none', md: 'block' }
         }}
       >
         <Box
@@ -88,7 +90,7 @@ function Debtors () {
             display: 'flex',
             height: '70px',
             background: '#F5F6F7',
-            boxShadow: '4px 4px 5px grey',
+            boxShadow: '0px 5px 5px #D6D7DA',
             position: 'sticky',
             top: 0,
             justifyContent: 'center'
@@ -97,7 +99,9 @@ function Debtors () {
           <CustomizedInputBase />
         </Box>
         {/* Client Names */}
-        <ClientNames data={{ listChanged, setListChanged, setDebtor }} />
+        <ClientNames
+          data={{ listChanged, setListChanged, setDebtor, setShowlist }}
+        />
         <Fab
           color='primary'
           aria-label='add'
@@ -121,11 +125,10 @@ function Debtors () {
           flex: 1,
           background: 'inherit',
           height: '500px',
-          p: 2,
-          display: { xs: 'none', sm: 'block' }
+          display: { xs: showlist === false ? 'block' : 'none', md: 'block' }
         }}
       >
-        {debtor && <DebtorDetails data={{ debtor }} />}
+        {debtor && <DebtorDetails data={{ debtor, showlist, setShowlist }} />}
       </Box>
     </Box>
   )
