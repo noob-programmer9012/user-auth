@@ -13,6 +13,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import ClientNames from '../Components/ClientNames'
 import ResponsiveDialog from './AddClientForm'
 import { useState } from 'react'
+import DebtorDetails from './DebtorDetails'
 
 function CustomizedInputBase () {
   function handleSearch (e) {
@@ -56,6 +57,7 @@ function CustomizedInputBase () {
 
 function Debtors () {
   const [listChanged, setListChanged] = useState(false)
+  const [debtor, setDebtor] = useState(null)
   const [open, setOpen] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
@@ -95,7 +97,7 @@ function Debtors () {
           <CustomizedInputBase />
         </Box>
         {/* Client Names */}
-        <ClientNames data={{ listChanged, setListChanged }} />
+        <ClientNames data={{ listChanged, setListChanged, setDebtor }} />
         <Fab
           color='primary'
           aria-label='add'
@@ -119,10 +121,11 @@ function Debtors () {
           flex: 1,
           background: 'inherit',
           height: '500px',
-          display: { xs: 'none' }
+          p: 2,
+          display: { xs: 'none', sm: 'block' }
         }}
       >
-        <h1>Main</h1>
+        {debtor && <DebtorDetails data={{ debtor }} />}
       </Box>
     </Box>
   )

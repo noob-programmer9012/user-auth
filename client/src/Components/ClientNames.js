@@ -10,7 +10,7 @@ export default function ClientNames (props) {
   const navigate = useNavigate()
   const { firm, serverUrl } = useContext(UserContext)
   const [names, setNames] = useState(null)
-  const { listChanged, setListChanged } = props.data
+  const { listChanged, setListChanged, setDebtor } = props.data
 
   setListChanged(false)
   useEffect(() => {
@@ -57,6 +57,8 @@ export default function ClientNames (props) {
                     gap: 2,
                     cursor: 'pointer'
                   }}
+                  id='id'
+                  onClick={() => setDebtor(name)}
                 >
                   <Box
                     sx={{
@@ -75,8 +77,6 @@ export default function ClientNames (props) {
                       justifyContent: 'center',
                       alignItems: 'center'
                     }}
-                    id={name.companyName}
-                    onClick={e => alert(e.target.id)}
                   >
                     {name.companyName[0]}
                   </Box>
