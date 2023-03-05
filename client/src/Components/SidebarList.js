@@ -15,18 +15,20 @@ import ExpandMore from '@mui/icons-material/ExpandMore'
 import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import CircleIcon from '@mui/icons-material/Circle'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import { useContext, useState } from 'react'
 
 import UserContext from '../Context/UserContext'
 import DashboardData from '../Pages/DashboardData'
 import DebtorsPage from '../Pages/DebtorsPage'
+import TransporterPage from '../Pages/TransporterPage'
 
 export const SidebarList = () => {
   const { setComponent, active, setActive } = useContext(UserContext)
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
 
   const handleClick = () => {
-    setOpen(!open)
+    setOpen(prev => !prev)
   }
 
   return (
@@ -67,10 +69,16 @@ export const SidebarList = () => {
 
         <MenuItem onClick={handleClick}>
           <ListItemIcon>
-            <PeopleIcon />
+            <PeopleIcon
+              sx={{ color: active === 'Ledgers' ? '#f58802' : '#525252' }}
+            />
           </ListItemIcon>
 
-          <ListItemText>Ledgers</ListItemText>
+          <ListItemText
+            sx={{ color: active === 'Ledgers' ? '#f58802' : '#525252' }}
+          >
+            Ledgers
+          </ListItemText>
           {open ? <ExpandLess /> : <ExpandMore />}
         </MenuItem>
 
@@ -99,10 +107,28 @@ export const SidebarList = () => {
             </ListItemButton>
           </List>
         </Collapse>
-        {/* 
-        <MenuItem onClick={() => setActive('Ledgers')}>
-          <ListItemIcon></ListItemIcon>
-        </MenuItem> */}
+
+        <MenuItem
+          onClick={() => {
+            setActive('Transporter')
+            setComponent(<TransporterPage />)
+          }}
+        >
+          <ListItemIcon>
+            <LocalShippingIcon
+              sx={{
+                color: active === 'Transporter' ? '#f58802' : '#525252'
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={{
+              color: active === 'Transporter' ? '#f58802' : '#525252'
+            }}
+          >
+            Transporter
+          </ListItemText>
+        </MenuItem>
       </MenuList>
     </div>
   )
