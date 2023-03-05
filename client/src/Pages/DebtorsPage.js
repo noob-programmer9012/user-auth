@@ -4,6 +4,7 @@ import {
   IconButton,
   InputBase,
   Paper,
+  Slide,
   useMediaQuery,
   useTheme
 } from '@mui/material'
@@ -60,6 +61,7 @@ function Debtors () {
   const [debtor, setDebtor] = useState(null)
   const [open, setOpen] = useState(false)
   const [showlist, setShowlist] = useState(true)
+  const [checked, setChecked] = useState(false)
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
@@ -100,7 +102,13 @@ function Debtors () {
         </Box>
         {/* Client Names */}
         <ClientNames
-          data={{ listChanged, setListChanged, setDebtor, setShowlist }}
+          data={{
+            listChanged,
+            setListChanged,
+            setDebtor,
+            setShowlist,
+            setChecked
+          }}
         />
         <Fab
           color='primary'
@@ -120,16 +128,22 @@ function Debtors () {
         />
       </Box>
       {/* Details */}
-      <Box
-        sx={{
-          flex: 1,
-          background: 'inherit',
-          height: '500px',
-          display: { xs: showlist === false ? 'block' : 'none', md: 'block' }
-        }}
-      >
-        {debtor && <DebtorDetails data={{ debtor, showlist, setShowlist }} />}
-      </Box>
+      <Slide direction='left' in={checked} mountOnEnter unmountOnExit>
+        <Box
+          sx={{
+            flex: 1,
+            background: 'inherit',
+            height: '500px',
+            display: { xs: showlist === false ? 'block' : 'none', md: 'block' }
+          }}
+        >
+          {debtor && (
+            <DebtorDetails
+              data={{ debtor, showlist, setShowlist, setChecked }}
+            />
+          )}
+        </Box>
+      </Slide>
     </Box>
   )
 }

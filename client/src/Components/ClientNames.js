@@ -10,7 +10,8 @@ export default function ClientNames (props) {
   const navigate = useNavigate()
   const { firm, serverUrl } = useContext(UserContext)
   const [names, setNames] = useState(null)
-  const { listChanged, setListChanged, setDebtor, setShowlist } = props.data
+  const { listChanged, setListChanged, setDebtor, setShowlist, setChecked } =
+    props.data
 
   setListChanged(false)
   useEffect(() => {
@@ -60,6 +61,7 @@ export default function ClientNames (props) {
                   onClick={() => {
                     setDebtor(name)
                     setShowlist(false)
+                    setChecked(true)
                   }}
                 >
                   <Box

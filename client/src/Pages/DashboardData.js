@@ -9,8 +9,8 @@ function DashboardData () {
   const theme = useTheme()
   const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
-  const { user, firm } = useContext(UserContext)
-  const { username } = JSON.parse(user).data
+  const { user } = useContext(UserContext)
+  const { username, firm } = JSON.parse(user).data
 
   return (
     <Box>

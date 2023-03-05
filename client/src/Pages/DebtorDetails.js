@@ -4,7 +4,7 @@ import LabTabs from '../Components/Tabs'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
 export default function DebtorDetails (props) {
-  const { debtor, setShowlist } = props.data
+  const { debtor, setShowlist, setChecked } = props.data
   return (
     <Box>
       <Box
@@ -28,7 +28,10 @@ export default function DebtorDetails (props) {
             '&:hover': { background: 'none' }
           }}
           startIcon={<ChevronLeftIcon />}
-          onClick={() => setShowlist(true)}
+          onClick={() => {
+            setShowlist(true)
+            setChecked(prev => !prev)
+          }}
         >
           Back
         </Button>

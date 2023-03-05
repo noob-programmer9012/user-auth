@@ -32,7 +32,10 @@ export const SidebarList = () => {
   return (
     <div>
       <Toolbar
-        sx={{ background: '#346CB0', display: { xs: 'none', sm: 'flex' } }}
+        sx={{
+          background: '#30619F',
+          display: { xs: 'none', sm: 'flex' }
+        }}
       >
         <Typography variant='h5' sx={{ color: 'white' }}>
           The ERP
