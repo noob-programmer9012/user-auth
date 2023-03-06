@@ -1,4 +1,5 @@
 import {
+  Box,
   Collapse,
   List,
   ListItemButton,
@@ -32,7 +33,7 @@ export const SidebarList = () => {
   }
 
   return (
-    <div>
+    <Box>
       <Toolbar
         sx={{
           background: '#30619F',
@@ -130,6 +131,6 @@ export const SidebarList = () => {
           </ListItemText>
         </MenuItem>
       </MenuList>
-    </div>
+    </Box>
   )
 }

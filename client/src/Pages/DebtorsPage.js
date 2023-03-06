@@ -75,7 +75,61 @@ function Debtors () {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* List */}
+      {/* List with animation*/}
+      <Slide direction='right' in={!checked} mountOnEnter unmountOnExit>
+        <Box
+          sx={{
+            maxWidth: { xs: '100%', md: '350px' },
+            height: { xs: 'calc(100vh - 49px)', sm: 'calc(100vh - 64px)' },
+            flex: 1,
+            overflowY: 'auto',
+            background: '#FFFFFF',
+            borderRight: '1px solid #D8D9DA',
+            display: { xs: showlist ? 'block' : 'none', md: 'none' }
+          }}
+        >
+          <Box
+            sx={{
+              display: 'flex',
+              height: '70px',
+              background: '#F5F6F7',
+              boxShadow: '0px 5px 5px #D6D7DA',
+              position: 'sticky',
+              top: 0,
+              justifyContent: 'center'
+            }}
+          >
+            <CustomizedInputBase />
+          </Box>
+          {/* Client Names */}
+          <ClientNames
+            data={{
+              listChanged,
+              setListChanged,
+              setDebtor,
+              setShowlist,
+              setChecked
+            }}
+          />
+          <Fab
+            color='primary'
+            aria-label='add'
+            sx={{
+              position: 'fixed',
+              bottom: 15,
+              left: { xs: 320, sm: 500 },
+              mr: 3
+            }}
+            onClick={handleClickOpen}
+          >
+            <AddIcon fontSize='large' />
+          </Fab>
+          <ResponsiveDialog
+            data={{ open, fullScreen, handleClose, setListChanged }}
+          />
+        </Box>
+      </Slide>
+      {/* List without animation */}
       <Box
         sx={{
           maxWidth: { xs: '100%', md: '350px' },
@@ -84,7 +138,7 @@ function Debtors () {
           overflowY: 'auto',
           background: '#FFFFFF',
           borderRight: '1px solid #D8D9DA',
-          display: { xs: showlist ? 'block' : 'none', md: 'block' }
+          display: { xs: 'none', md: 'block' }
         }}
       >
         <Box
