@@ -117,7 +117,7 @@ function Debtors () {
             sx={{
               position: 'fixed',
               bottom: 15,
-              left: { xs: 320, sm: 500 },
+              right: 0,
               mr: 3
             }}
             onClick={handleClickOpen}
@@ -170,7 +170,7 @@ function Debtors () {
           sx={{
             position: 'fixed',
             bottom: 15,
-            left: { xs: 320, sm: 500 },
+            left: { sm: 510 },
             mr: 3
           }}
           onClick={handleClickOpen}

@@ -41,7 +41,8 @@ function ResponsiveDrawer (props) {
             display: { xs: 'block', sm: 'none' },
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
-              width: drawerWidth
+              width: drawerWidth,
+              background: '#F6F7F9'
             }
           }}
         >
@@ -54,7 +55,7 @@ function ResponsiveDrawer (props) {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              background: 'inherit'
+              background: '#F6F7F9'
             }
           }}
           open

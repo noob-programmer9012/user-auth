@@ -44,7 +44,7 @@ export const SidebarList = () => {
           The ERP
         </Typography>
       </Toolbar>
-      <MenuList>
+      <MenuList sx={{ background: '#F6F7F9' }}>
         <MenuItem
           onClick={() => {
             setComponent(<DashboardData />)
