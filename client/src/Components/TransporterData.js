@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useNavigate } from 'react-router-dom'
 import Axios from 'axios'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
@@ -18,7 +19,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     color: theme.palette.common.black,
     backgroundColor: theme.palette.common.white,
-    boxShadow: '5px 5px 10px #c2c2c2'
+    borderBottom: '4px solid #30619F'
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14
@@ -39,13 +40,20 @@ function createData (id, transporterName, gstNumber) {
   return { id, transporterName, gstNumber }
 }
 
-export default function TransporterData () {
+export default function TransporterData (props) {
+  const { changed, setChanged } = props.data
   const { serverUrl, firm } = React.useContext(UserContext)
   const [transporters, setTransporters] = React.useState(null)
   const firmId = JSON.parse(firm)._id
+
+  const navigate = useNavigate()
+
   React.useEffect(() => {
+    let token = localStorage.getItem('authToken')
+    if (!token) {
+      navigate('/login')
+    }
     const transporters = async () => {
-      let token = localStorage.getItem('authToken')
       const config = {
         headers: {
           'Content-Type': 'application/json',
@@ -58,20 +66,34 @@ export default function TransporterData () {
           config
         )
         setTransporters(JSON.stringify(data.data.data))
+        setChanged(false)
       } catch (error) {
-        console.log(error)
+        navigate('/login')
       }
     }
     transporters()
-  })
+  }, [
+    setTransporters,
+    transporters,
+    firmId,
+    serverUrl,
+    navigate,
+    setChanged,
+    changed
+  ])
 
-  transporters && console.log(transporters)
+  const rows = []
 
-  const rows = [
-    createData(1, 'Maruti Motor', '24AQQPN6533K1ZC'),
-    createData(2, 'Janvi Logistics', '24DAQPS2504L1ZC'),
-    createData(3, 'Pavan goods freight carrier', '24ACVPS7030F1ZC')
-  ]
+  transporters &&
+    JSON.parse(transporters).map(transporter =>
+      rows.push(
+        createData(
+          `${transporter._id}`,
+          `${transporter.transporterName}`,
+          `${transporter.gst_no}`
+        )
+      )
+    )
 
   return (
     <TableContainer>
@@ -85,7 +107,7 @@ export default function TransporterData () {
           </TableRow>
         </TableHead>
         <TableBody sx={{ p: 1 }}>
-          {rows.map(row => (
+          {rows.map((row, index) => (
             <StyledTableRow
               key={row.id}
               id={row.transporterName}
@@ -93,7 +115,7 @@ export default function TransporterData () {
               className='transporters'
             >
               <StyledTableCell component='th' scope='row' sx={{ p: 1 }}>
-                {row.id}
+                {index + 1}
               </StyledTableCell>
               <StyledTableCell sx={{ p: 1 }}>
                 {row.transporterName}
@@ -108,10 +130,18 @@ export default function TransporterData () {
                   m: 0
                 }}
               >
-                <IconButton aria-label='delete' size='large'>
+                <IconButton
+                  aria-label='delete'
+                  size='large'
+                  onClick={() => alert(row.id)}
+                >
                   <DeleteIcon sx={{ color: '#D32F2F' }} />
                 </IconButton>
-                <IconButton aria-label='edit' size='large'>
+                <IconButton
+                  aria-label='edit'
+                  size='large'
+                  onClick={() => alert(row.id)}
+                >
                   <EditIcon sx={{ color: '#FF9800' }} />
                 </IconButton>
               </StyledTableCell>

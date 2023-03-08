@@ -7,7 +7,8 @@ const TrasporterSchema = new mongoose.Schema({
   },
   transporterName: {
     type: String,
-    required: [true, "Please provide tranporter's name."]
+    required: [true, "Please provide tranporter's name."],
+    uppercase: true
   },
   gst_no: {
     type: String,
