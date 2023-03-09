@@ -95,7 +95,7 @@ export default function ClientNames (props) {
                     <Typography
                       sx={{
                         fontWeight: 400,
-                        color: '#234875'
+                        color: 'text.primary'
                       }}
                       className='company'
                     >
@@ -103,10 +103,10 @@ export default function ClientNames (props) {
                     </Typography>
                     <Typography
                       variant='p'
+                      color='text.secondary'
                       sx={{
                         fontSize: '0.9rem',
-                        fontWeight: 400,
-                        color: '#234875'
+                        fontWeight: 400
                       }}
                     >
                       {name.address ? name.address.line3 : 'Not given'}

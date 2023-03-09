@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import UserContext from '../Context/UserContext'
 import DashboardComponent from '../Components/Dashboard-component'
 
-const DashboardPage = () => {
+const DashboardPage = props => {
   const { user, setUser, serverUrl } = useContext(UserContext)
   const navigate = useNavigate()
 

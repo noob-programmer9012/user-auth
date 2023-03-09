@@ -17,8 +17,8 @@ import UserContext from '../Context/UserContext'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    color: theme.palette.common.black,
-    backgroundColor: theme.palette.common.white,
+    color: theme.palette.text.main,
+    backgroundColor: theme.palette.background.paper,
     borderBottom: '4px solid #30619F'
   },
   [`&.${tableCellClasses.body}`]: {

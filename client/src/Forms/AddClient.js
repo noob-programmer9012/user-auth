@@ -99,12 +99,20 @@ export default function AddClient (props) {
           sx={{ mt: -0.8 }}
           onClick={() => props.data.handleClose()}
         >
-          <CloseIcon sx={{ color: 'black' }} />
+          <CloseIcon sx={{ color: 'text.main' }} />
         </IconButton>
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             required
             id='companyName'
             name='companyName'
@@ -126,6 +134,14 @@ export default function AddClient (props) {
           <Autocomplete
             {...flatProps}
             readOnly
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='ledgerType'
             defaultValue={ledgerGroup}
             renderInput={params => (
@@ -136,6 +152,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='openingBalance'
             name='openingBalance'
             label='Opening Balance'
@@ -157,6 +181,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='address1'
             name='address1'
             label='Address line 1'
@@ -167,6 +199,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='address2'
             name='address2'
             label='Address line 2'
@@ -177,6 +217,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='city'
             name='city'
             label='City'
@@ -188,6 +236,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='zip'
             name='zip'
             label='Zip / Postal code'
@@ -202,6 +258,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='gstNo'
             name='gstNo'
             label='GST Number'
@@ -216,6 +280,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='contactNo'
             name='contactNo'
             label='Mobile Number'
@@ -230,6 +302,14 @@ export default function AddClient (props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='email'
             name='email'
             label='Email Address'

@@ -10,8 +10,8 @@ export default function DebtorDetails (props) {
       <Box
         sx={{
           height: '50px',
-          background: '#FFFFFF',
-          boxShadow: '0px 5px 5px #D6D7DA',
+          backgroundColor: 'background.paper',
+          boxShadow: 5,
           mb: 1,
           display: { xs: 'flex', md: 'none' },
           alignItems: 'center',
@@ -23,9 +23,9 @@ export default function DebtorDetails (props) {
         <Button
           variant='text'
           sx={{
-            color: 'black',
+            color: 'text.main',
             opacity: 0.8,
-            '&:hover': { background: 'none' }
+            '&:hover': { backgroundColor: 'none' }
           }}
           startIcon={<ChevronLeftIcon />}
           onClick={() => {
@@ -51,7 +51,7 @@ export default function DebtorDetails (props) {
           }}
         >
           <FactoryIcon fontSize='large' sx={{ opacity: 0.7 }} />
-          <Typography variant='h5' mt='7px'>
+          <Typography variant='h5' mt='7px' color='text.main'>
             {debtor.companyName}
           </Typography>
         </Box>

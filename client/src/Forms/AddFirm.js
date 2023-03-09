@@ -93,6 +93,14 @@ export default function AddFirm () {
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             required
             id='companyName'
             name='companyName'
@@ -112,6 +120,14 @@ export default function AddFirm () {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='line1'
             name='line1'
             label='Address Line 1'
@@ -122,6 +138,14 @@ export default function AddFirm () {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='line2'
             name='line2'
             label='Address line 2'
@@ -132,6 +156,14 @@ export default function AddFirm () {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='line3'
             name='line3'
             label='City'
@@ -143,6 +175,14 @@ export default function AddFirm () {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='gstNo'
             required
             name='gstNo'
@@ -158,6 +198,14 @@ export default function AddFirm () {
         </Grid>
         <Grid item xs={12} sm={6}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             id='contactNo'
             name='contactNo'
             label='Mobile Number'

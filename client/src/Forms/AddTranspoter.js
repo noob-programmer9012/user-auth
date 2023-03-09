@@ -90,6 +90,14 @@ export default function AddTransporter (props) {
       <Grid container spacing={2} mt={1}>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
             required
             id='transporterName'
             name='transporterName'
@@ -107,6 +115,15 @@ export default function AddTransporter (props) {
         </Grid>
         <Grid item xs={12}>
           <TextField
+            sx={{
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
+            required
             id='gst_no'
             name='gst_no'
             label='GST Number'

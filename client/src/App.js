@@ -1,3 +1,4 @@
+import { createTheme, ThemeProvider } from '@mui/material'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import UserState from './Context/UserState'
@@ -6,18 +7,65 @@ import LoginPage from './Pages/LoginPage'
 import RegisterPage from './Pages/RegisterPage'
 
 function App () {
+  const getDesignTokens = mode => ({
+    palette: {
+      mode,
+      ...(mode === 'light'
+        ? {
+            // palette values for light mode
+            primary: {
+              main: '#346CB0',
+              dark: '#30619F',
+              light: '#346CB0'
+            },
+            background: {
+              default: '#F6F7F9',
+              paper: '#FFF',
+              border: '#D8D9DA'
+            },
+            text: {
+              primary: '#363642',
+              secondary: '#BDBFC8'
+            }
+          }
+        : {
+            // palette values for dark mode
+            primary: {
+              main: '#346CB0',
+              dark: '#30619F',
+              light: '#346CB0'
+            },
+            background: {
+              default: '#191927',
+              paper: '#222230',
+              border: '#343441'
+            },
+            text: {
+              main: '#FFFFFF',
+              link: '#A6ABBD',
+              primary: '#D6D8E1',
+              secondary: '#5D606E'
+            }
+          })
+    }
+  })
+
+  const lightModeTheme = createTheme(getDesignTokens(`dark`))
+
   return (
-    <div className='App'>
-      <Router>
-        <UserState>
-          <Routes>
-            <Route path='/' element={<DashboardPage />}></Route>
-            <Route path='/login' element={<LoginPage />}></Route>
-            <Route path='/register' element={<RegisterPage />}></Route>
-          </Routes>
-        </UserState>
-      </Router>
-    </div>
+    <ThemeProvider theme={lightModeTheme}>
+      <div className='App'>
+        <Router>
+          <UserState>
+            <Routes>
+              <Route path='/' element={<DashboardPage />}></Route>
+              <Route path='/login' element={<LoginPage />}></Route>
+              <Route path='/register' element={<RegisterPage />}></Route>
+            </Routes>
+          </UserState>
+        </Router>
+      </div>
+    </ThemeProvider>
   )
 }
 

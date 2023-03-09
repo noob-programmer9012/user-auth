@@ -7,12 +7,10 @@ import {
   Button,
   Collapse,
   Container,
-  createTheme,
   CssBaseline,
   Grid,
   Link,
   TextField,
-  ThemeProvider,
   Typography
 } from '@mui/material'
 import { useState, useContext } from 'react'
@@ -29,8 +27,6 @@ const RegisterPage = () => {
   const [error, setError] = useState(null)
   const [show, setShow] = useState(false)
   const navigate = useNavigate()
-
-  const theme = createTheme()
 
   const token = localStorage.getItem('authToken')
   if (token) {
@@ -74,96 +70,125 @@ const RegisterPage = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
-      <Container component='main' maxWidth='xs'>
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center'
-          }}
-        >
-          <Collapse in={show} sx={{ width: '100%', mb: 3 }}>
-            <Alert onClose={() => setShow(false)} severity='error'>
-              {error}
-            </Alert>
-          </Collapse>
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component='h1' variant='h5'>
-            Register
-          </Typography>
-          <Box
-            component='form'
-            onSubmit={handleSubmit}
-            noValidate
-            sx={{ mt: 1 }}
+    <Container component='main' maxWidth='xs'>
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center'
+        }}
+      >
+        <Collapse in={show} sx={{ width: '100%', mb: 3 }}>
+          <Alert onClose={() => setShow(false)} severity='error'>
+            {error}
+          </Alert>
+        </Collapse>
+        <Avatar sx={{ m: 1, bgcolor: 'secondary.dark' }}>
+          <LockOutlinedIcon />
+        </Avatar>
+        <Typography component='h1' variant='h5'>
+          Register
+        </Typography>
+        <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <TextField
+            sx={{
+              mt: 1,
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
+            margin='normal'
+            required
+            fullWidth
+            id='username'
+            label='Username'
+            name='username'
+            autoComplete='username'
+            autoFocus
+            onChange={e => setUsername(e.target.value)}
+          />
+          <TextField
+            sx={{
+              mt: 1,
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
+            margin='normal'
+            required
+            fullWidth
+            id='email'
+            label='Email Address'
+            name='email'
+            autoComplete='email'
+            onChange={e => setEmail(e.target.value)}
+          />
+          <TextField
+            sx={{
+              mt: 1,
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
+            margin='normal'
+            required
+            fullWidth
+            name='password'
+            label='Password'
+            type='password'
+            id='password'
+            autoComplete='current-password'
+            onChange={e => setPassword(e.target.value)}
+          />
+          <TextField
+            sx={{
+              mt: 1,
+              '& .MuiFormLabel-root': {
+                color: 'text.main'
+              },
+              '& .MuiFormLabel-root.Mui-focused': {
+                color: 'text.main'
+              }
+            }}
+            margin='normal'
+            required
+            fullWidth
+            name='repeatpassword'
+            label='Repeat Password'
+            type='repeatpassword'
+            id='repeatpassword'
+            autoComplete='current-password'
+            onChange={e => setRepeatPassword(e.target.value)}
+          />
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            sx={{ mt: 3, mb: 2 }}
           >
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              id='username'
-              label='Username'
-              name='username'
-              autoComplete='username'
-              autoFocus
-              onChange={e => setUsername(e.target.value)}
-            />
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              id='email'
-              label='Email Address'
-              name='email'
-              autoComplete='email'
-              onChange={e => setEmail(e.target.value)}
-            />
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              name='password'
-              label='Password'
-              type='password'
-              id='password'
-              autoComplete='current-password'
-              onChange={e => setPassword(e.target.value)}
-            />
-            <TextField
-              margin='normal'
-              required
-              fullWidth
-              name='repeatpassword'
-              label='Repeat Password'
-              type='repeatpassword'
-              id='repeatpassword'
-              autoComplete='current-password'
-              onChange={e => setRepeatPassword(e.target.value)}
-            />
-            <Button
-              type='submit'
-              fullWidth
-              variant='contained'
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link href='/login' variant='body2'>
-                  {'Already have an account? Sign In'}
-                </Link>
-              </Grid>
+            Sign Up
+          </Button>
+          <Grid container>
+            <Grid item>
+              <Link href='/login' variant='body2'>
+                {'Already have an account? Sign In'}
+              </Link>
             </Grid>
-          </Box>
+          </Grid>
         </Box>
-      </Container>
-    </ThemeProvider>
+      </Box>
+    </Container>
   )
 }
 

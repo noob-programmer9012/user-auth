@@ -50,7 +50,7 @@ function Main (props) {
       <AppBar
         position='sticky'
         top={0}
-        sx={{ boxShadow: 0, background: '#346CB0' }}
+        sx={{ boxShadow: 0, backgroundColor: 'primary.light' }}
       >
         <Toolbar sx={{ dipslay: 'flex', justifyContent: 'space-between' }}>
           <div>
@@ -90,7 +90,13 @@ function Main (props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Profile</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose()
+                }}
+              >
+                Dark Mode
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   localStorage.removeItem('authToken')

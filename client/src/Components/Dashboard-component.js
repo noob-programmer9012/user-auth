@@ -42,7 +42,7 @@ function ResponsiveDrawer (props) {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              background: '#F6F7F9'
+              background: 'background.default'
             }
           }}
         >
@@ -55,7 +55,7 @@ function ResponsiveDrawer (props) {
             '& .MuiDrawer-paper': {
               boxSizing: 'border-box',
               width: drawerWidth,
-              background: '#F6F7F9'
+              backgroundColor: 'background.default'
             }
           }}
           open

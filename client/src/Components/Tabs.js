@@ -17,7 +17,7 @@ export default function ColorTabs (props) {
       <Tabs
         value={value}
         onChange={handleChange}
-        textColor='primary'
+        textColor='main'
         indicatorColor='primary'
         aria-label='secondary tabs example'
       >
@@ -28,16 +28,28 @@ export default function ColorTabs (props) {
       {value === 'one' && (
         <Card variant='outlined' sx={{ mt: 2, p: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography variant='h6' sx={{ fontWeight: 600, mb: 2 }}>
+            <Typography
+              variant='h6'
+              sx={{ fontWeight: 600, mb: 2, color: 'text.main' }}
+            >
               Billing Address
             </Typography>
-            <Typography variant='p' sx={{ fontSize: '0.9rem', opacity: '0.9' }}>
+            <Typography
+              variant='p'
+              sx={{ fontSize: '0.9rem', opacity: '0.9', color: 'text.main' }}
+            >
               {debtor.address.line1}
             </Typography>
-            <Typography variant='p' sx={{ fontSize: '0.9rem', opacity: '0.9' }}>
+            <Typography
+              variant='p'
+              sx={{ fontSize: '0.9rem', opacity: '0.9', color: 'text.main' }}
+            >
               {debtor.address.line2}
             </Typography>
-            <Typography variant='p' sx={{ fontSize: '0.9rem', opacity: '0.9' }}>
+            <Typography
+              variant='p'
+              sx={{ fontSize: '0.9rem', opacity: '0.9', color: 'text.main' }}
+            >
               {debtor.address.line3}
             </Typography>
           </Box>

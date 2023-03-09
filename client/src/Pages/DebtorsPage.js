@@ -83,8 +83,9 @@ function Debtors () {
             height: { xs: 'calc(100vh - 49px)', sm: 'calc(100vh - 64px)' },
             flex: 1,
             overflowY: 'auto',
-            background: '#FFFFFF',
-            borderRight: '1px solid #D8D9DA',
+            backgroundColor: 'background.paper',
+            borderRight: 1,
+            borderColor: 'background.border',
             display: { xs: showlist ? 'block' : 'none', md: 'none' }
           }}
         >
@@ -92,8 +93,8 @@ function Debtors () {
             sx={{
               display: 'flex',
               height: '70px',
-              background: '#F5F6F7',
-              boxShadow: '0px 5px 5px #D6D7DA',
+              backgroundColor: 'background.default',
+              boxShadow: 3,
               position: 'sticky',
               top: 0,
               justifyContent: 'center'
@@ -136,8 +137,9 @@ function Debtors () {
           height: { xs: 'calc(100vh - 49px)', sm: 'calc(100vh - 64px)' },
           flex: 1,
           overflowY: 'auto',
-          background: '#FFFFFF',
-          borderRight: '1px solid #D8D9DA',
+          backgroundColor: 'background.paper',
+          borderRight: 1,
+          borderColor: 'background.border',
           display: { xs: 'none', md: 'block' }
         }}
       >
@@ -145,8 +147,8 @@ function Debtors () {
           sx={{
             display: 'flex',
             height: '70px',
-            background: '#F5F6F7',
-            boxShadow: '0px 5px 5px #D6D7DA',
+            backgroundColor: 'background.default',
+            boxShadow: 5,
             position: 'sticky',
             top: 0,
             justifyContent: 'center'
@@ -186,7 +188,7 @@ function Debtors () {
         <Box
           sx={{
             flex: 1,
-            background: 'inherit',
+            backgroundColor: 'background.default',
             height: '500px',
             display: { xs: showlist === false ? 'block' : 'none', md: 'block' }
           }}

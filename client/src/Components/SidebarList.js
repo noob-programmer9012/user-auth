@@ -36,7 +36,7 @@ export const SidebarList = () => {
     <Box>
       <Toolbar
         sx={{
-          background: '#30619F',
+          backgroundColor: 'primary.dark',
           display: { xs: 'none', sm: 'flex' }
         }}
       >
@@ -44,7 +44,12 @@ export const SidebarList = () => {
           The ERP
         </Typography>
       </Toolbar>
-      <MenuList sx={{ background: '#F6F7F9' }}>
+      <MenuList
+        sx={{
+          backgroundColor: 'background.default',
+          height: { xs: 'calc(100vh - 56px)', sm: '100%' }
+        }}
+      >
         <MenuItem
           onClick={() => {
             setComponent(<DashboardData />)
@@ -54,14 +59,14 @@ export const SidebarList = () => {
           <ListItemIcon>
             <DashboardIcon
               sx={{
-                color: active === 'Dashboard' ? '#f58802' : '#525252'
+                color: active === 'Dashboard' ? 'primary.light' : 'text.link'
               }}
             />
           </ListItemIcon>
 
           <ListItemText
             sx={{
-              color: active === 'Dashboard' ? '#f58802' : '#525252'
+              color: active === 'Dashboard' ? 'primary.light' : 'text.link'
             }}
           >
             Dashboard
@@ -71,12 +76,14 @@ export const SidebarList = () => {
         <MenuItem onClick={handleClick}>
           <ListItemIcon>
             <PeopleIcon
-              sx={{ color: active === 'Ledgers' ? '#f58802' : '#525252' }}
+              sx={{
+                color: active === 'Ledgers' ? 'primary.light' : 'text.link'
+              }}
             />
           </ListItemIcon>
 
           <ListItemText
-            sx={{ color: active === 'Ledgers' ? '#f58802' : '#525252' }}
+            sx={{ color: active === 'Ledgers' ? 'primary.light' : 'text.link' }}
           >
             Ledgers
           </ListItemText>
@@ -97,11 +104,13 @@ export const SidebarList = () => {
                 sx={{
                   mr: 1,
                   fontSize: '0.8rem',
-                  color: active === 'Ledgers' ? '#f58802' : '#525252'
+                  color: active === 'Ledgers' ? 'primary.light' : 'text.link'
                 }}
               />
               <ListItemText
-                sx={{ color: active === 'Ledgers' ? '#f58802' : '#525252' }}
+                sx={{
+                  color: active === 'Ledgers' ? 'primary.light' : 'text.link'
+                }}
               >
                 Clients
               </ListItemText>
@@ -118,13 +127,13 @@ export const SidebarList = () => {
           <ListItemIcon>
             <LocalShippingIcon
               sx={{
-                color: active === 'Transporter' ? '#f58802' : '#525252'
+                color: active === 'Transporter' ? 'primary.light' : 'text.link'
               }}
             />
           </ListItemIcon>
           <ListItemText
             sx={{
-              color: active === 'Transporter' ? '#f58802' : '#525252'
+              color: active === 'Transporter' ? 'primary.light' : 'text.link'
             }}
           >
             Transporter
