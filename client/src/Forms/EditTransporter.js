@@ -43,7 +43,7 @@ export default function EditTransporter (props) {
           Authorization: `Bearer ${token}`
         }
       }
-      const url = `${serverUrl}/transporter/edit/${currentTransporter[2]}/${firmId}`
+      const url = `${serverUrl}/api/transporter/edit/${currentTransporter[2]}/${firmId}`
       const data = await axios.put(
         url,
         { transporterName: transporter, gst_no: gstNo },
