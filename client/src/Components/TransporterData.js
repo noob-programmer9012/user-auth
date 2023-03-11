@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit'
 import { IconButton } from '@mui/material'
 
 import UserContext from '../Context/UserContext'
+import EditTranspoter from './EditTransporterModal'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -41,10 +42,12 @@ function createData (id, transporterName, gstNumber) {
 }
 
 export default function TransporterData (props) {
+  const [open, setOpen] = React.useState(false)
   const { changed, setChanged } = props.data
   const { serverUrl, firm } = React.useContext(UserContext)
   const [transporters, setTransporters] = React.useState(null)
   const firmId = JSON.parse(firm)._id
+  const [currentTransporter, setCurrentTransporter] = React.useState([])
 
   const navigate = useNavigate()
 
@@ -140,7 +143,14 @@ export default function TransporterData (props) {
                 <IconButton
                   aria-label='edit'
                   size='large'
-                  onClick={() => alert(row.id)}
+                  onClick={() => {
+                    setCurrentTransporter([
+                      `${row.transporterName}`,
+                      `${row.gstNumber}`,
+                      `${row.id}`
+                    ])
+                    setOpen(true)
+                  }}
                 >
                   <EditIcon sx={{ color: '#FF9800' }} />
                 </IconButton>
@@ -149,6 +159,9 @@ export default function TransporterData (props) {
           ))}
         </TableBody>
       </Table>
+      <EditTranspoter
+        data={{ open, setOpen, setChanged, currentTransporter }}
+      />
     </TableContainer>
   )
 }

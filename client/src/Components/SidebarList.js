@@ -47,7 +47,7 @@ export const SidebarList = () => {
       <MenuList
         sx={{
           backgroundColor: 'background.default',
-          height: { xs: 'calc(100vh - 56px)', sm: '100%' }
+          height: { xs: '100vh', sm: '100%' }
         }}
       >
         <MenuItem

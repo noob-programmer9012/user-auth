@@ -11,7 +11,7 @@ import {
 import SearchIcon from '@mui/icons-material/Search'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 
-import Modal from '../Components/Modal'
+import Modal from '../Components/AddTransporterModal'
 import TransporterData from '../Components/TransporterData'
 
 export default function TransporterPage () {

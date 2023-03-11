@@ -81,7 +81,16 @@ export default function AddClient (props) {
     <React.Fragment>
       {show && (
         <>
-          <Grid item xs={12} sx={{ mb: 2 }}>
+          <Grid
+            item
+            xs={12}
+            sx={{
+              mb: 2,
+              position: { xs: 'sticky', sm: 'inherit' },
+              top: { xs: 5 },
+              zIndex: 99
+            }}
+          >
             <Collapse in={show}>
               <Alert onClose={() => setShow(false)} severity='error'>
                 {error}
