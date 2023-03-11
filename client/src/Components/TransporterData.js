@@ -11,7 +11,7 @@ import TableRow from '@mui/material/TableRow'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { IconButton } from '@mui/material'
+import { useMediaQuery, useTheme } from '@mui/material'
 
 import UserContext from '../Context/UserContext'
 import EditTranspoter from './EditTransporterModal'
@@ -48,6 +48,9 @@ export default function TransporterData (props) {
   const [transporters, setTransporters] = React.useState(null)
   const firmId = JSON.parse(firm)._id
   const [currentTransporter, setCurrentTransporter] = React.useState([])
+
+  const theme = useTheme()
+  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
 
   const navigate = useNavigate()
 
@@ -133,16 +136,21 @@ export default function TransporterData (props) {
                   m: 0
                 }}
               >
-                <IconButton
-                  aria-label='delete'
-                  size='large'
+                <DeleteIcon
+                  sx={{
+                    color: '#D32F2F',
+                    mt: 1,
+                    mb: 1.2,
+                    mr: 0.5,
+                    cursor: 'pointer'
+                  }}
                   onClick={() => alert(row.id)}
-                >
-                  <DeleteIcon sx={{ color: '#D32F2F' }} />
-                </IconButton>
-                <IconButton
-                  aria-label='edit'
-                  size='large'
+                  size='medium'
+                />
+
+                <EditIcon
+                  sx={{ color: '#FF9800', mt: 1, mb: 1.2, cursor: 'pointer' }}
+                  size='medium'
                   onClick={() => {
                     setCurrentTransporter([
                       `${row.transporterName}`,
@@ -151,16 +159,14 @@ export default function TransporterData (props) {
                     ])
                     setOpen(true)
                   }}
-                >
-                  <EditIcon sx={{ color: '#FF9800' }} />
-                </IconButton>
+                />
               </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
       </Table>
       <EditTranspoter
-        data={{ open, setOpen, setChanged, currentTransporter }}
+        data={{ open, setOpen, setChanged, currentTransporter, fullScreen }}
       />
     </TableContainer>
   )

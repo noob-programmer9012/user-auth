@@ -82,11 +82,11 @@ export default function TransporterPage () {
     )
   }
   return (
-    <Grid container sx={{ pl: 1, pr: 1, pt: 2 }}>
-      <Grid item xs={12} sx={{ pb: 1, display: 'flex', alignItems: 'center' }}>
+    <Grid container sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}>
+      <Grid item xs={11} sx={{ pb: 1, display: 'flex', alignItems: 'center' }}>
         <CustomizedInputBase />
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={11}>
         <TransporterData data={{ changed, setChanged }} />
         <Modal data={{ open, setOpen, fullScreen, setChanged }} />
       </Grid>

@@ -1,4 +1,5 @@
-import { createTheme, ThemeProvider } from '@mui/material'
+import { createTheme, ThemeProvider, useMediaQuery } from '@mui/material'
+import { useMemo } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import UserState from './Context/UserState'
@@ -50,10 +51,17 @@ function App () {
     }
   })
 
-  const lightModeTheme = createTheme(getDesignTokens(`dark`))
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  const theme = useMemo(
+    () => (prefersDarkMode ? 'dark' : 'light'),
+    [prefersDarkMode]
+  )
+  const userTheme = createTheme(getDesignTokens(theme))
+
+  // const [darkMode, setDarkMode] = useState(theme)
 
   return (
-    <ThemeProvider theme={lightModeTheme}>
+    <ThemeProvider theme={userTheme}>
       <div className='App'>
         <Router>
           <UserState>
