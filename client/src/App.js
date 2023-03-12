@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider, useMediaQuery } from '@mui/material'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 
 import UserState from './Context/UserState'
@@ -51,14 +51,14 @@ function App () {
     }
   })
 
-  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const theme = useMemo(
-    () => (prefersDarkMode ? 'dark' : 'light'),
-    [prefersDarkMode]
+  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  const [darkMode, setDarkMode] = useState(
+    useMediaQuery('(prefers-color-scheme: dark)')
   )
-  const userTheme = createTheme(getDesignTokens(theme))
 
-  // const [darkMode, setDarkMode] = useState(theme)
+  const theme = useMemo(() => (darkMode ? 'dark' : 'light'), [darkMode])
+
+  const userTheme = createTheme(getDesignTokens(theme))
 
   return (
     <ThemeProvider theme={userTheme}>
@@ -66,7 +66,10 @@ function App () {
         <Router>
           <UserState>
             <Routes>
-              <Route path='/' element={<DashboardPage />}></Route>
+              <Route
+                path='/'
+                element={<DashboardPage mode={{ setDarkMode, darkMode }} />}
+              ></Route>
               <Route path='/login' element={<LoginPage />}></Route>
               <Route path='/register' element={<RegisterPage />}></Route>
             </Routes>

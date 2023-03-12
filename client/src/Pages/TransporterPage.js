@@ -83,7 +83,18 @@ export default function TransporterPage () {
   }
   return (
     <Grid container sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}>
-      <Grid item xs={11} sx={{ pb: 1, display: 'flex', alignItems: 'center' }}>
+      <Grid
+        item
+        xs={11}
+        sx={{
+          pb: 1,
+          display: 'flex',
+          alignItems: 'center',
+          position: 'sticky',
+          top: { xs: 62, sm: 72 },
+          zIndex: 99
+        }}
+      >
         <CustomizedInputBase />
       </Grid>
       <Grid item xs={11}>

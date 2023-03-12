@@ -11,7 +11,12 @@ import TableRow from '@mui/material/TableRow'
 
 import DeleteIcon from '@mui/icons-material/Delete'
 import EditIcon from '@mui/icons-material/Edit'
-import { useMediaQuery, useTheme } from '@mui/material'
+import {
+  CircularProgress,
+  IconButton,
+  useMediaQuery,
+  useTheme
+} from '@mui/material'
 
 import UserContext from '../Context/UserContext'
 import EditTranspoter from './EditTransporterModal'
@@ -101,24 +106,24 @@ export default function TransporterData (props) {
       )
     )
 
-  return (
+  return transporters ? (
     <TableContainer>
-      <Table aria-label='customized table'>
-        <TableHead sx={{ p: 1 }}>
-          <TableRow sx={{ p: 1 }}>
+      <Table aria-label='customized table' sx={{ p: 0 }}>
+        <TableHead>
+          <TableRow>
             <StyledTableCell sx={{ p: 1 }}>ID</StyledTableCell>
             <StyledTableCell sx={{ p: 1 }}>Transporter Name</StyledTableCell>
             <StyledTableCell sx={{ p: 1 }}>GST Number&nbsp;</StyledTableCell>
             <StyledTableCell sx={{ p: 1 }}>Actions&nbsp;</StyledTableCell>
           </TableRow>
         </TableHead>
-        <TableBody sx={{ p: 1 }}>
+        <TableBody sx={{ p: 0 }}>
           {rows.map((row, index) => (
             <StyledTableRow
               key={row.id}
               id={row.transporterName}
-              sx={{ p: 1 }}
               className='transporters'
+              sx={{ p: 1 }}
             >
               <StyledTableCell component='th' scope='row' sx={{ p: 1 }}>
                 {index + 1}
@@ -127,30 +132,21 @@ export default function TransporterData (props) {
                 {row.transporterName}
               </StyledTableCell>
               <StyledTableCell sx={{ p: 1 }}>{row.gstNumber}</StyledTableCell>
-              <StyledTableCell
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  ml: -2,
-                  p: 1,
-                  m: 0
-                }}
-              >
-                <DeleteIcon
-                  sx={{
-                    color: '#D32F2F',
-                    mt: 1,
-                    mb: 1.2,
-                    mr: 0.5,
-                    cursor: 'pointer'
-                  }}
+              <StyledTableCell>
+                <IconButton
+                  sx={{ p: 0.5 }}
                   onClick={() => alert(row.id)}
                   size='medium'
-                />
-
-                <EditIcon
-                  sx={{ color: '#FF9800', mt: 1, mb: 1.2, cursor: 'pointer' }}
-                  size='medium'
+                >
+                  <DeleteIcon
+                    sx={{
+                      color: '#D32F2F',
+                      cursor: 'pointer'
+                    }}
+                  />
+                </IconButton>
+                <IconButton
+                  sx={{ p: 0.5 }}
                   onClick={() => {
                     setCurrentTransporter([
                       `${row.transporterName}`,
@@ -159,7 +155,12 @@ export default function TransporterData (props) {
                     ])
                     setOpen(true)
                   }}
-                />
+                >
+                  <EditIcon
+                    sx={{ color: '#FF9800', cursor: 'pointer' }}
+                    size='medium'
+                  />
+                </IconButton>
               </StyledTableCell>
             </StyledTableRow>
           ))}
@@ -169,5 +170,7 @@ export default function TransporterData (props) {
         data={{ open, setOpen, setChanged, currentTransporter, fullScreen }}
       />
     </TableContainer>
+  ) : (
+    <CircularProgress />
   )
 }

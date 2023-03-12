@@ -1,6 +1,8 @@
 import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MenuIcon from '@mui/icons-material/Menu'
+import LightModeIcon from '@mui/icons-material/LightMode'
+import DarkModeIcon from '@mui/icons-material/DarkMode'
 
 import { useState, useContext, useEffect } from 'react'
 
@@ -33,7 +35,7 @@ function Main (props) {
     getFirmData()
   }, [setFirm, _id, serverUrl])
 
-  const { handleDrawerToggle } = props.action
+  const { handleDrawerToggle, setDarkMode, darkMode } = props.action
 
   const [anchorEl, setAnchorEl] = useState(null)
 
@@ -43,6 +45,10 @@ function Main (props) {
 
   const handleClose = () => {
     setAnchorEl(null)
+  }
+
+  const handleMode = () => {
+    setDarkMode(prev => !prev)
   }
 
   return (
@@ -65,13 +71,23 @@ function Main (props) {
             </IconButton>
           </div>
           <div>
+            {darkMode && (
+              <IconButton onClick={() => handleMode()}>
+                <LightModeIcon />
+              </IconButton>
+            )}
+            {!darkMode && (
+              <IconButton onClick={() => handleMode()}>
+                <DarkModeIcon />
+              </IconButton>
+            )}
             <IconButton
               size='large'
               aria-label='account of current user'
               aria-controls='menu-appbar'
               aria-haspopup='true'
               onClick={handleMenu}
-              color='inherit'
+              color='background.default'
             >
               <AccountCircle />
             </IconButton>
@@ -79,12 +95,12 @@ function Main (props) {
               id='menu-appbar'
               anchorEl={anchorEl}
               anchorOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right'
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
+                vertical: 'bottom',
                 horizontal: 'right'
               }}
               open={Boolean(anchorEl)}
@@ -95,7 +111,7 @@ function Main (props) {
                   handleClose()
                 }}
               >
-                Dark Mode
+                Profile
               </MenuItem>
               <MenuItem
                 onClick={() => {

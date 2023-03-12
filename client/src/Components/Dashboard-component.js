@@ -11,6 +11,7 @@ const drawerWidth = 240
 
 function ResponsiveDrawer (props) {
   const { window } = props
+  const { setDarkMode, darkMode } = props.mode
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
   const handleDrawerToggle = () => {
@@ -64,7 +65,7 @@ function ResponsiveDrawer (props) {
         </Drawer>
       </Box>
       {/* Main Content */}
-      <Main action={{ handleDrawerToggle }} />
+      <Main action={{ handleDrawerToggle, setDarkMode, darkMode }} />
     </Box>
   )
 }

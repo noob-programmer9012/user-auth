@@ -7,6 +7,7 @@ import UserContext from '../Context/UserContext'
 import DashboardComponent from '../Components/Dashboard-component'
 
 const DashboardPage = props => {
+  const { setDarkMode, darkMode } = props.mode
   const { user, setUser, serverUrl } = useContext(UserContext)
   const navigate = useNavigate()
 
@@ -38,7 +39,7 @@ const DashboardPage = props => {
   function Success () {
     return (
       <React.Fragment>
-        <DashboardComponent />
+        <DashboardComponent mode={{ setDarkMode, darkMode }} />
       </React.Fragment>
     )
   }

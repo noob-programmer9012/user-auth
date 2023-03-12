@@ -14,6 +14,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff'
 import { Navigate, useNavigate } from 'react-router-dom'
 import {
   Alert,
+  CircularProgress,
   Collapse,
   CssBaseline,
   FormControl,
@@ -44,6 +45,7 @@ export default function LoginPage () {
   const [password, setPassword] = React.useState(null)
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState('')
+  const [progress, setProgress] = React.useState(false)
   const navigate = useNavigate()
 
   const [showPassword, setShowPassword] = React.useState(false)
@@ -70,9 +72,11 @@ export default function LoginPage () {
           email,
           password
         })
+        setProgress(true)
         localStorage.setItem('authToken', data.token)
         navigate('/')
       } catch (error) {
+        setProgress(false)
         setShow(true)
         setError(error.response.data.message)
         localStorage.removeItem('authToken')
@@ -165,12 +169,14 @@ export default function LoginPage () {
             />
           </FormControl>
           <Button
+            id='login'
             type='submit'
             fullWidth
             variant='contained'
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign In
+            {!progress && <Typography>Sign In</Typography>}
+            {progress && <CircularProgress color='secondary' />}
           </Button>
           <Grid container>
             <Grid item xs>
