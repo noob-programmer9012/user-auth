@@ -2,6 +2,7 @@ import { Box, Divider, LinearProgress, Typography } from '@mui/material'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 import React, { useContext, useEffect, useState } from 'react'
+import { Scrollbars } from 'react-custom-scrollbars-2'
 
 import colors from '../utils/colors'
 import UserContext from '../Context/UserContext'
@@ -39,95 +40,97 @@ export default function ClientNames (props) {
 
   return (
     <>
-      <Box
-        sx={{
-          overflowY: 'auto',
-          mt: 1.2
-        }}
-      >
-        {names ? (
-          [JSON.parse(names)].map(x =>
-            x.map(name => (
-              <React.Fragment key={name._id}>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-start',
-                    gap: 2,
-                    cursor: 'pointer'
-                  }}
-                  id='id'
-                  onClick={() => {
-                    setDebtor(name)
-                    setShowlist(false)
-                    setChecked(true)
-                  }}
-                >
-                  <Box
-                    sx={{
-                      borderRadius: '50%',
-                      width: '40px',
-                      height: '40px',
-                      background:
-                        colors[Math.floor(Math.random() * colors.length)],
-                      border: 0,
-                      ml: 2,
-                      mt: -1.7,
-                      color: 'white',
-                      fontSize: '1.2rem',
-                      fontWeight: 600,
-                      display: 'flex',
-                      justifyContent: 'center',
-                      alignItems: 'center'
-                    }}
-                  >
-                    {name.companyName[0]}
-                  </Box>
+      <Scrollbars style={{ height: 'calc(100vh - 110px)' }}>
+        <Box
+          sx={{
+            overflow: 'hidden',
+            mt: 1.2
+          }}
+        >
+          {names ? (
+            [JSON.parse(names)].map(x =>
+              x.map(name => (
+                <React.Fragment key={name._id}>
                   <Box
                     sx={{
                       display: 'flex',
-                      flexDirection: 'column',
-                      flex: 2,
-                      mb: 1
+                      alignItems: 'center',
+                      justifyContent: 'flex-start',
+                      gap: 2,
+                      cursor: 'pointer'
+                    }}
+                    id='id'
+                    onClick={() => {
+                      setDebtor(name)
+                      setShowlist(false)
+                      setChecked(true)
                     }}
                   >
-                    <Typography
+                    <Box
                       sx={{
-                        fontWeight: 400,
-                        color: 'text.primary'
+                        borderRadius: '50%',
+                        width: '40px',
+                        height: '40px',
+                        background:
+                          colors[Math.floor(Math.random() * colors.length)],
+                        border: 0,
+                        ml: 2,
+                        mt: -1.7,
+                        color: 'white',
+                        fontSize: '1.2rem',
+                        fontWeight: 600,
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
                       }}
-                      className='company'
                     >
-                      {name.companyName}
-                    </Typography>
-                    <Typography
-                      variant='p'
-                      color='text.secondary'
+                      {name.companyName[0]}
+                    </Box>
+                    <Box
                       sx={{
-                        fontSize: '0.9rem',
-                        fontWeight: 400
+                        display: 'flex',
+                        flexDirection: 'column',
+                        flex: 2,
+                        mb: 1
                       }}
                     >
-                      {name.address ? name.address.line3 : 'Not given'}
-                    </Typography>
-                    <Divider
-                      sx={{
-                        borderColor: '1px solid #E0E1E5',
-                        mt: 1.5,
-                        width: '100%',
-                        alignSelf: 'flex-start'
-                      }}
-                    />
+                      <Typography
+                        sx={{
+                          fontWeight: 400,
+                          color: 'text.primary'
+                        }}
+                        className='company'
+                      >
+                        {name.companyName}
+                      </Typography>
+                      <Typography
+                        variant='p'
+                        color='text.secondary'
+                        sx={{
+                          fontSize: '0.9rem',
+                          fontWeight: 400
+                        }}
+                      >
+                        {name.address ? name.address.line3 : 'Not given'}
+                      </Typography>
+                      <Divider
+                        sx={{
+                          borderColor: '1px solid #E0E1E5',
+                          mt: 1.5,
+                          width: '100%',
+                          alignSelf: 'flex-start'
+                        }}
+                      />
+                    </Box>
                   </Box>
-                </Box>
-              </React.Fragment>
-            ))
-          )
-        ) : (
-          <LinearProgress />
-        )}
-      </Box>
+                </React.Fragment>
+              ))
+            )
+          ) : (
+            <LinearProgress />
+          )}
+        </Box>
+      </Scrollbars>
     </>
   )
 }

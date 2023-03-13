@@ -67,12 +67,13 @@ export default function LoginPage () {
       setShow(true)
       setError('Please provide username and password')
     } else {
+      setProgress(true)
+
       try {
         var { data } = await axios.post(`${serverUrl}/api/user/login`, {
           email,
           password
         })
-        setProgress(true)
         localStorage.setItem('authToken', data.token)
         navigate('/')
       } catch (error) {
@@ -169,6 +170,7 @@ export default function LoginPage () {
             />
           </FormControl>
           <Button
+            disabled={progress}
             id='login'
             type='submit'
             fullWidth
@@ -176,7 +178,7 @@ export default function LoginPage () {
             sx={{ mt: 3, mb: 2 }}
           >
             {!progress && <Typography>Sign In</Typography>}
-            {progress && <CircularProgress color='secondary' />}
+            {progress && <CircularProgress size={30} color='secondary' />}
           </Button>
           <Grid container>
             <Grid item xs>

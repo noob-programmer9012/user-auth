@@ -171,6 +171,13 @@ export default function TransporterData (props) {
       />
     </TableContainer>
   ) : (
-    <CircularProgress />
+    <CircularProgress
+      size={60}
+      sx={{
+        color: 'primary.main',
+        position: 'absolute',
+        left: '50%'
+      }}
+    />
   )
 }
