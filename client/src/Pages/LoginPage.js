@@ -143,7 +143,7 @@ export default function LoginPage () {
               }
             }}
           >
-            <InputLabel htmlFor='outlined-adornment-password'>
+            <InputLabel htmlFor='outlined-adornment-password' required>
               Password
             </InputLabel>
             <OutlinedInput

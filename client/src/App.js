@@ -51,12 +51,15 @@ function App () {
     }
   })
 
-  // const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
-  const [darkMode, setDarkMode] = useState(
-    useMediaQuery('(prefers-color-scheme: dark)')
-  )
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+  !localStorage.getItem('darkMode') &&
+    localStorage.setItem('darkMode', prefersDarkMode ? 'dark' : 'light')
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode'))
 
-  const theme = useMemo(() => (darkMode ? 'dark' : 'light'), [darkMode])
+  const theme = useMemo(
+    () => (darkMode === 'dark' ? 'dark' : 'light'),
+    [darkMode]
+  )
 
   const userTheme = createTheme(getDesignTokens(theme))
 

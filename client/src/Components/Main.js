@@ -48,7 +48,9 @@ function Main (props) {
   }
 
   const handleMode = () => {
-    setDarkMode(prev => !prev)
+    const currentMode = localStorage.getItem('darkMode')
+    localStorage.setItem('darkMode', currentMode === 'dark' ? 'light' : 'dark')
+    setDarkMode(localStorage.getItem('darkMode'))
   }
 
   return (
@@ -71,12 +73,12 @@ function Main (props) {
             </IconButton>
           </div>
           <div>
-            {darkMode && (
+            {darkMode === 'dark' && (
               <IconButton onClick={() => handleMode()}>
                 <LightModeIcon />
               </IconButton>
             )}
-            {!darkMode && (
+            {darkMode === 'light' && (
               <IconButton onClick={() => handleMode()}>
                 <DarkModeIcon />
               </IconButton>
