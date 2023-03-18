@@ -2,42 +2,42 @@ import mongoose from 'mongoose'
 
 const ProductSchema = new mongoose.Schema({
   firmId: {
-    Type: mongoose.Schema.ObjectId,
+    type: mongoose.Schema.ObjectId,
     required: [true, 'Please provide firm id.']
   },
   productName: {
-    Type: String,
+    type: String,
     required: [true, 'Please provide Product Name']
   },
   description: String,
   productGroup: {
-    Type: mongoose.Schema.ObjectId
+    type: mongoose.Schema.ObjectId
   },
   hsn: {
-    Type: Number,
+    type: Number,
     required: [true, 'Please provide HSN code'],
     match: ['^d+$', 'Plese provide valid HSN code'],
     minlength: 4,
     maxlength: 8
   },
   productType: {
-    Type: String,
+    type: String,
     enum: {
       values: ['Goods', 'Service'],
       message: 'Not a valid product type'
     }
   },
   unit: {
-    Type: String,
+    type: String,
     default: 'Pcs'
   },
   openingQty: {
-    Type: Number,
+    type: Number,
     default: 0,
     match: ['^d+$', 'Opening quantity field accept only natural numbers.']
   },
   openingRate: {
-    Type: Number,
+    type: Number,
     default: 0,
     match: [
       '^[1-9]d*(.d+)?$',
@@ -61,7 +61,7 @@ const ProductSchema = new mongoose.Schema({
     }
   },
   purchaseRate: {
-    Type: Number,
+    type: Number,
     default: 0,
     match: [
       '^[1-9]d*(.d+)?$',
@@ -69,7 +69,7 @@ const ProductSchema = new mongoose.Schema({
     ]
   },
   saleRate: {
-    Type: Number,
+    type: Number,
     default: 0,
     match: [
       '^[1-9]d*(.d+)?$',
