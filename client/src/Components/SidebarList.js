@@ -17,12 +17,14 @@ import DashboardIcon from '@mui/icons-material/Dashboard'
 import PeopleIcon from '@mui/icons-material/People'
 import CircleIcon from '@mui/icons-material/Circle'
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
+import InventoryIcon from '@mui/icons-material/Inventory'
 import { useContext, useState } from 'react'
 
 import UserContext from '../Context/UserContext'
 import DashboardData from '../Pages/DashboardData'
 import DebtorsPage from '../Pages/DebtorsPage'
 import TransporterPage from '../Pages/TransporterPage'
+import ProductsPage from '../Pages/ProductsPage'
 
 export const SidebarList = () => {
   const { setComponent, active, setActive } = useContext(UserContext)
@@ -137,6 +139,27 @@ export const SidebarList = () => {
             }}
           >
             Transporter
+          </ListItemText>
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            setActive('Products')
+            setComponent(<ProductsPage />)
+          }}
+        >
+          <ListItemIcon>
+            <InventoryIcon
+              sx={{
+                color: active === 'Products' ? 'primary.light' : 'text.link'
+              }}
+            />
+          </ListItemIcon>
+          <ListItemText
+            sx={{
+              color: active === 'Products' ? 'primary.light' : 'text.link'
+            }}
+          >
+            Products
           </ListItemText>
         </MenuItem>
       </MenuList>
