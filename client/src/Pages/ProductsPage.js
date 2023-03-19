@@ -1,26 +1,28 @@
 import { Box } from '@mui/material'
+import { useState } from 'react'
 
 import ProductForm from '../Components/ProductForm'
 import Products from '../Components/Products'
 
 export default function ProductsPage () {
+  const [showForm, setShowForm] = useState(false)
   return (
     <>
       <Box
         sx={{
           display: 'flex',
           flex: 1,
-          height: 'calc(100vh - 64px)',
+          height: { xs: 'calc(100vh - 55px)', sm: 'calc(100vh - 64px)' },
           justifyContent: 'center',
           alignItems: 'center',
-          p: 3,
+          p: { xs: 0, sm: 2 },
           gap: 2,
-          overflow: 'hidden'
+          overflow: 'auto'
         }}
       >
         {/* Form Component */}
-        <ProductForm />
-        <Products />
+        <ProductForm data={{ showForm, setShowForm }} />
+        <Products data={{ showForm, setShowForm }} />
       </Box>
     </>
   )
