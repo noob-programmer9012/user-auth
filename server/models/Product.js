@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 
+import { titleCase } from '../utils/titleCase.js'
+
 const ProductSchema = new mongoose.Schema({
   firmId: {
     type: mongoose.Schema.ObjectId,
@@ -76,6 +78,11 @@ const ProductSchema = new mongoose.Schema({
       'Opening rate field accepts natural numbers and decimals only.'
     ]
   }
+})
+
+ProductSchema.pre('save', function (next) {
+  this.productName = titleCase(this.productName)
+  next()
 })
 
 export const Product = mongoose.model('Product', ProductSchema)
