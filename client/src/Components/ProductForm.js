@@ -1,8 +1,10 @@
+import axios from 'axios'
 import {
   Alert,
   Box,
   Button,
   Collapse,
+  MenuItem,
   MobileStepper,
   Paper,
   TextField,
@@ -11,18 +13,34 @@ import {
 } from '@mui/material'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
+
+import UserContext from '../Context/UserContext'
 
 const steps = ['Start', 'End']
 
+const gstTax = ['0% GST', '5% GST', '12% GST', '18% GST', '28% GST']
+const igstTax = ['0% IGST', '5% IGST', '12% IGST', '18% IGST', '28% IGST']
+const productTypes = ['Goods', 'Service']
+
 export default function ProductForm (props) {
   const theme = useTheme()
+  const { serverUrl, firm } = useContext(UserContext)
   const { showForm, setShowForm } = props.data
   const [activeStep, setActiveStep] = useState(0)
 
   // Form States
   const [productName, setProductName] = useState(null)
+  const [description, setDescription] = useState(null)
+  const [productType, setProductType] = useState('Goods')
+  const [unit, setUnit] = useState('Pcs')
+  const [openingQty, setOpeningQty] = useState(0)
+  const [openingRate, setOpeningRate] = useState(0)
+  const [purchaseRate, setPurchaseRate] = useState(0)
+  const [saleRate, setSaleRate] = useState(0)
   const [hsn, setHsn] = useState(null)
+  const [gstState, setGstState] = useState(null)
+  const [igstOutside, setIgstOutside] = useState(null)
   const [show, setShow] = useState(false)
   const [error, setError] = useState(null)
 
@@ -42,7 +60,49 @@ export default function ProductForm (props) {
   }
 
   const prevStep = () => {
+    setShow(false)
     setActiveStep(prev => prev - 1)
+  }
+
+  const handleSubmit = async e => {
+    e.preventDefault()
+    if (!gstState || !igstOutside) {
+      setError('Please Select GST-State and IGST-Outside')
+      setShow(true)
+      return
+    }
+    const token = localStorage.getItem('authToken')
+    try {
+      const firmId = JSON.parse(firm)._id
+      const config = {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        }
+      }
+      await axios.post(
+        `${serverUrl}/api/products/addProduct`,
+        {
+          firmId,
+          productName,
+          description,
+          hsn,
+          productType,
+          unit,
+          openingQty,
+          openingRate,
+          gstState,
+          igstOutside,
+          purchaseRate,
+          saleRate
+        },
+        config
+      )
+      setActiveStep(0)
+    } catch (error) {
+      setError(error.response.data.message)
+      setShow(true)
+    }
   }
 
   return (
@@ -68,7 +128,7 @@ export default function ProductForm (props) {
         <Box
           sx={{
             width: '100%',
-            height: '45px',
+            height: '55px',
             position: 'absolute',
             top: 56,
             boxShadow: 10,
@@ -96,11 +156,9 @@ export default function ProductForm (props) {
           </Box>
         )}
         {/* End Error */}
-
         <Typography component='h1' variant='h5' sx={{ mb: 2 }}>
           Add Product
         </Typography>
-
         {/* Form */}
         <Box
           component='form'
@@ -111,6 +169,7 @@ export default function ProductForm (props) {
             flexDirection: 'column',
             gap: 2
           }}
+          onSubmit={handleSubmit}
         >
           {activeStep === 0 && (
             <>
@@ -122,7 +181,10 @@ export default function ProductForm (props) {
                 id='productName'
                 label='Product Name'
                 value={productName}
-                onChange={e => setProductName(e.target.value)}
+                onChange={e => {
+                  setShow(false)
+                  setProductName(e.target.value)
+                }}
               ></TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
@@ -130,6 +192,7 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='description'
                 label='Description'
+                onChange={e => setDescription(e.target.value)}
               ></TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
@@ -147,7 +210,14 @@ export default function ProductForm (props) {
                 id='hsn'
                 label='HSN Code'
                 value={hsn}
-                onChange={e => setHsn(e.target.value)}
+                onChange={e => {
+                  setShow(false)
+                  e.target.value = e.target.value.replace(/[^0-9]/g, '')
+                  setHsn(e.target.value)
+                }}
+                inputProps={{
+                  maxLength: 8
+                }}
               ></TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
@@ -156,7 +226,15 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='productType'
                 label='Product Type'
-              ></TextField>
+                defaultValue={productTypes[0]}
+                onChange={e => setProductType(e.target.value)}
+              >
+                {productTypes.map(type => (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
                 fullWidth
@@ -164,6 +242,7 @@ export default function ProductForm (props) {
                 id='unit'
                 label='Unit'
                 defaultValue='Pcs'
+                onChange={e => setUnit(e.target.value)}
               ></TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
@@ -172,6 +251,7 @@ export default function ProductForm (props) {
                 id='qty'
                 label='Opening Quantity'
                 defaultValue={0}
+                onChange={e => setOpeningQty(e.target.value)}
               ></TextField>
             </>
           )}
@@ -183,6 +263,7 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='rate'
                 label='Opening Rate'
+                onChange={e => setOpeningRate(e.target.value)}
                 defaultValue={0}
               ></TextField>
               <TextField
@@ -193,7 +274,14 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='gstState'
                 label='GST-State'
-              ></TextField>
+                onChange={e => setGstState(e.target.value)}
+              >
+                {gstTax.map(tax => (
+                  <MenuItem key={tax} value={tax}>
+                    {tax}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
                 fullWidth
@@ -202,13 +290,21 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='igstOutside'
                 label='IGST-Outside'
-              ></TextField>
+                onChange={e => setIgstOutside(e.target.value)}
+              >
+                {igstTax.map(tax => (
+                  <MenuItem key={tax} value={tax}>
+                    {tax}
+                  </MenuItem>
+                ))}
+              </TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
                 fullWidth
                 variant='outlined'
                 id='purchaseRate'
                 label='Purchase Rate'
+                onChange={e => setPurchaseRate(e.target.value)}
                 defaultValue={0}
               ></TextField>
               <TextField
@@ -217,13 +313,10 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='saleRate'
                 label='Sale Rate'
+                onChange={e => setSaleRate(e.target.value)}
                 defaultValue={0}
               ></TextField>
-              <Button
-                variant='contained'
-                type='submit'
-                onClick={e => e.preventDefault()}
-              >
+              <Button variant='contained' type='submit'>
                 SUBMIT
               </Button>
             </>
@@ -231,42 +324,44 @@ export default function ProductForm (props) {
         </Box>
         {/* End Form */}
         {/* Mobile Stepper */}
-        <Box sx={{ width: '100%', mt: 2 }}>
-          <MobileStepper
-            variant='dots'
-            steps={steps.length}
-            position='static'
-            activeStep={activeStep}
-            nextButton={
-              <Button
-                size={showForm ? 'small' : 'medium'}
-                onClick={nextStep}
-                disabled={activeStep === steps.length - 1}
-              >
-                Next
-                {theme.direction === 'rtl' ? (
-                  <KeyboardArrowLeft />
-                ) : (
-                  <KeyboardArrowRight />
-                )}
-              </Button>
-            }
-            backButton={
-              <Button
-                size={showForm ? 'small' : 'medium'}
-                onClick={prevStep}
-                disabled={activeStep === 0}
-              >
-                {theme.direction === 'rtl' ? (
-                  <KeyboardArrowRight />
-                ) : (
-                  <KeyboardArrowLeft />
-                )}
-                Back
-              </Button>
-            }
-          ></MobileStepper>
-        </Box>
+        {(activeStep === 0 || show) && (
+          <Box sx={{ width: '100%', mt: 2 }}>
+            <MobileStepper
+              variant='dots'
+              steps={steps.length}
+              position='static'
+              activeStep={activeStep}
+              nextButton={
+                <Button
+                  size={showForm ? 'small' : 'medium'}
+                  onClick={nextStep}
+                  disabled={activeStep === steps.length - 1}
+                >
+                  Next
+                  {theme.direction === 'rtl' ? (
+                    <KeyboardArrowLeft />
+                  ) : (
+                    <KeyboardArrowRight />
+                  )}
+                </Button>
+              }
+              backButton={
+                <Button
+                  size={showForm ? 'small' : 'medium'}
+                  onClick={prevStep}
+                  disabled={activeStep === 0}
+                >
+                  {theme.direction === 'rtl' ? (
+                    <KeyboardArrowRight />
+                  ) : (
+                    <KeyboardArrowLeft />
+                  )}
+                  Back
+                </Button>
+              }
+            ></MobileStepper>
+          </Box>
+        )}
       </Paper>
     </>
   )
