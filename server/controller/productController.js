@@ -33,20 +33,11 @@ export async function addProduct (req, res, next) {
 
 export async function getProducts (req, res, next) {
   const { firmId } = req.params
-  const productsPerPage = req.query.productsPerPage
-    ? parseInt(req.query.productsPerPage)
-    : 5
-  const page = req.query.page ? parseInt(req.query.page) : 0
   try {
     const totalProducts = await Product.where({ firmId }).countDocuments()
-    const products = await Product.find({ firmId })
-      .limit(productsPerPage)
-      .skip(productsPerPage * page)
-      .sort({ productName: 1 })
+    const products = await Product.find({ firmId }).sort({ productName: 1 })
     res.status(200).json({
       success: true,
-      productsPerPage,
-      page,
       totalProducts,
       products
     })

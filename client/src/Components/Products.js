@@ -1,9 +1,11 @@
-import { Fab, Paper } from '@mui/material'
+import { Box, Fab, Paper } from '@mui/material'
+import ProductsDataGrid from './ProductsDataGrid'
 
 import AddIcon from '@mui/icons-material/Add'
 
 export default function Products (props) {
-  const { showForm, setShowForm } = props.data
+  const { showForm, setShowForm, productsListUpdated, setProductsListUpdated } =
+    props.data
   return (
     <Paper
       sx={{
@@ -13,8 +15,10 @@ export default function Products (props) {
         height: '100%',
         boxShadow: 15,
         borderRadius: 2,
-        overflow: 'hidden',
-        display: { xs: showForm === false ? 'flex' : 'none', lg: 'flex' }
+        overflow: 'auto',
+        display: { xs: showForm === false ? 'flex' : 'none', lg: 'flex' },
+        alignItems: 'center',
+        p: { sx: 0, sm: 2 }
       }}
     >
       <Fab
@@ -22,14 +26,19 @@ export default function Products (props) {
         aria-label='add'
         sx={{
           position: 'absolute',
-          top: '50%',
-          left: '50%',
+          bottom: 20,
+          left: 20,
           display: { sx: 'block', sm: 'none' }
         }}
         onClick={() => setShowForm(prev => !prev)}
       >
         <AddIcon fontSize='large' />
       </Fab>
+      <Box sx={{ width: '100%', height: '100%' }}>
+        <ProductsDataGrid
+          data={{ productsListUpdated, setProductsListUpdated }}
+        />
+      </Box>
     </Paper>
   )
 }

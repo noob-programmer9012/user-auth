@@ -6,6 +6,7 @@ import Products from '../Components/Products'
 
 export default function ProductsPage () {
   const [showForm, setShowForm] = useState(false)
+  const [productsListUpdated, setProductsListUpdated] = useState(false)
   return (
     <>
       <Box
@@ -21,8 +22,21 @@ export default function ProductsPage () {
         }}
       >
         {/* Form Component */}
-        <ProductForm data={{ showForm, setShowForm }} />
-        <Products data={{ showForm, setShowForm }} />
+        <ProductForm
+          data={{
+            showForm,
+            setShowForm,
+            setProductsListUpdated
+          }}
+        />
+        <Products
+          data={{
+            showForm,
+            setShowForm,
+            productsListUpdated,
+            setProductsListUpdated
+          }}
+        />
       </Box>
     </>
   )

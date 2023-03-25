@@ -26,7 +26,7 @@ const productTypes = ['Goods', 'Service']
 export default function ProductForm (props) {
   const theme = useTheme()
   const { serverUrl, firm } = useContext(UserContext)
-  const { showForm, setShowForm } = props.data
+  const { showForm, setShowForm, setProductsListUpdated } = props.data
   const [activeStep, setActiveStep] = useState(0)
 
   // Form States
@@ -43,6 +43,20 @@ export default function ProductForm (props) {
   const [igstOutside, setIgstOutside] = useState(null)
   const [show, setShow] = useState(false)
   const [error, setError] = useState(null)
+
+  const resetForm = () => {
+    setProductName(null)
+    setDescription(null)
+    setProductType('Goods')
+    setUnit('Pcs')
+    setOpeningQty(0)
+    setOpeningRate(0)
+    setPurchaseRate(0)
+    setSaleRate(0)
+    setHsn(null)
+    setGstState(null)
+    setIgstOutside(null)
+  }
 
   const nextStep = () => {
     if (!productName) {
@@ -66,6 +80,7 @@ export default function ProductForm (props) {
 
   const handleSubmit = async e => {
     e.preventDefault()
+    setProductsListUpdated(false)
     if (!gstState || !igstOutside) {
       setError('Please Select GST-State and IGST-Outside')
       setShow(true)
@@ -98,6 +113,9 @@ export default function ProductForm (props) {
         },
         config
       )
+      setProductsListUpdated(true)
+      setShowForm(false)
+      resetForm()
       setActiveStep(0)
     } catch (error) {
       setError(error.response.data.message)
