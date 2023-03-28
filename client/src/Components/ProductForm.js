@@ -199,6 +199,9 @@ export default function ProductForm (props) {
                 id='productName'
                 label='Product Name'
                 value={productName}
+                inputProps={{
+                  style: { textTransform: 'uppercase' }
+                }}
                 onChange={e => {
                   setShow(false)
                   setProductName(e.target.value)

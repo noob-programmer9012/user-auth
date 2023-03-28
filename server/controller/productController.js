@@ -1,7 +1,6 @@
 import { Product } from '../models/Product.js'
 import { Firm } from '../models/Firm.js'
 import { ErrorResponse } from '../utils/errorResponse.js'
-import { titleCase } from '../utils/titleCase.js'
 
 export async function addProduct (req, res, next) {
   const { firmId, productName } = req.body
@@ -13,7 +12,7 @@ export async function addProduct (req, res, next) {
 
   const product = await Product.findOne({
     firmId,
-    productName: titleCase(productName)
+    productName: productName.toUpperCase()
   })
   if (product) {
     return next(new ErrorResponse('This product is already registered', 400))

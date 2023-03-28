@@ -1,7 +1,5 @@
 import mongoose from 'mongoose'
 
-import { titleCase } from '../utils/titleCase.js'
-
 const ProductSchema = new mongoose.Schema({
   firmId: {
     type: mongoose.Schema.ObjectId,
@@ -81,7 +79,7 @@ const ProductSchema = new mongoose.Schema({
 })
 
 ProductSchema.pre('save', function (next) {
-  this.productName = titleCase(this.productName)
+  this.productName = this.productName.toUpperCase()
   next()
 })
 
