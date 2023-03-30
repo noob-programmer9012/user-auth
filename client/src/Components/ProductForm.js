@@ -13,7 +13,7 @@ import {
 } from '@mui/material'
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import UserContext from '../Context/UserContext'
 
@@ -28,6 +28,7 @@ export default function ProductForm (props) {
   const { serverUrl, firm } = useContext(UserContext)
   const { showForm, setShowForm, setProductsListUpdated } = props.data
   const [activeStep, setActiveStep] = useState(0)
+  const [groups, setGroups] = useState(null)
 
   // Form States
   const [productName, setProductName] = useState(null)
@@ -43,6 +44,21 @@ export default function ProductForm (props) {
   const [igstOutside, setIgstOutside] = useState(null)
   const [show, setShow] = useState(false)
   const [error, setError] = useState(null)
+
+  useEffect(() => {
+    const GetProductGoups = async () => {
+      const config = {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }
+      const firmId = JSON.parse(firm)._id
+      const url = `${serverUrl}/api/productgroup/getProductGroups/${firmId}`
+      const groups = await axios.get(url, config)
+      setGroups(JSON.stringify(groups.data.data))
+    }
+    GetProductGoups()
+  }, [firm, serverUrl])
 
   const resetForm = () => {
     setProductName(null)
@@ -222,7 +238,14 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='productGroup'
                 label='Product Group'
-              ></TextField>
+              >
+                {groups &&
+                  JSON.parse(groups).map(item => (
+                    <MenuItem key={item.productGroup} value={item.productGroup}>
+                      {item.productGroup}
+                    </MenuItem>
+                  ))}
+              </TextField>
               <TextField
                 size={showForm ? 'small' : 'medium'}
                 fullWidth
