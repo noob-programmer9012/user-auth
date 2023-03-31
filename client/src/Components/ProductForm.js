@@ -34,6 +34,7 @@ export default function ProductForm (props) {
   const [productName, setProductName] = useState(null)
   const [description, setDescription] = useState(null)
   const [productType, setProductType] = useState('Goods')
+  const [productGroup, setProductGroup] = useState(null)
   const [unit, setUnit] = useState('Pcs')
   const [openingQty, setOpeningQty] = useState(0)
   const [openingRate, setOpeningRate] = useState(0)
@@ -72,6 +73,7 @@ export default function ProductForm (props) {
     setHsn(null)
     setGstState(null)
     setIgstOutside(null)
+    setProductGroup(null)
   }
 
   const nextStep = () => {
@@ -118,6 +120,7 @@ export default function ProductForm (props) {
           productName,
           description,
           hsn,
+          productGroup,
           productType,
           unit,
           openingQty,
@@ -238,10 +241,14 @@ export default function ProductForm (props) {
                 variant='outlined'
                 id='productGroup'
                 label='Product Group'
+                onChange={e => setProductGroup(e.target.value)}
               >
+                <Button variant='contained' fullWidth>
+                  Create Product Group
+                </Button>
                 {groups &&
                   JSON.parse(groups).map(item => (
-                    <MenuItem key={item.productGroup} value={item.productGroup}>
+                    <MenuItem key={item.productGroup} value={item._id}>
                       {item.productGroup}
                     </MenuItem>
                   ))}
