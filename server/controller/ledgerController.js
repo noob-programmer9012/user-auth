@@ -118,7 +118,7 @@ export async function getChallanDetails(req, res, next) {
       .populate({ path: "clientId", select: "companyName address -_id" })
       .populate({
         path: "products.productId",
-        select: "productName openingRate -_id",
+        select: "productName openingRate saleRate unit -_id",
       });
     if (!challan) {
       return next(new ErrorResponse(404, "Not Found"));
