@@ -6,6 +6,7 @@ import {
   getCreditors,
   createChallan,
   getChallanDetails,
+  getAllChallans,
 } from "../controller/ledgerController.js";
 import { protect } from "../middleware/auth.js";
 
@@ -16,5 +17,6 @@ router.route("/getdebtors/:id").get(protect, getDebtors);
 router.route("/getcreditors/:id").get(protect, getCreditors);
 router.route("/createchallan").post(protect, createChallan);
 router.route("/getChallanDetails/:challanId").get(protect, getChallanDetails);
+router.route("/getAllChallans").get(protect, getAllChallans);
 
 export default router;

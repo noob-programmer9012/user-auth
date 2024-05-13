@@ -2,6 +2,7 @@ import { Ledger } from "../models/Ledger.js";
 import { Challan } from "../models/Challan.js";
 import { Firm } from "../models/Firm.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
+import { createPDF } from "../utils/createPDF.js";
 
 export async function createLedger(req, res, next) {
   const {
@@ -123,11 +124,17 @@ export async function getChallanDetails(req, res, next) {
     if (!challan) {
       return next(new ErrorResponse(404, "Not Found"));
     }
-    res.status(200).json({
-      success: true,
-      data: challan,
-    });
+    // res.status(200).json({
+    //   success: true,
+    //   data: challan,
+    // });
+    // console.log(challan);
+    return createPDF(challan, req, res, next);
   } catch (error) {
     next(error);
   }
+}
+
+export async function getAllChallans(req, res, next) {
+  return;
 }
