@@ -136,5 +136,19 @@ export async function getChallanDetails(req, res, next) {
 }
 
 export async function getAllChallans(req, res, next) {
-  return;
+  const { firmId } = req.params;
+  const data = await Challan.find({ firmId }).populate({
+    path: "clientId",
+    select: "companyName address -_id",
+  });
+  if (!data) {
+    return res.status(404).json({
+      success: true,
+      message: "No Challans found.",
+    });
+  }
+  return res.status(200).json({
+    success: true,
+    data: data,
+  });
 }

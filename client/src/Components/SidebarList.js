@@ -7,68 +7,69 @@ import {
   MenuItem,
   MenuList,
   Toolbar,
-  Typography
-} from '@mui/material'
+  Typography,
+} from "@mui/material";
 
-import ListItemIcon from '@mui/material/ListItemIcon'
-import ExpandLess from '@mui/icons-material/ExpandLess'
-import ExpandMore from '@mui/icons-material/ExpandMore'
-import DashboardIcon from '@mui/icons-material/Dashboard'
-import PeopleIcon from '@mui/icons-material/People'
-import CircleIcon from '@mui/icons-material/Circle'
-import LocalShippingIcon from '@mui/icons-material/LocalShipping'
-import InventoryIcon from '@mui/icons-material/Inventory'
-import { useContext, useState } from 'react'
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import PeopleIcon from "@mui/icons-material/People";
+import CircleIcon from "@mui/icons-material/Circle";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import { useContext, useState } from "react";
 
-import UserContext from '../Context/UserContext'
-import DashboardData from '../Pages/DashboardData'
-import DebtorsPage from '../Pages/DebtorsPage'
-import TransporterPage from '../Pages/TransporterPage'
-import ProductsPage from '../Pages/ProductsPage'
+import UserContext from "../Context/UserContext";
+import DashboardData from "../Pages/DashboardData";
+import DebtorsPage from "../Pages/DebtorsPage";
+import TransporterPage from "../Pages/TransporterPage";
+import ProductsPage from "../Pages/ProductsPage";
+import ChallansPage from "../Pages/ChallansPage";
 
 export const SidebarList = () => {
-  const { setComponent, active, setActive } = useContext(UserContext)
-  const [open, setOpen] = useState(false)
+  const { setComponent, active, setActive } = useContext(UserContext);
+  const [open, setOpen] = useState(false);
 
   const handleClick = () => {
-    setOpen(prev => !prev)
-  }
+    setOpen((prev) => !prev);
+  };
 
   return (
     <Box>
       <Toolbar
         sx={{
-          backgroundColor: 'primary.dark',
-          display: { xs: 'none', sm: 'flex' }
+          backgroundColor: "primary.dark",
+          display: { xs: "none", sm: "flex" },
         }}
       >
-        <Typography variant='h5' sx={{ color: 'white' }}>
+        <Typography variant="h5" sx={{ color: "white" }}>
           The ERP
         </Typography>
       </Toolbar>
       <MenuList
         sx={{
-          backgroundColor: 'background.default',
-          height: { xs: '100vh', sm: '100%' }
+          backgroundColor: "background.default",
+          height: { xs: "100vh", sm: "100%" },
         }}
       >
         <MenuItem
           onClick={() => {
-            setComponent(<DashboardData />)
-            setActive('Dashboard')
+            setComponent(<DashboardData />);
+            setActive("Dashboard");
           }}
         >
           <ListItemIcon>
             <DashboardIcon
               sx={{
-                color: active === 'Dashboard' ? 'primary.light' : 'text.link'
+                color: active === "Dashboard" ? "primary.light" : "text.link",
               }}
             />
           </ListItemIcon>
 
           <ListItemText
             sx={{
-              color: active === 'Dashboard' ? 'primary.light' : 'text.link'
+              color: active === "Dashboard" ? "primary.light" : "text.link",
             }}
           >
             Dashboard
@@ -79,42 +80,79 @@ export const SidebarList = () => {
           <ListItemIcon>
             <PeopleIcon
               sx={{
-                color: active === 'Ledgers' ? 'primary.light' : 'text.link'
+                color:
+                  active === "Clients" || active === "Challans"
+                    ? "primary.light"
+                    : "text.link",
               }}
             />
           </ListItemIcon>
 
           <ListItemText
-            sx={{ color: active === 'Ledgers' ? 'primary.light' : 'text.link' }}
+            sx={{
+              color:
+                active === "Clients" || active === "Challans"
+                  ? "primary.light"
+                  : "text.link",
+            }}
           >
             Ledgers
           </ListItemText>
           {open ? <ExpandLess /> : <ExpandMore />}
         </MenuItem>
 
-        <Collapse in={open} timeout='auto' unmountOnExit>
+        <Collapse in={open} timeout="auto" unmountOnExit>
           <List
-            component='div'
+            component="div"
             disablePadding
-            onClick={() => {
-              setComponent(<DebtorsPage />)
-              setActive('Ledgers')
-            }}
+            // onClick={() => {
+            //   setComponent(<DebtorsPage />);
+            //   // setActive("Ledgers");
+            // }}
           >
-            <ListItemButton sx={{ pl: 5 }}>
+            <ListItemButton
+              sx={{ pl: 5 }}
+              onClick={() => {
+                setActive("Clients");
+                setComponent(<DebtorsPage />);
+              }}
+            >
               <CircleIcon
                 sx={{
                   mr: 1,
-                  fontSize: '0.8rem',
-                  color: active === 'Ledgers' ? 'primary.light' : 'text.link'
+                  fontSize: "0.8rem",
+                  color: active === "Clients" ? "primary.light" : "text.link",
                 }}
               />
               <ListItemText
                 sx={{
-                  color: active === 'Ledgers' ? 'primary.light' : 'text.link'
+                  color: active === "Clients" ? "primary.light" : "text.link",
                 }}
               >
                 Clients
+              </ListItemText>
+            </ListItemButton>
+            {/* Challan Menu */}
+            <ListItemButton
+              sx={{ pl: 5 }}
+              onClick={() => {
+                setActive("Challans");
+                setComponent(<ChallansPage />);
+              }}
+            >
+              <CircleIcon
+                sx={{
+                  mr: 1,
+                  fontSize: "0.8rem",
+                  color: active === "Challans" ? "primary.light" : "text.link",
+                }}
+              />
+              <ListItemText
+                sx={{
+                  color: active === "Challans" ? "primary.light" : "text.link",
+                }}
+              >
+                Challans
               </ListItemText>
             </ListItemButton>
           </List>
@@ -122,20 +160,20 @@ export const SidebarList = () => {
 
         <MenuItem
           onClick={() => {
-            setActive('Transporter')
-            setComponent(<TransporterPage />)
+            setActive("Transporter");
+            setComponent(<TransporterPage />);
           }}
         >
           <ListItemIcon>
             <LocalShippingIcon
               sx={{
-                color: active === 'Transporter' ? 'primary.light' : 'text.link'
+                color: active === "Transporter" ? "primary.light" : "text.link",
               }}
             />
           </ListItemIcon>
           <ListItemText
             sx={{
-              color: active === 'Transporter' ? 'primary.light' : 'text.link'
+              color: active === "Transporter" ? "primary.light" : "text.link",
             }}
           >
             Transporter
@@ -143,20 +181,20 @@ export const SidebarList = () => {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setActive('Products')
-            setComponent(<ProductsPage />)
+            setActive("Products");
+            setComponent(<ProductsPage />);
           }}
         >
           <ListItemIcon>
             <InventoryIcon
               sx={{
-                color: active === 'Products' ? 'primary.light' : 'text.link'
+                color: active === "Products" ? "primary.light" : "text.link",
               }}
             />
           </ListItemIcon>
           <ListItemText
             sx={{
-              color: active === 'Products' ? 'primary.light' : 'text.link'
+              color: active === "Products" ? "primary.light" : "text.link",
             }}
           >
             Products
@@ -164,5 +202,5 @@ export const SidebarList = () => {
         </MenuItem>
       </MenuList>
     </Box>
-  )
-}
+  );
+};
