@@ -137,10 +137,12 @@ export async function getChallanDetails(req, res, next) {
 
 export async function getAllChallans(req, res, next) {
   const { firmId } = req.params;
-  const data = await Challan.find({ firmId }).populate({
-    path: "clientId",
-    select: "companyName address -_id",
-  });
+  const data = await Challan.find({ firmId })
+    .populate({
+      path: "clientId",
+      select: "companyName address -_id",
+    })
+    .sort([["createdAt", -1]]);
   if (!data) {
     return res.status(404).json({
       success: true,

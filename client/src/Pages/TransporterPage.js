@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from "react";
 import {
   Grid,
   IconButton,
@@ -6,72 +6,72 @@ import {
   InputBase,
   Paper,
   useMediaQuery,
-  useTheme
-} from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
-import AddCircleIcon from '@mui/icons-material/AddCircle'
+  useTheme,
+} from "@mui/material";
+import SearchIcon from "@mui/icons-material/Search";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-import Modal from '../Components/AddTransporterModal'
-import TransporterData from '../Components/TransporterData'
+import Modal from "../Components/AddTransporterModal";
+import TransporterData from "../Components/TransporterData";
 
-export default function TransporterPage () {
-  const [open, setOpen] = useState(false)
-  const [changed, setChanged] = useState(false)
-  const theme = useTheme()
-  const fullScreen = useMediaQuery(theme.breakpoints.down('md'))
+export default function TransporterPage() {
+  const [open, setOpen] = useState(false);
+  const [changed, setChanged] = useState(false);
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-  function CustomizedInputBase () {
-    function handleSearch (e) {
-      const transporters = document.getElementsByClassName('transporters')
+  function CustomizedInputBase() {
+    function handleSearch(e) {
+      const transporters = document.getElementsByClassName("transporters");
       for (let transporter of transporters) {
         if (
           transporter.id.toUpperCase().indexOf(e.target.value.toUpperCase()) !==
           -1
         ) {
-          transporter.style.display = ''
+          transporter.style.display = "";
         } else {
-          transporter.style.display = 'none'
+          transporter.style.display = "none";
         }
       }
     }
 
     return (
       <Paper
-        component='form'
+        component="form"
         sx={{
-          p: '2px 4px',
-          display: 'flex',
-          alignItems: 'center',
-          maxHeight: '48px',
-          alignSelf: 'center',
-          flex: 2
+          p: "2px 4px",
+          display: "flex",
+          alignItems: "center",
+          maxHeight: "48px",
+          alignSelf: "center",
+          flex: 2,
         }}
       >
-        <IconButton sx={{ p: '10px' }} aria-label='menu'>
+        <IconButton sx={{ p: "10px" }} aria-label="menu">
           <SearchIcon />
         </IconButton>
         <InputBase
           sx={{ ml: 1, flex: 1 }}
-          placeholder='Search Transporters'
-          inputProps={{ 'aria-label': 'search transporters' }}
+          placeholder="Search Transporters"
+          inputProps={{ "aria-label": "search transporters" }}
           onChange={handleSearch}
           endAdornment={
-            <InputAdornment position='end'>
+            <InputAdornment position="end">
               <IconButton
-                aria-label='Add Transporter'
-                edge='end'
+                aria-label="Add Transporter"
+                edge="end"
                 sx={{
                   p: 2,
                   borderRadius: 0,
-                  borderLeft: '1px solid #30619F',
-                  height: '100%',
-                  '&:hover': { background: 'none' }
+                  borderLeft: "1px solid #30619F",
+                  height: "100%",
+                  "&:hover": { background: "none" },
                 }}
               >
                 <AddCircleIcon
-                  fontSize='large'
+                  fontSize="large"
                   sx={{ ml: -1 }}
-                  color='primary'
+                  color="primary"
                   onClick={() => setOpen(true)}
                 />
               </IconButton>
@@ -79,20 +79,20 @@ export default function TransporterPage () {
           }
         />
       </Paper>
-    )
+    );
   }
   return (
-    <Grid container sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}>
+    <Grid container sx={{ pt: 1, display: "flex", justifyContent: "center" }}>
       <Grid
         item
         xs={11}
         sx={{
           pb: 1,
-          display: 'flex',
-          alignItems: 'center',
-          position: 'sticky',
+          display: "flex",
+          alignItems: "center",
+          position: "sticky",
           top: { xs: 62, sm: 72 },
-          zIndex: 99
+          zIndex: 99,
         }}
       >
         <CustomizedInputBase />
@@ -102,5 +102,5 @@ export default function TransporterPage () {
         <Modal data={{ open, setOpen, fullScreen, setChanged }} />
       </Grid>
     </Grid>
-  )
+  );
 }

@@ -16,7 +16,7 @@ const ChallansPage = () => {
           alignItems: "center",
           p: { xs: 0, sm: 2 },
           // gap: 2,
-          overflow: "auto",
+          overflow: "hidden",
         }}
       >
         <ChallanDataGrid />
