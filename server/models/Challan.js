@@ -53,7 +53,11 @@ ChallanSchema.pre("save", async function (next) {
   this.challanDate = this.challanDate
     ? Date.parse(this.challanDate)
     : new Date();
-  const last = await Challan.findOne({}, {}, { sort: { createdAt: -1 } });
+  const last = await Challan.findOne(
+    { firmId: this.firmId },
+    {},
+    { sort: { createdAt: -1 } }
+  );
 
   if (!last) {
     this.challanNumber = 1;

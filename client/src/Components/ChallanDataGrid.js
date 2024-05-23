@@ -13,6 +13,7 @@ import ChallanModal from "./AddChallanModal";
 
 export default function ChallanDataGrid() {
   const [challanData, setChallanData] = useState(null);
+  // const [pdf, setPdf] = useState(null);
   const [paginationModel, setPaginationModel] = useState({
     pageSize: 10,
     page: 0,
@@ -38,7 +39,7 @@ export default function ChallanDataGrid() {
         };
         const url = `${serverUrl}/api/ledgers/getChallanDetails/${challanId}`;
         const data = await axios.get(url.toString(), config);
-        // setPdf(s.createObjectURL(data.data));
+        // setPdf(URL.createObjectURL(data.data));
         window.open(URL.createObjectURL(data.data), "_blank"); // open url here
       } catch (error) {
         console.log(error);
@@ -94,7 +95,7 @@ export default function ChallanDataGrid() {
           icon={
             <AddCircleIcon
               sx={{
-                color: "#30619F",
+                color: "primary.dark",
                 cursor: "pointer",
               }}
             />
@@ -161,6 +162,7 @@ export default function ChallanDataGrid() {
         justifyContent: "center",
         alignItems: "center",
         p: { xs: 0, sm: 2 },
+        overflow: "auto",
       }}
     >
       <Box

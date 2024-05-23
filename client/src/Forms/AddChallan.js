@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Collapse,
   Grid,
   IconButton,
@@ -23,20 +24,20 @@ import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
 
 export default function AddChallan(props) {
-  const { open, setOpen, handleClose, setChanged } = props.data;
+  const { open, handleClose, setChanged } = props.data;
   const { firm, serverUrl } = useContext(UserContext);
-  const [challanNo, setChallanNo] = useState(null);
-  const [date, setDate] = useState(new Date());
+  // const [challanNo, setChallanNo] = useState(null);
+  const [date, setDate] = useState(dayjs(new Date()));
   const [productsData, setProductsData] = useState(null);
   const [companyName, setCompanyName] = useState(null);
   const [show, setShow] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState();
   const [names, setNames] = useState(null);
   const [inputFields, setInputfields] = useState([
     {
       productId: "",
-      price: null,
-      qty: null,
+      price: "0",
+      qty: "1",
     },
   ]);
 
@@ -44,32 +45,56 @@ export default function AddChallan(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("no error");
-    setShow(false);
+
+    // Validation
+
+    if (new Date(date).getFullYear() > new Date().getFullYear()) {
+      if (new Date(date).getMonth() + 1 > 3) {
+        setError("Please select date for current fincancial year.");
+        setShow(true);
+        return;
+      }
+    }
+
+    if (new Date(date).toLocaleDateString() === "Invalid Date") {
+      setError("Please enter valid Date.");
+      setShow(true);
+      return;
+    }
+
+    if (companyName === null || companyName === undefined) {
+      setError("Please enter comapany Name.");
+      setShow(true);
+      return;
+    }
+
     setChanged(false);
 
     let data = [];
 
     for (let i = 0; i < inputFields.length; i++) {
+      if (inputFields[i].productId === "") {
+        setError("Please enter product name");
+        setShow(true);
+        return;
+      }
+
+      if (inputFields[i].qty === "" || Number(inputFields[i].qty) <= 0) {
+        setError("Please enter quantity");
+        setShow(true);
+        return;
+      }
+
+      if (inputFields[i].price.trim() === "") {
+        inputFields[i].price = 0;
+      }
+
       data.push({
         productId: inputFields[i].productId,
         quantity: inputFields[i].qty,
         rate: inputFields[i].price,
       });
     }
-
-    // let products = [
-    //   {
-    //     productId: "64231ec927a6442ed18bcac7",
-    //     quantity: "7",
-    //     rate: "25",
-    //   },
-    //   {
-    //     productId: "64231edb27a6442ed18bcad2",
-    //     quantity: "7",
-    //     rate: "30",
-    //   },
-    // ];
 
     // Add Challan Data
     const token = localStorage.getItem("authToken");
@@ -85,7 +110,7 @@ export default function AddChallan(props) {
         `${serverUrl}/api/ledgers/createchallan`,
         {
           firmId,
-          challanNo: Number(challanNo),
+          // challanNo: Number(challanNo),
           clientId: companyName,
           products: data,
           challanDate: new Date(date).toLocaleDateString(),
@@ -105,17 +130,17 @@ export default function AddChallan(props) {
     const values = [...inputFields];
     values.splice(index + 1, 0, {
       productId: "",
-      price: null,
-      qty: null,
+      price: "0",
+      qty: "1",
     });
     setInputfields(values);
   };
 
   const removeField = (index) => {
     const values = [...inputFields];
+    console.log(values);
     values.splice(index, 1);
     setInputfields(values);
-    // console.log(values);
   };
 
   const handleChangeInput = (e, index) => {
@@ -208,11 +233,10 @@ export default function AddChallan(props) {
               position: { xs: "sticky", sm: "inherit" },
               top: { xs: 5 },
               zIndex: 99,
-              background: "red",
             }}
           >
             <Collapse in={show}>
-              <Alert onClose={() => setOpen(false)} severity="error">
+              <Alert onClose={() => setShow(false)} severity="error">
                 {error}
               </Alert>
             </Collapse>
@@ -247,29 +271,36 @@ export default function AddChallan(props) {
                   justifyContent: "center",
                 }}
               >
-                <TextField
+                {/* <TextField
                   sx={sxValue.value}
                   required
                   id="challanNo"
                   name="challanNo"
                   label="Challan Number"
                   fullWidth
+                  disabled
+                  value={1}
                   variant="outlined"
                   onChange={(e) => {
                     handleNumbers(e);
                     setChallanNo(e.target.value);
                   }}
-                />
+                /> */}
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <DemoItem>
+                  <Typography>Challan Date: </Typography>
+                  <DemoItem sx={{ width: "100%" }}>
                     {/* <DemoItem
                     label={<Label componentName="Date" valueType="date" />}
                   > */}
                     <DatePicker
-                      // defaultValue={}
+                      // defaultValue={dayjs(new Date())}
                       name="Date"
-                      value={dayjs(new Date())}
-                      onChange={(value) => setDate(Date.parse(value.$d))}
+                      value={date}
+                      onChange={(value) => {
+                        setShow(false);
+                        setError("");
+                        setDate(value);
+                      }}
                     />
                   </DemoItem>
                 </LocalizationProvider>
@@ -284,15 +315,26 @@ export default function AddChallan(props) {
                   fullWidth
                   required
                   variant="outlined"
-                  onClick={() => loadClients()}
-                  onChange={(e) => setCompanyName(e.target.value)}
+                  onMouseDown={() => {
+                    setShow(false);
+                    setError(null);
+                    loadClients();
+                  }}
+                  onChange={(e) => {
+                    setShow(false);
+                    setError(null);
+                    setCompanyName(e.target.value);
+                  }}
                 >
-                  {names &&
+                  {names ? (
                     JSON.parse(names).map((name) => {
                       return (
                         <MenuItem value={name._id}>{name.companyName}</MenuItem>
                       );
-                    })}
+                    })
+                  ) : (
+                    <CircularProgress />
+                  )}
                 </TextField>
               </Grid>
               <Grid item xs={12}>
@@ -319,19 +361,29 @@ export default function AddChallan(props) {
                         required
                         variant="outlined"
                         flex={3}
-                        onClick={() => loadProducts()}
+                        value={fields.productId}
+                        onMouseDown={() => {
+                          setShow(false);
+                          setError(null);
+                          loadProducts();
+                        }}
                         onChange={(e) => {
+                          setShow(false);
+                          setError(null);
                           handleChangeInput(e, index);
                         }}
                       >
-                        {productsData &&
+                        {productsData ? (
                           JSON.parse(productsData).map((product) => {
                             return (
                               <MenuItem value={product._id}>
                                 {product.productName}
                               </MenuItem>
                             );
-                          })}
+                          })
+                        ) : (
+                          <CircularProgress />
+                        )}
                       </TextField>
                       <TextField
                         sx={sxValue.value}
@@ -342,6 +394,9 @@ export default function AddChallan(props) {
                         value={fields.price}
                         flex={3}
                         onChange={(e) => {
+                          handleNumbers(e);
+                          setShow(false);
+                          setError(null);
                           handleChangeInput(e, index);
                         }}
                       />
@@ -355,25 +410,35 @@ export default function AddChallan(props) {
                         value={fields.qty}
                         flex={1}
                         onChange={(e) => {
+                          handleNumbers(e);
+                          setShow(false);
+                          setError(null);
                           handleChangeInput(e, index);
                         }}
                       />
                       <IconButton
                         size="large"
-                        sx={{ background: "#6130a1", padding: 1 }}
+                        sx={{ padding: 0 }}
                         onClick={(e) => addFields(e, index)}
                       >
-                        <AddIcon sx={{ color: "#051324", fontSize: 32 }} />
+                        <AddIcon
+                          sx={{
+                            color: "text.primary",
+                            fontSize: 32,
+                          }}
+                        />
                       </IconButton>
                       {inputFields.length > 1 && (
                         <IconButton
                           size="large"
-                          sx={{ background: "#6130a1", padding: 1 }}
-                          onClick={(index) => {
+                          sx={{ padding: 0 }}
+                          onClick={() => {
                             removeField(index);
                           }}
                         >
-                          <RemoveIcon sx={{ color: "#051324", fontSize: 32 }} />
+                          <RemoveIcon
+                            sx={{ color: "text.primary", fontSize: 32 }}
+                          />
                         </IconButton>
                       )}
                     </Box>

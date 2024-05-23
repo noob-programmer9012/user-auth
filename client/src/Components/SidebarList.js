@@ -15,7 +15,8 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PeopleIcon from "@mui/icons-material/People";
-import CircleIcon from "@mui/icons-material/Circle";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import ReceiptIcon from "@mui/icons-material/Receipt";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import InventoryIcon from "@mui/icons-material/Inventory";
 import { useContext, useState } from "react";
@@ -78,7 +79,7 @@ export const SidebarList = () => {
 
         <MenuItem onClick={handleClick}>
           <ListItemIcon>
-            <PeopleIcon
+            <ManageAccountsIcon
               sx={{
                 color:
                   active === "Clients" || active === "Challans"
@@ -117,10 +118,10 @@ export const SidebarList = () => {
                 setComponent(<DebtorsPage />);
               }}
             >
-              <CircleIcon
+              <PeopleIcon
                 sx={{
                   mr: 1,
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   color: active === "Clients" ? "primary.light" : "text.link",
                 }}
               />
@@ -140,10 +141,10 @@ export const SidebarList = () => {
                 setComponent(<ChallansPage />);
               }}
             >
-              <CircleIcon
+              <ReceiptIcon
                 sx={{
                   mr: 1,
-                  fontSize: "0.8rem",
+                  fontSize: "1rem",
                   color: active === "Challans" ? "primary.light" : "text.link",
                 }}
               />
