@@ -24,9 +24,14 @@ export const createPDF = ({ ...data }, req, res, next) => {
     .lineTo(60, 830) // draw a line
     .stroke();
   doc // bottom rect second vertical line
-    .moveTo(420, 180) // set the current point
-    .lineTo(420, 830) // draw a line
+    .moveTo(380, 180) // set the current point
+    .lineTo(380, 830) // draw a line
     .stroke();
+  doc // bottom rect third vertical line
+    .moveTo(450, 180) // set the current point
+    .lineTo(450, 830) // draw a line
+    .stroke();
+
   doc // bottom rect Horizontal line
     .moveTo(10, 220) // set the current point
     .lineTo(590, 220) // draw a line
@@ -39,8 +44,9 @@ export const createPDF = ({ ...data }, req, res, next) => {
       { align: "center" }
     );
   doc.text("Sr.\nNo", 20, 185);
-  doc.text("Product List", 200, 192);
-  doc.text("Quantity", 440, 190);
+  doc.text("Product List", 100, 192);
+  doc.text("Qty", 390, 190);
+  doc.text("Price", 460, 190);
 
   let a = 185,
     b = 192,
@@ -51,8 +57,9 @@ export const createPDF = ({ ...data }, req, res, next) => {
 
   for (let i = 0; i < length; i++) {
     doc.text(`${i + 1}`, 20, a + x);
-    doc.text(`${data._doc.products[i].productId.productName}`, 200, b + x);
-    doc.text(`${data._doc.products[i].quantity}`, 440, c + x);
+    doc.text(`${data._doc.products[i].productId.productName}`, 100, b + x);
+    doc.text(`${data._doc.products[i].quantity}`, 390, c + x);
+    doc.text(`${data._doc.products[i].rate}`, 460, c + x);
     x += 50;
   }
 
