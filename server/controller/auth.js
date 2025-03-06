@@ -3,10 +3,10 @@ import { User } from '../models/User.js'
 import { ErrorResponse } from '../utils/errorResponse.js'
 import sendEmail from '../utils/sendEmail.js'
 
-async function registerUser (req, res, next) {
+async function registerUser(req, res, next) {
   try {
     const { username, email, password } = req.body
-    const user = await new User({ username, email, password })
+    const user = new User({ username, email, password })
     await user.save()
     sendToken(user, 201, res)
   } catch (error) {
@@ -14,7 +14,7 @@ async function registerUser (req, res, next) {
   }
 }
 
-async function loginUser (req, res, next) {
+async function loginUser(req, res, next) {
   const { email, password } = req.body
 
   try {
@@ -40,7 +40,7 @@ async function loginUser (req, res, next) {
   }
 }
 
-async function forgotPassword (req, res, next) {
+async function forgotPassword(req, res, next) {
   const { email } = req.body
 
   try {
@@ -83,7 +83,7 @@ async function forgotPassword (req, res, next) {
   }
 }
 
-async function resetPassword (req, res, next) {
+async function resetPassword(req, res, next) {
   const resetPasswordToken = crypto
     .createHash('sha256')
     .update(req.params.resetToken)
@@ -110,7 +110,7 @@ async function resetPassword (req, res, next) {
   }
 }
 
-async function sendToken (user, statusCode, res) {
+async function sendToken(user, statusCode, res) {
   const token = await user.sendSignedToken()
   res.status(statusCode).json({
     status: true,
