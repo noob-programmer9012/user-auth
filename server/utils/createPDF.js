@@ -25,16 +25,16 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
     .lineTo(60, 790) // draw a line
     .stroke();
   doc // bottom rect second vertical line
-    .moveTo(300, 180) // set the current point
-    .lineTo(300, 790) // draw a line
-    .stroke();
-  doc // bottom rect third vertical line
     .moveTo(350, 180) // set the current point
     .lineTo(350, 790) // draw a line
     .stroke();
-  doc // bottom rect fourth vertical line
+  doc // bottom rect third vertical line
     .moveTo(400, 180) // set the current point
-    .lineTo(400, 830) // draw a line
+    .lineTo(400, 790) // draw a line
+    .stroke();
+  doc // bottom rect fourth vertical line
+    .moveTo(480, 180) // set the current point
+    .lineTo(480, 830) // draw a line
     .stroke();
 
 
@@ -55,9 +55,9 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
   doc.fontSize(16).text(`Challan No.: ${data._doc.challanNumber}`, 450, 150, { width: 200 });
   doc.text("Sr.\nNo", 20, 185);
   doc.text("Product List", 70, 192);
-  doc.text("Qty", 310, 190);
-  doc.text("Price", 360, 190);
-  doc.text("Total", 410, 190);
+  doc.text("Qty", 360, 190);
+  doc.text("Price", 410, 190);
+  doc.text("Total", 490, 190, { width: 100 });
 
   let a = 185, x = 50;
 
@@ -67,11 +67,11 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
   for (let i = 0; i < length; i++) {
     doc.text(`${i + 1}`, 20, a + x);
     doc.text(`${data._doc.products[i].productId.productName}`, 70, a + x);
-    doc.text(`${data._doc.products[i].quantity}`, 310, a + x);
-    doc.text(`${data._doc.products[i].rate}`, 360, a + x);
+    doc.text(`${data._doc.products[i].quantity}`, 360, a + x);
+    doc.text(`${data._doc.products[i].rate}`, 410, a + x);
     const total = data._doc.products[i].rate * data._doc.products[i].quantity;
     totalPrice.push(total);
-    doc.text(`${total}`, 410, a + x)
+    doc.text(`${total}`, 490, a + x, { width: 100 })
     x += 30;
   }
 
@@ -82,11 +82,11 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
     .stroke();
   doc
     .fontSize(16)
-    .text(`Total Amount`, 120, 805, { height: 10 });
+    .text(`Total Amount`, 370, 805, { height: 10, width: 150 });
   let total_amount = totalPrice.reduce((sum, num) => sum + num, 0);
   doc
     .fontSize(16)
-    .text(`${total_amount}/- Rupees`, 410, 805, { height: 10, width: 150 });
+    .text(`${total_amount}/-`, 490, 805, { height: 10, width: 150 });
 
   return doc.end();
 };

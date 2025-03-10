@@ -49,7 +49,7 @@ const ChallanSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-ChallanSchema.pre("save", async function (next) {
+ChallanSchema.pre("save", async function(next) {
   this.challanDate = this.challanDate
     ? Date.parse(this.challanDate)
     : new Date();
@@ -65,7 +65,7 @@ ChallanSchema.pre("save", async function (next) {
   }
 
   if (this.challanDate.getDate() >= 1 && this.challanDate.getMonth() + 1 >= 4) {
-    if (last.challanNumber !== 1 && last.challanDate.getMonth() + 1 < 4) {
+    if (last.challanNumber < 2 && last.challanDate.getMonth() + 1 < 4) {
       this.challanNumber = 1;
     } else if (
       last.challanDate.getFullYear() < this.challanDate.getFullYear() &&

@@ -120,8 +120,7 @@ export default function AddChallan(props) {
       setChanged(true);
       handleClose();
     } catch (error) {
-      console.log(error);
-      setError(error);
+      setError(error.response.data.message ? error.response.data.message : error);
       setShow(true);
     }
   };

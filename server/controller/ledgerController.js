@@ -93,6 +93,12 @@ export async function createChallan(req, res, next) {
   if (challanDate === "") {
     challanDate = new Date();
   }
+
+  // get the last challan date and throw error if date conflict
+  const last = await Challan.find({ firmId });
+  const lastDate = last[last.length - 1].challanDate;
+  if (new Date(challanDate) < lastDate) return next(new ErrorResponse("Date conflict", 400));
+
   const challan = new Challan({
     firmId,
     clientId,
@@ -122,7 +128,7 @@ export async function getChallanDetails(req, res, next) {
         select: "productName openingRate saleRate unit -_id",
       });
     if (!challan) {
-      return next(new ErrorResponse(404, "Not Found"));
+      return next(new ErrorResponse("Not Found", 404));
     }
     // res.status(200).json({
     //   success: true,
