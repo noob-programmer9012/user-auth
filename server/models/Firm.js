@@ -17,7 +17,10 @@ const FirmSchema = new mongoose.Schema({
   address: {
     line1: String,
     line2: String,
-    line3: String
+    line3: {
+      type: String,
+      required: [true, "Please enter city name."],
+    }
   },
   mobile: {
     type: String,
@@ -28,7 +31,7 @@ const FirmSchema = new mongoose.Schema({
   },
   gst_no: {
     type: String,
-    required: [true, 'Please add Gst Number'],
+    // required: [true, 'Please add Gst Number'],
     unique: true,
     match: [
       /^[0-9]{2}[A-Za-z]{5}[0-9]{4}[A-Za-z]{1}[1-9A-Za-z]{1}Z[0-9A-Za-z]{1}$/,
@@ -42,9 +45,9 @@ const FirmSchema = new mongoose.Schema({
   pan_no: String
 })
 
-FirmSchema.pre('save', async function (next) {
+FirmSchema.pre('save', async function(next) {
   this.companyName = titleCase(this.companyName)
-  this.pan_no = this.gst_no.slice(2, 12)
+  this.pan_no = this.gst_no ? this.gst_no.slice(2, 12) : "";
   const stateCode = parseInt(this.gst_no.slice(0, 2))
   const gstCodes = Object.keys(gstStates)
 
