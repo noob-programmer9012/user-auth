@@ -2,22 +2,7 @@ import PDFDocument from "pdfkit";
 // import fs from "fs";
 // import path from "path";
 
-export const createPDF = ({ ...data }, _req, res, _next) => {
-  // console.log(data);
-  const fileName = `${data._doc.challanNumber}`;
-  // const filePath = path.join(
-  //   import.meta.dirname,
-  //   "..",
-  //   "data",
-  //   "challans",
-  //   fileName
-  // );
-
-  const doc = new PDFDocument({ size: "A4" });
-  res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `inline; filename=${fileName}`);
-  // doc.pipe(fs.createWriteStream(filePath));
-  doc.pipe(res);
+const template = ({ ...data }, doc) => {
   doc.rect(10, 25, 580, 150).stroke("black"); // top rect
   doc.rect(10, 180, 580, 650).stroke("black"); // bottom rect
   doc // bottom rect first vertical line
@@ -36,7 +21,6 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
     .moveTo(480, 180) // set the current point
     .lineTo(480, 830) // draw a line
     .stroke();
-
 
   doc // bottom rect Horizontal line
     .moveTo(10, 220) // set the current point
@@ -59,6 +43,35 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
   doc.text("Price", 410, 190);
   doc.text("Total", 490, 190, { width: 100 });
 
+  doc // bottom rect Second Horizontal line
+    .moveTo(10, 790) // set the current point
+    .lineTo(590, 790) // draw a line
+    .stroke();
+}
+
+const addDoc = (data, doc) => {
+  doc.addPage();
+  template(data, doc);
+}
+
+export const createPDF = ({ ...data }, _req, res, _next) => {
+  const fileName = `${data._doc.challanNumber}.pdf`;
+  // const filePath = path.join(
+  //   import.meta.dirname,
+  //   "..",
+  //   "data",
+  //   "challans",
+  //   fileName
+  // );
+
+  const doc = new PDFDocument({ size: "A4" });
+  res.setHeader("Content-Type", "application/pdf");
+  res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+  // doc.pipe(fs.createWriteStream(filePath));
+  doc.pipe(res);
+  // await new Promise((resolve) => resolve(template(data, doc)))
+
+  template(data, doc);
   let a = 185, x = 50;
 
   const length = data._doc.products.length;
@@ -73,13 +86,14 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
     totalPrice.push(total);
     doc.text(`${total}`, 490, a + x, { width: 100 })
     x += 30;
+
+    // check if x > page_length, if so add new pdf document and reset x (pending)
+    if (a + x > 750) {
+      x = 50;
+      addDoc(data, doc);
+    };
   }
 
-
-  doc // bottom rect Second Horizontal line
-    .moveTo(10, 790) // set the current point
-    .lineTo(590, 790) // draw a line
-    .stroke();
   doc
     .fontSize(16)
     .text(`Total Amount`, 370, 805, { height: 10, width: 150 });

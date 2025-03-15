@@ -3,6 +3,7 @@ import { Challan } from "../models/Challan.js";
 import { Firm } from "../models/Firm.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
 import { createPDF } from "../utils/createPDF.js";
+import Debit from "../models/Debit.js";
 
 export async function createLedger(req, res, next) {
   const {
@@ -94,10 +95,13 @@ export async function createChallan(req, res, next) {
     challanDate = new Date();
   }
 
+
   // get the last challan date and throw error if date conflict
   const last = await Challan.find({ firmId });
-  const lastDate = last[last.length - 1].challanDate;
-  if (new Date(challanDate) < lastDate) return next(new ErrorResponse("Date conflict", 400));
+  if (last.length > 0) {
+    const lastDate = last[last.length - 1].challanDate;
+    if (new Date(challanDate) < lastDate) return next(new ErrorResponse("Date conflict", 400));
+  }
 
   const challan = new Challan({
     firmId,
@@ -108,6 +112,11 @@ export async function createChallan(req, res, next) {
   });
   try {
     const data = await challan.save();
+    // after successfully creating challan make debit entry
+    const prices = products.map(p => Number(p.rate) * Number(p.quantity));
+    const totalPrice = prices.reduce((sum, num) => sum + num, 0);
+    const debitEntry = new Debit({ firmId, clientId, challanNumber: challan.challanNumber, challanDate, amount: totalPrice });
+    await debitEntry.save();
     return res.status(200).json({
       success: true,
       data: data,
@@ -141,7 +150,7 @@ export async function getChallanDetails(req, res, next) {
   }
 }
 
-export async function getAllChallans(req, res, next) {
+export async function getAllChallans(req, res, _next) {
   const { firmId } = req.params;
   const data = await Challan.find({ firmId })
     .populate({
