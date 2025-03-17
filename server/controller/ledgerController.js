@@ -70,6 +70,25 @@ export async function getDebtors(req, res, next) {
   }
 }
 
+export async function getDebitEntry(req, res, next) {
+  const { firmId, clientId } = { ...req.params }
+
+  try {
+    const firm = await Firm.findById(firmId);
+    const client = await Ledger.findOne({ _id: clientId, ledgerGroup: "Sundry Debtors" });
+
+    if (!firm || !client) return next(new ErrorResponse("Please enter valid client ID and firm ID", 400));
+
+    const debitEntry = await Debit.find({ firmId, clientId }).sort({ challanNumber: -1, challanDate: -1 });
+    return res.status(200).json({
+      success: true,
+      entries: debitEntry
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
 export async function getCreditors(req, res, next) {
   try {
     const creditors = await Ledger.find({

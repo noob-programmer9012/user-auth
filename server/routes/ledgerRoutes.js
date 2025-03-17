@@ -7,6 +7,7 @@ import {
   createChallan,
   getChallanDetails,
   getAllChallans,
+  getDebitEntry
 } from "../controller/ledgerController.js";
 import { protect } from "../middleware/auth.js";
 
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.route("/createledger").post(protect, createLedger);
 router.route("/getdebtors/:id").get(protect, getDebtors);
+router.route("/getdebitentry/:firmId/:clientId").get(protect, getDebitEntry);
 router.route("/getcreditors/:id").get(protect, getCreditors);
 router.route("/createchallan").post(protect, createChallan);
 router.route("/getChallanDetails/:challanId").get(protect, getChallanDetails);
