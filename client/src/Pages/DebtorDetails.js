@@ -3,7 +3,7 @@ import FactoryIcon from '@mui/icons-material/Factory'
 import LabTabs from '../Components/Tabs'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 
-export default function DebtorDetails (props) {
+export default function DebtorDetails(props) {
   const { debtor, setShowlist, setChecked } = props.data
   return (
     <Box>
@@ -59,7 +59,7 @@ export default function DebtorDetails (props) {
           {debtor.address.line3}
         </Typography>
       </Box>
-      {debtor && <LabTabs data={{ debtor }} />}
+      <Box sx={{ width: { xs: "100vw", md: "100%" }, overflow: 'auto' }}>{debtor && <LabTabs data={{ debtor }} />}</Box>
     </Box>
   )
 }
