@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Box from "@mui/material/Box";
-import { Paper, Card, Typography } from "@mui/material";
-
+import { Modal, Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import UserContext from "../Context/UserContext";
 import DataGridX from "./DataGrid";
+
+import AddCreditModal from "../Components/AddCreditModal";
 
 const StatementTab = ({ debtor }) => {
   const navigate = useNavigate();
@@ -15,6 +17,13 @@ const StatementTab = ({ debtor }) => {
   const token = localStorage.getItem("authToken");
 
   const [entries, setEntries] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [changed, setChanged] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   // useEffect(() => {
   //   // console.log(entries);
@@ -68,8 +77,13 @@ const StatementTab = ({ debtor }) => {
 
   return (
     <Paper sx={{ mt: 2, p: 1 }} >
+      <Modal open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"><AddCreditModal data={{ open, setOpen, fullScreen, setChanged, debtor }} /></Modal>
+
       <Box className="outer" sx={{ display: "flex", flexDirection: "column", gap: "1rem", overflow: "auto", width: '100%', height: '100%' }}>
-        <Box sx={{ p: 1, backgroundColor: "#330080" }}><Typography variant="h6">Menu</Typography></Box>
+        <Box sx={{ p: 1 }}><AddCircleIcon onClick={handleOpen} /></Box>
         <Box sx={{ width: '100%', height: '100%', overflow: "auto" }}><DataGridX columns={columns} rows={rows} /></Box>
       </Box>
     </Paper>

@@ -4,6 +4,8 @@ import { Firm } from "../models/Firm.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
 import { createPDF } from "../utils/createPDF.js";
 import Debit from "../models/Debit.js";
+import Credit from "../models/Credit.js";
+import mongoose from "mongoose";
 
 export async function createLedger(req, res, next) {
   const {
@@ -187,4 +189,59 @@ export async function getAllChallans(req, res, _next) {
     success: true,
     data: data,
   });
+}
+
+export async function addCreditEntry(req, res, next) {
+  const { firmId, clientId } = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(firmId) || !mongoose.Types.ObjectId.isValid(clientId)) {
+    return next(new ErrorResponse("Please enter valid firm ID and Client ID.", 400));
+  }
+
+  const isValid = await Ledger.findById(clientId) && await Firm.findById(firmId);
+  if (!isValid) {
+    return next(new ErrorResponse("Given client ID does not exist", 400));
+  }
+
+  try {
+    const entry = new Credit({ ...req.body });
+    await entry.save();
+    return res.status(200).json({
+      success: true,
+      msg: "Entry saved successfully!",
+      entry
+    })
+
+  } catch (error) {
+    return next(new ErrorResponse(error), 500);
+  }
+
+}
+
+export async function getStatement(req, res, next) {
+  const { firmId, clientId } = req.params;
+  const { from, to } = req.query;
+  console.log(new Date(from), new Date(to));
+
+  if (!from || !to) return next(new ErrorResponse("Please enter date range"))
+
+  const isValid = await Ledger.findById(clientId) && await Firm.findById(firmId);
+  if (!isValid) {
+    return next(new ErrorResponse("Given client ID does not exist", 400));
+  }
+
+  try {
+    const debits = await Debit.find({ firmId, clientId, challanDate: { $gte: from, $lte: to } });
+    const credits = await Credit.find({ firmId, clientId, date: { $gte: from, $lte: to } });
+    const statement = [...debits, ...credits];
+    statement.sort();
+
+    return res.status(200).json({
+      success: true,
+      statement
+    })
+
+  } catch (error) {
+    return next(new ErrorResponse(error, 500));
+  }
 }
