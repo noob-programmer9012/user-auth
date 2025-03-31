@@ -221,7 +221,6 @@ export async function addCreditEntry(req, res, next) {
 export async function getStatement(req, res, next) {
   const { firmId, clientId } = req.params;
   const { from, to } = req.query;
-  console.log(new Date(from), new Date(to));
 
   if (!from || !to) return next(new ErrorResponse("Please enter date range"))
 

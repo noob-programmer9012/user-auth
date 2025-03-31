@@ -25,6 +25,7 @@ export default function AddCreditEntry(props) {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { firm, serverUrl } = React.useContext(UserContext)
+  const token = localStorage.getItem("authToken");
 
 
   const navigate = useNavigate()
@@ -48,6 +49,38 @@ export default function AddCreditEntry(props) {
   }
 
   async function handleSubmit() {
+    if (!amount) {
+      setError("Amount field is required.");
+      setShow(true);
+    }
+    const debtorId = debtor._id;
+    const firmId = JSON.parse(firm)._id;
+
+    try {
+      setChanged(false);
+      const url = `${serverUrl}/api/ledgers/addcreditentry`;
+      const body = {
+        firmId,
+        clientId: debtorId,
+        date,
+        amount,
+        againstChallanNumber: cno
+      };
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        }
+      }
+      const data = await axios.post(url, body, config);
+      if (data.data.success) {
+        setChanged(true);
+        handleClose();
+      }
+    } catch (error) {
+      setError(error.message);
+      setShow(true);
+    }
     return;
   }
 
