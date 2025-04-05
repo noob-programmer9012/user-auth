@@ -5,9 +5,9 @@ import Box from "@mui/material/Box";
 import { Paper, useMediaQuery, useTheme } from "@mui/material";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import UserContext from "../Context/UserContext";
-import DataGridX from "./DataGrid";
 
 import AddCreditModal from "../Components/AddCreditModal";
+import DatePickerX from "./DatePicker";
 import dayjs from "dayjs";
 import { DataGrid } from "@mui/x-data-grid";
 
@@ -26,7 +26,7 @@ const StatementTab = ({ debtor }) => {
   const [open, setOpen] = useState(false);
   const [changed, setChanged] = useState(false);
   const [to, setTo] = useState(dayjs(new Date()));
-  const [from, setFrom] = useState(dayjs("2025-03- 01"))
+  const [from, setFrom] = useState(dayjs(new Date()))
   const handleOpen = () => setOpen(true);
   // const handleClose = () => setOpen(false);
 
@@ -66,7 +66,6 @@ const StatementTab = ({ debtor }) => {
     };
 
     getDebitEntries();
-    setChanged(false);
   }, [changed, debtorId, firmId, from, to, navigate, serverUrl, token])
 
   const columns = [
@@ -106,8 +105,12 @@ const StatementTab = ({ debtor }) => {
       <AddCreditModal data={{ open, setOpen, fullScreen, setChanged, debtor }} />
       {entries &&
         < Box className="outer" sx={{ display: "flex", flexDirection: "column", gap: "1rem", overflow: "auto", width: '100%', height: '100%' }}>
-          <Box sx={{ p: 1 }}><AddCircleIcon onClick={handleOpen} /></Box>
-          <Box sx={{ width: '100%', height: '100%', overflow: "auto" }}>{rows &&
+          <Box sx={{ p: 1, display: "flex", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
+            <DatePickerX label="From" value={from} setValue={setFrom} />
+            <DatePickerX label="To" value={to} setValue={setTo} />
+            <AddCircleIcon onClick={handleOpen} fontSize="large" sx={{ color: "#346CB0" }} />
+          </Box>
+          <Box sx={{ width: '100%', maxHeight: '500px', overflow: "auto" }}>
             <DataGrid
               rows={rows}
               columns={columns}
@@ -117,7 +120,7 @@ const StatementTab = ({ debtor }) => {
               checkboxSelection
               disableRowSelectionOnClick
             />
-          }</Box>
+          </Box>
         </Box>
       }
     </Paper >
