@@ -17,7 +17,7 @@ import UserContext from '../Context/UserContext'
 import { useNavigate } from 'react-router-dom'
 
 export default function AddCreditEntry(props) {
-  const { handleClose, open, setChanged, debtor } = props.data
+  const { handleClose, open, setChanged, debtor, setTo } = props.data
 
   const [date, setDate] = React.useState(dayjs(new Date()));
   const [amount, setAmount] = React.useState(undefined);
@@ -26,7 +26,6 @@ export default function AddCreditEntry(props) {
   const [error, setError] = React.useState(null)
   const { firm, serverUrl } = React.useContext(UserContext)
   const token = localStorage.getItem("authToken");
-
 
   const navigate = useNavigate()
 
@@ -57,7 +56,6 @@ export default function AddCreditEntry(props) {
     const firmId = JSON.parse(firm)._id;
 
     try {
-      setChanged(false);
       const url = `${serverUrl}/api/ledgers/addcreditentry`;
       const body = {
         firmId,
@@ -75,6 +73,9 @@ export default function AddCreditEntry(props) {
       const data = await axios.post(url, body, config);
       if (data.data.success) {
         setChanged(true);
+        let date = new Date();
+        date.setDate(date.getDate() + 1)
+        setTo(dayjs(date))
         handleClose();
       }
     } catch (error) {
@@ -85,7 +86,7 @@ export default function AddCreditEntry(props) {
   }
 
   return (
-    <Box open={open} onClose={handleClose}>
+    <Box open={open} onClose={() => handleClose()}>
       {setShow && (
         <Grid item xs={12} sx={{ mb: 2 }}>
           <Collapse in={show}>

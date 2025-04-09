@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import AddCreditEntry from "../Forms/AddCreditEntry";
 
 export default function AddCreditModal(props) {
-  const { open, setOpen, fullScreen, setChanged, debtor } = props.data;
+  const { open, setOpen, fullScreen, setChanged, debtor, setTo } = props.data;
 
   function handleClose() {
     setOpen(false);
@@ -20,7 +20,7 @@ export default function AddCreditModal(props) {
         aria-labelledby="responsive-dialog-title"
       >
         <Box sx={{ p: 5 }}>
-          <AddCreditEntry data={{ handleClose, open, setChanged, debtor }} />
+          <AddCreditEntry data={{ handleClose, open, setChanged, debtor, setTo }} />
         </Box>
       </Dialog>
     </div>

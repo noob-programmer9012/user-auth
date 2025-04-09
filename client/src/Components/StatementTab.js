@@ -28,7 +28,6 @@ const StatementTab = ({ debtor }) => {
   const [to, setTo] = useState(dayjs(new Date()));
   const [from, setFrom] = useState(dayjs(new Date()))
   const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
@@ -39,7 +38,6 @@ const StatementTab = ({ debtor }) => {
   // }, [entries])
 
   useEffect(() => {
-    console.log(changed);
     if (!token) navigate("/login");
 
     const getDebitEntries = async () => {
@@ -66,7 +64,7 @@ const StatementTab = ({ debtor }) => {
     };
 
     getDebitEntries();
-  }, [changed, debtorId, firmId, from, to, navigate, serverUrl, token])
+  }, [changed, debtorId, firmId, from, to, navigate, serverUrl, token, entries])
 
   const columns = [
     { field: 'id', headerName: "ID", width: 90 },
@@ -102,15 +100,15 @@ const StatementTab = ({ debtor }) => {
 
   return (
     <Paper sx={{ mt: 2, p: 1 }} >
-      <AddCreditModal data={{ open, setOpen, fullScreen, setChanged, debtor }} />
+      <AddCreditModal data={{ open, setOpen, fullScreen, setChanged, debtor, setTo }} />
       {entries &&
         < Box className="outer" sx={{ display: "flex", flexDirection: "column", gap: "1rem", overflow: "auto", width: '100%', height: '100%' }}>
-          <Box sx={{ p: 1, display: "flex", gap: "1rem", justifyContent: "center", alignItems: "center" }}>
+          <Box sx={{ p: 1, display: "flex", flexDirection: "column", gap: "0.5rem", justifyContent: "center", alignItems: "center" }}>
             <DatePickerX label="From" value={from} setValue={setFrom} />
             <DatePickerX label="To" value={to} setValue={setTo} />
             <AddCircleIcon onClick={handleOpen} fontSize="large" sx={{ color: "#346CB0" }} />
           </Box>
-          <Box sx={{ width: '100%', maxHeight: '500px', overflow: "auto" }}>
+          <Box sx={{ width: '100%', maxHeight: '400px', overflow: "auto" }}>
             <DataGrid
               rows={rows}
               columns={columns}
