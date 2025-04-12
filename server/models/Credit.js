@@ -3,6 +3,7 @@ Requirements
   firmId - required
   ClientId - required
   Amount - required
+  paymentType - required
   Date - required
   againstChallanNo
 */
@@ -13,12 +14,12 @@ const creditSchema = new mongoose.Schema({
   firmId: {
     type: mongoose.Types.ObjectId,
     ref: "Firm",
-    required: ["true", "Please enter firm id."],
+    required: [true, "Please enter firm id."],
   },
   clientId: {
     type: mongoose.Types.ObjectId,
     ref: "Ledger",
-    required: ["true", "Please enter client id."],
+    required: [true, "Please enter client id."],
   },
   againstChallanNumber: {
     type: Number,
@@ -35,6 +36,14 @@ const creditSchema = new mongoose.Schema({
     type: Number,
     required: [true, "Please enter total amount."],
     match: ["^d+$", "Please provide valid amount. e.g. 10025.25"],
+  },
+  paymentType: {
+    type: String,
+    enum: {
+      values: ['UPI', 'CASH', 'SALES RETURN', 'ANGADIYA', 'NEFT/RTGS/IMPS'],
+      message: "Please enter valid payment type."
+    },
+    required: [true, "Please enter payment type."]
   }
 })
 

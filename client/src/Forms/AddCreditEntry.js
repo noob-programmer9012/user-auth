@@ -15,8 +15,11 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import UserContext from '../Context/UserContext'
 import { useNavigate } from 'react-router-dom'
+import SelectX from '../Components/SelectX'
 
 export default function AddCreditEntry(props) {
+  const paymentTypes = ['UPI', 'CASH', 'SALES RETURN', 'ANGADIYA', 'NEFT/RTGS/IMPS']
+
   const { handleClose, open, setChanged, debtor, setTo } = props.data
 
   const [date, setDate] = React.useState(dayjs(new Date()));
@@ -25,7 +28,9 @@ export default function AddCreditEntry(props) {
   const [show, setShow] = React.useState(false)
   const [error, setError] = React.useState(null)
   const { firm, serverUrl } = React.useContext(UserContext)
+  const [paymentType, setPaymentType] = React.useState(paymentTypes[0])
   const token = localStorage.getItem("authToken");
+
 
   const navigate = useNavigate()
 
@@ -62,7 +67,8 @@ export default function AddCreditEntry(props) {
         clientId: debtorId,
         date,
         amount,
-        againstChallanNumber: cno
+        againstChallanNumber: cno,
+        paymentType
       };
       const config = {
         headers: {
@@ -157,6 +163,9 @@ export default function AddCreditEntry(props) {
             variant='outlined'
             onChange={e => handleOnlyNumbers(e)}
           />
+        </Grid>
+        <Grid item xs={12}>
+          <SelectX defaultVal={paymentType} setVal={setPaymentType} arr={paymentTypes} label="Payment Type *" />
         </Grid>
         <Grid container justifyContent='flex-end' marginTop={2}>
           <Button
