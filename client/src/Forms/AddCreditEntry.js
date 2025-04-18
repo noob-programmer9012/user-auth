@@ -31,7 +31,6 @@ export default function AddCreditEntry(props) {
   const [paymentType, setPaymentType] = React.useState(paymentTypes[0])
   const token = localStorage.getItem("authToken");
 
-
   const navigate = useNavigate()
 
   const handleNumbers = e => {
@@ -122,6 +121,7 @@ export default function AddCreditEntry(props) {
                 value={date}
                 onChange={(newValue) => setDate(newValue)}
                 sx={{ width: "100%" }}
+                format="DD-MM-YYYY"
               />
             </DemoContainer>
           </LocalizationProvider>

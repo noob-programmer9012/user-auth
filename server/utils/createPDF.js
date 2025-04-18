@@ -55,7 +55,7 @@ const addDoc = (data, doc) => {
 }
 
 export const createPDF = ({ ...data }, _req, res, _next) => {
-  const fileName = `${data._doc.challanNumber}.pdf`;
+  // const fileName = `${data._doc.challanNumber}`;
   // const filePath = path.join(
   //   import.meta.dirname,
   //   "..",
@@ -65,10 +65,12 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
   // );
 
   const doc = new PDFDocument({ size: "A4" });
+  const date = new Date(data._doc.challanDate).toLocaleDateString();
+  doc.info['Title'] = `${data._doc.challanNumber} - ${date}`;
   res.setHeader("Content-Type", "application/pdf");
-  res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+  // res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
+  // res.setHeader('Content-disposition', 'inline; filename=' + `${fileName}` + '.pdf');
   // doc.pipe(fs.createWriteStream(filePath));
-  doc.pipe(res);
   // await new Promise((resolve) => resolve(template(data, doc)))
 
   template(data, doc);
@@ -102,5 +104,6 @@ export const createPDF = ({ ...data }, _req, res, _next) => {
     .fontSize(16)
     .text(`${total_amount}/-`, 490, 805, { height: 10, width: 150 });
 
-  return doc.end();
+  doc.end();
+  doc.pipe(res);
 };

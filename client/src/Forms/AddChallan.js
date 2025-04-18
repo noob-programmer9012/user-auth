@@ -295,6 +295,7 @@ export default function AddChallan(props) {
                       // defaultValue={dayjs(new Date())}
                       name="Date"
                       value={date}
+                      format="DD-MM-YYYY"
                       onChange={(value) => {
                         setShow(false);
                         setError("");

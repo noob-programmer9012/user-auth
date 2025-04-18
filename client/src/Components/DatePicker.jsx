@@ -15,6 +15,7 @@ const DatePickerX = ({ label, value, setValue }) => {
           label={label}
           value={value}
           onChange={(newValue) => setValue(newValue)}
+          format="DD-MM-YYYY"
         />
       </DemoContainer>
     </LocalizationProvider>
