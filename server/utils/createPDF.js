@@ -1,6 +1,4 @@
 import PDFDocument from "pdfkit";
-// import fs from "fs";
-// import path from "path";
 
 const template = ({ ...data }, doc) => {
   doc.rect(10, 25, 580, 150).stroke("black"); // top rect
@@ -55,23 +53,10 @@ const addDoc = (data, doc) => {
 }
 
 export const createPDF = ({ ...data }, _req, res, _next) => {
-  // const fileName = `${data._doc.challanNumber}`;
-  // const filePath = path.join(
-  //   import.meta.dirname,
-  //   "..",
-  //   "data",
-  //   "challans",
-  //   fileName
-  // );
-
   const doc = new PDFDocument({ size: "A4" });
   const date = new Date(data._doc.challanDate).toLocaleDateString();
   doc.info['Title'] = `${data._doc.challanNumber} - ${date}`;
   res.setHeader("Content-Type", "application/pdf");
-  // res.setHeader("Content-Disposition", `attachment; filename="${fileName}"`);
-  // res.setHeader('Content-disposition', 'inline; filename=' + `${fileName}` + '.pdf');
-  // doc.pipe(fs.createWriteStream(filePath));
-  // await new Promise((resolve) => resolve(template(data, doc)))
 
   template(data, doc);
   let a = 185, x = 50;

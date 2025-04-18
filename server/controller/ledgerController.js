@@ -6,6 +6,7 @@ import { createPDF } from "../utils/createPDF.js";
 import Debit from "../models/Debit.js";
 import Credit from "../models/Credit.js";
 import mongoose from "mongoose";
+import path from "node:path";
 
 export async function createLedger(req, res, next) {
   const {
@@ -164,8 +165,9 @@ export async function getChallanDetails(req, res, next) {
     //   success: true,
     //   data: challan,
     // });
-    // console.log(challan);
     return createPDF(challan, req, res, next);
+    // const name = challan.clientId.companyName.split(" ").map(word => word[0]).join("");
+
   } catch (error) {
     next(error);
   }

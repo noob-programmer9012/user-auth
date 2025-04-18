@@ -54,6 +54,7 @@ export default function ResetPasswordPage() {
       setShow(true);
     }
 
+    setProgress(true);
     const url = `${serverUrl}/api/user/resetpassword/${token.resetToken}`;
     const config = {
       headers: {
@@ -65,9 +66,11 @@ export default function ResetPasswordPage() {
     try {
       const { data } = await axios.put(url, { password }, config);
       if (data.success) navigate("/login");
+      setProgress(false);
     } catch (error) {
       setError(error.message)
       setShow(true)
+      setProgress(false);
     }
   }
 

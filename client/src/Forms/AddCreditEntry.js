@@ -14,7 +14,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 import UserContext from '../Context/UserContext'
-import { useNavigate } from 'react-router-dom'
 import SelectX from '../Components/SelectX'
 
 export default function AddCreditEntry(props) {
@@ -30,8 +29,6 @@ export default function AddCreditEntry(props) {
   const { firm, serverUrl } = React.useContext(UserContext)
   const [paymentType, setPaymentType] = React.useState(paymentTypes[0])
   const token = localStorage.getItem("authToken");
-
-  const navigate = useNavigate()
 
   const handleNumbers = e => {
     const onlyNums = e.target.value.replace(/[^0-9.0-9]/g, '')

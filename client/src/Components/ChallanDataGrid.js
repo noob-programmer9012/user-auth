@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
+import download from "downloadjs";
 
 import UserContext from "../Context/UserContext";
 import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
@@ -29,18 +30,22 @@ export default function ChallanDataGrid() {
   const getPDF = useCallback(
     (params) => async () => {
       const challanId = params.row.challanId;
+      const challanNumber = params.row.challanNumber;
+      const name = params.row.clientName.split(" ").map(word => word[0]).join("");
+      const fileName = `${name}-${challanNumber}.pdf`
       try {
         const config = {
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
           responseType: "blob",
         };
         const url = `${serverUrl}/api/ledgers/getChallanDetails/${challanId}`;
-        const data = await axios.get(url.toString(), config);
+        const data = await axios.get(url, config);
+        const blob = new Blob([data.data], { type: 'application/pdf' });
+        download(blob, `${fileName}`, "application/pdf");
         // setPdf(URL.createObjectURL(data.data));
-        window.open(URL.createObjectURL(data.data), "_blank"); // open url here
+        // window.open(URL.createObjectURL(data.data), "_blank"); // open url here
       } catch (error) {
         console.log(error);
       }
