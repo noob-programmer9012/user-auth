@@ -117,7 +117,6 @@ export async function createChallan(req, res, next) {
     challanDate = new Date();
   }
 
-
   // get the last challan date and throw error if date conflict
   const last = await Challan.find({ firmId });
   if (last.length > 0) {
@@ -148,16 +147,61 @@ export async function createChallan(req, res, next) {
   }
 }
 
+export async function editChallan(req, res, next) {
+  const { challanId, firmId, clientId, challanNumber, challanDate, products } = req.body;
+
+  try {
+    const filter = { _id: challanId };
+    const update = { clientId: clientId, challanDate, products, edit: true };
+    const updatedChallan = await Challan.findOneAndUpdate(filter, update);
+    await updatedChallan.save();
+
+    const filterDebit = { firmId, challanNumber: updatedChallan.challanNumber };
+    const prices = products.map(p => Number(p.rate) * Number(p.quantity));
+    const totalPrice = prices.reduce((sum, num) => sum + num, 0);
+    const updateDebit = { firmId, clientId, challanNumber, challanDate, amount: totalPrice }
+    const debitEntry = await Debit.findOneAndUpdate(filterDebit, updateDebit);
+    await debitEntry.save();
+    return res.status(201).json({ success: true, message: "Challan Updated Successfully" });
+  } catch (error) {
+    next(error);
+  }
+}
+
+async function challanDetail(challanId) {
+  const challan = await Challan.findById(challanId)
+    .populate({ path: "firmId", select: "companyName address -_id" })
+    .populate({ path: "clientId", select: "companyName address _id" })
+    .populate({
+      path: "products.productId",
+      select: "productName openingRate saleRate unit _id",
+    });
+
+  return challan;
+}
+
+export async function getChallanDetail(req, res, next) {
+  const { challanId } = req.params;
+
+  if (!challanId) return next(new ErrorResponse("Please enter challanId and FirmId"));
+
+  if (!mongoose.Types.ObjectId.isValid(challanId))
+    return next(new ErrorResponse("Please enter valid challan and firm ID", 400));
+
+  const challan = await challanDetail(challanId);
+
+  if (!challan) return next(new ErrorResponse("Requested challan not available", 404));
+
+  return res.status(200).json({
+    success: true,
+    challan
+  })
+}
+
 export async function getChallanDetails(req, res, next) {
   const { challanId } = req.params;
   try {
-    const challan = await Challan.findById(challanId)
-      .populate({ path: "firmId", select: "companyName address -_id" })
-      .populate({ path: "clientId", select: "companyName address -_id" })
-      .populate({
-        path: "products.productId",
-        select: "productName openingRate saleRate unit -_id",
-      });
+    const challan = await challanDetail(challanId);
     if (!challan) {
       return next(new ErrorResponse("Not Found", 404));
     }

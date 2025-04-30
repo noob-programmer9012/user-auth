@@ -23,6 +23,10 @@ const ChallanSchema = new mongoose.Schema(
       type: Date,
       default: new Date(),
     },
+    edit: {
+      type: Boolean,
+      default: false
+    },
     products: [
       {
         productId: {
@@ -50,35 +54,36 @@ const ChallanSchema = new mongoose.Schema(
 );
 
 ChallanSchema.pre("save", async function(next) {
-  this.challanDate = this.challanDate
-    ? Date.parse(this.challanDate)
-    : new Date();
-  const last = await Challan.findOne(
-    { firmId: this.firmId },
-    {},
-    { sort: { createdAt: -1 } }
-  );
+  if (this.edit === false) {
+    this.challanDate = this.challanDate
+      ? Date.parse(this.challanDate)
+      : new Date();
+    const last = await Challan.findOne(
+      { firmId: this.firmId },
+      {},
+      { sort: { createdAt: -1 } }
+    );
 
-  if (!last) {
-    this.challanNumber = 1;
-    return next();
-  }
+    if (!last) {
+      this.challanNumber = 1;
+      return next();
+    }
 
-  if (this.challanDate.getDate() >= 1 && this.challanDate.getMonth() + 1 >= 4) {
-    if (last.challanNumber < 2 && last.challanDate.getMonth() + 1 < 4) {
-      this.challanNumber = 1;
-    } else if (
-      last.challanDate.getFullYear() < this.challanDate.getFullYear() &&
-      this.challanDate.getMonth() + 1 > 3
-    ) {
-      this.challanNumber = 1;
+    if (this.challanDate.getDate() >= 1 && this.challanDate.getMonth() + 1 >= 4) {
+      if (last.challanNumber < 2 && last.challanDate.getMonth() + 1 < 4) {
+        this.challanNumber = 1;
+      } else if (
+        last.challanDate.getFullYear() < this.challanDate.getFullYear() &&
+        this.challanDate.getMonth() + 1 > 3
+      ) {
+        this.challanNumber = 1;
+      } else {
+        this.challanNumber = last.challanNumber + 1;
+      }
     } else {
       this.challanNumber = last.challanNumber + 1;
     }
-  } else {
-    this.challanNumber = last.challanNumber + 1;
   }
-
   next();
 });
 

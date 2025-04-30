@@ -3,6 +3,7 @@ import axios from "axios";
 import Box from "@mui/material/Box";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import EditIcon from '@mui/icons-material/Edit';
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import download from "downloadjs";
 
@@ -11,6 +12,7 @@ import { CircularProgress, Grid, useMediaQuery } from "@mui/material";
 import ChallanData from "./ChllanData";
 import { useTheme } from "@emotion/react";
 import ChallanModal from "./AddChallanModal";
+import EditChallanModal from "./EditChallanModal";
 
 export default function ChallanDataGrid() {
   const [challanData, setChallanData] = useState(null);
@@ -20,12 +22,33 @@ export default function ChallanDataGrid() {
     page: 0,
   });
   const [open, setOpen] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [changed, setChanged] = useState(false);
+  const [selectedChallan, setSelectedChallan] = useState(undefined);
   const { serverUrl } = useContext(UserContext);
   const token = localStorage.getItem("authToken");
 
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("md"));
+
+  const editChallan = useCallback(
+    (params) => async () => {
+      const challanId = params.row.challanId;
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+        const url = `${serverUrl}/api/ledgers/challanDetail/${challanId}`;
+        const challan = await axios.get(url, config);
+        setSelectedChallan(challan.data.challan);
+        setEdit(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }, [serverUrl, token]
+  )
 
   const getPDF = useCallback(
     (params) => async () => {
@@ -107,6 +130,18 @@ export default function ChallanDataGrid() {
           }
           label="Add Challan"
           onClick={() => setOpen(true)}
+        />,
+        <GridActionsCellItem
+          icon={
+            <EditIcon
+              sx={{
+                color: "#ff000080",
+                cursor: "pointer",
+              }}
+            />
+          }
+          label="Edit Challan"
+          onClick={editChallan(params)}
         />,
       ],
       flex: 3,
@@ -211,6 +246,7 @@ export default function ChallanDataGrid() {
         <ChallanModal
           data={{ open, setOpen, fullScreen, setChanged, setChallanData }}
         />
+        <EditChallanModal data={{ edit, setEdit, fullScreen, setChanged, setChallanData, selectedChallan }} />
       </Grid>
     </Box>
   );
