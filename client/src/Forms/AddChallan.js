@@ -9,6 +9,8 @@ import {
   MenuItem,
   TextField,
   Typography,
+  InputAdornment,
+  InputBase,
 } from "@mui/material";
 import React, { useContext, useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
@@ -19,6 +21,8 @@ import { DemoItem } from "@mui/x-date-pickers/internals/demo";
 import dayjs from "dayjs";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import SearchIcon from "@mui/icons-material/Search";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
 import axios from "axios";
 import UserContext from "../Context/UserContext";
 import { useNavigate } from "react-router-dom";
@@ -42,6 +46,22 @@ export default function AddChallan(props) {
   ]);
 
   const navigate = useNavigate();
+
+  const handleSearch = e => {
+    const products = document.querySelectorAll(".products");
+    for (let product of products) {
+      if (product.id.toUpperCase().indexOf(e.target.value.toUpperCase()) > -1) {
+        product.style.display = "";
+      } else {
+        product.style.display = "none";
+      }
+    }
+  }
+
+  const stopImmediatePropagation = (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -373,10 +393,49 @@ export default function AddChallan(props) {
                           handleChangeInput(e, index);
                         }}
                       >
+                        <MenuItem
+                          dense
+                          divider
+                          value={""}
+                          onClickCapture={stopImmediatePropagation}
+                          onKeyDown={e => e.stopPropagation()}
+                        >
+                          <IconButton sx={{ p: "10px" }} aria-label="menu">
+                            <SearchIcon />
+                          </IconButton>
+                          <InputBase
+                            sx={{ ml: 1, flex: 1 }}
+                            placeholder="Search Products"
+                            inputProps={{ "aria-label": "search products" }}
+                            onChange={e => handleSearch(e)}
+                            endAdornment={
+                              <InputAdornment position="end">
+                                <IconButton
+                                  aria-label="Add Transporter"
+                                  edge="end"
+                                  sx={{
+                                    p: 2,
+                                    borderRadius: 0,
+                                    borderLeft: "1px solid #30619F",
+                                    height: "100%",
+                                    "&:hover": { background: "none" },
+                                  }}
+                                >
+                                  <AddCircleIcon
+                                    fontSize="large"
+                                    sx={{ ml: -1 }}
+                                    color="primary"
+                                  />
+                                </IconButton>
+                              </InputAdornment>
+                            }
+                          />
+                        </MenuItem>
+
                         {productsData ? (
                           JSON.parse(productsData).map((product) => {
                             return (
-                              <MenuItem value={product._id}>
+                              <MenuItem value={product._id} id={product.productName} className="products" sx={{ display: "block" }}>
                                 {product.productName}
                               </MenuItem>
                             );
