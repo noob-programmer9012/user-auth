@@ -12,6 +12,7 @@ import {
   getStatement,
   getChallanDetail,
   editChallan,
+  deleteChallan,
 } from "../controller/ledgerController.js";
 import { protect } from "../middleware/auth.js";
 
@@ -24,6 +25,7 @@ router.route("/getcreditors/:id").get(protect, getCreditors);
 router.route("/createchallan").post(protect, createChallan);
 router.route("/editChallan").put(protect, editChallan);
 router.route("/challanDetail/:challanId").get(protect, getChallanDetail);
+router.route("/deleteChallan/:challanId").delete(protect, deleteChallan);
 router.route("/getChallanDetails/:challanId").get(protect, getChallanDetails);
 router.route("/getAllChallans/:firmId").get(protect, getAllChallans);
 router.route("/addcreditentry").post(protect, addCreditEntry);

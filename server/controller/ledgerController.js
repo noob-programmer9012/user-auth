@@ -198,6 +198,23 @@ export async function getChallanDetail(req, res, next) {
   })
 }
 
+export async function deleteChallan(req, res, next) {
+  const { challanId } = req.params;
+  // first delete the debit entry based on the challan
+  const challan = await Challan.findById(challanId);
+  const firmId = challan.firmId;
+  const clientId = challan.clientId;
+  const challanNumber = challan.challanNumber;
+  try {
+    const debit = await Debit.findOne({ firmId, clientId, challanNumber });
+    await debit.delete();
+    await challan.delete();
+    return res.status(200).json({ success: true, message: "delete successfully" });
+  } catch (error) {
+    return next(new ErrorResponse("Could not delete challan", 500));
+  }
+}
+
 export async function getChallanDetails(req, res, next) {
   const { challanId } = req.params;
   try {

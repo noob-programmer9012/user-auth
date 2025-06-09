@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 import download from "downloadjs";
 
@@ -44,6 +45,26 @@ export default function ChallanDataGrid() {
         const challan = await axios.get(url, config);
         setSelectedChallan(challan.data.challan);
         setEdit(true);
+      } catch (error) {
+        console.log(error);
+      }
+    }, [serverUrl, token]
+  )
+
+  const deleteChallan = useCallback(
+    (params) => async () => {
+      setChanged(false);
+      const challanId = params.row.challanId;
+      try {
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+        }
+        const url = `${serverUrl}/api/ledgers/deleteChallan/${challanId}`;
+        const res = await axios.delete(url, config);
+        console.log(res);
+        setChanged(true);
       } catch (error) {
         console.log(error);
       }
@@ -135,7 +156,7 @@ export default function ChallanDataGrid() {
           icon={
             <EditIcon
               sx={{
-                color: "#ff000080",
+                color: "#FF9800",
                 cursor: "pointer",
               }}
             />
@@ -143,6 +164,19 @@ export default function ChallanDataGrid() {
           label="Edit Challan"
           onClick={editChallan(params)}
         />,
+        <GridActionsCellItem
+          icon={
+            <DeleteIcon
+              sx={{
+                color: "#ff000080",
+                cursor: "pointer",
+              }}
+            />
+          }
+          label="Delete Challan"
+          onClick={deleteChallan(params)}
+        />,
+
       ],
       flex: 3,
       editable: false,

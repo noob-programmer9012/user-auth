@@ -55,7 +55,7 @@ async function forgotPassword(req, res, next) {
 
     // Send Email
     try {
-      const url = `http://localhost:3000/resetpassword/${resetToken}`
+      const url = `https://www.the-erp.in/resetpassword/${resetToken}`
       const message = `
                 <h1>Reset Password Link</h1>
                 <p>Please, visit the following link to reset your password:</p>
