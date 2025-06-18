@@ -14,6 +14,7 @@ import ChallanData from "./ChllanData";
 import { useTheme } from "@emotion/react";
 import ChallanModal from "./AddChallanModal";
 import EditChallanModal from "./EditChallanModal";
+import DeleteChallanModal from "./DeleteChallanModal";
 
 export default function ChallanDataGrid() {
   const [challanData, setChallanData] = useState(null);
@@ -24,6 +25,7 @@ export default function ChallanDataGrid() {
   });
   const [open, setOpen] = useState(false);
   const [edit, setEdit] = useState(false);
+  const [_delete, setDelete] = useState(false);
   const [changed, setChanged] = useState(false);
   const [selectedChallan, setSelectedChallan] = useState(undefined);
   const { serverUrl } = useContext(UserContext);
@@ -53,22 +55,9 @@ export default function ChallanDataGrid() {
 
   const deleteChallan = useCallback(
     (params) => async () => {
-      setChanged(false);
-      const challanId = params.row.challanId;
-      try {
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          },
-        }
-        const url = `${serverUrl}/api/ledgers/deleteChallan/${challanId}`;
-        const res = await axios.delete(url, config);
-        console.log(res);
-        setChanged(true);
-      } catch (error) {
-        console.log(error);
-      }
-    }, [serverUrl, token]
+      setDelete(true);
+      setSelectedChallan(params.row.challanId);
+    }, []
   )
 
   const getPDF = useCallback(
@@ -103,30 +92,31 @@ export default function ChallanDataGrid() {
     // { field: "challanId", headerName: "challanId", width: 90 },
     {
       field: "challanNumber",
-      headerName: "Challan Number",
+      headerName: "Challan No",
       type: "number",
       flex: 1,
       editable: false,
-      width: 10,
+      width: 5,
     },
     {
       field: "date",
       headerName: "Date",
       // type: "date",
-      flex: 3,
+      flex: 2,
       editable: false,
     },
     {
       field: "clientName",
       headerName: "Client name",
-      flex: 3,
+      flex: 1,
       editable: false,
     },
     {
       field: "actions",
       type: "actions",
       headerName: "Actions",
-      width: 80,
+      flex: 2,
+      // width: 120,
       getActions: (params) => [
         <GridActionsCellItem
           icon={
@@ -253,7 +243,7 @@ export default function ChallanDataGrid() {
               paginationModel={paginationModel}
               onPaginationModelChange={setPaginationModel}
               pageSizeOptions={[5, 10, 15]}
-              checkboxSelection
+              // checkboxSelection
               disableRowSelectionOnClick
             />
           ) : (
@@ -281,6 +271,7 @@ export default function ChallanDataGrid() {
           data={{ open, setOpen, fullScreen, setChanged, setChallanData }}
         />
         <EditChallanModal data={{ edit, setEdit, fullScreen, setChanged, setChallanData, selectedChallan }} />
+        <DeleteChallanModal data={{ _delete, setDelete, fullScreen, setChanged, selectedChallan }} />
       </Grid>
     </Box>
   );
