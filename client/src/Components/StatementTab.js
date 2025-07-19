@@ -25,8 +25,10 @@ const StatementTab = ({ debtor }) => {
   const [entries, setEntries] = useState("");
   const [open, setOpen] = useState(false);
   const [changed, setChanged] = useState(false);
-  const [to, setTo] = useState(dayjs(new Date()));
-  const [from, setFrom] = useState(dayjs(new Date()))
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const [to, setTo] = useState(dayjs(today));
+  const [from, setFrom] = useState(dayjs(today));
   const handleOpen = () => setOpen(true);
 
   const theme = useTheme();
@@ -88,13 +90,13 @@ const StatementTab = ({ debtor }) => {
 
   let entriesData = entries && JSON.parse(entries)
   let rows = entriesData && entriesData.map((entry, index) => (
-    { id: index + 1, cno: entry.challanNumber ? entry.challanNumber : "--", date: entry.challanDate ? new Date(entry.challanDate).toLocaleDateString() : new Date(entry.date).toLocaleDateString(), debit: entry.challanNumber ? entry.amount : '--', credit: entry.challanNumber ? "--" : entry.amount }
+    { id: index + 1, cno: entry.challanNumber ? entry.challanNumber : "--", date: entry.challanDate ? new Date(entry.challanDate).toLocaleDateString('en-In') : new Date(entry.date).toLocaleDateString(), debit: entry.challanNumber ? entry.amount : '--', credit: entry.challanNumber ? "--" : entry.amount }
   ))
 
   useEffect(() => {
     entriesData = entries && JSON.parse(entries);
     rows = entriesData && entriesData.map((entry, index) => (
-      { id: index + 1, cno: entry.challanNumber ? entry.challanNumber : "--", date: entry.challanDate ? new Date(entry.challanDate).toLocaleDateString() : new Date(entry.date).toLocaleDateString(), debit: entry.challanNumber ? entry.amount : '--', credit: entry.challanNumber ? "--" : entry.amount }
+      { id: index + 1, cno: entry.challanNumber ? entry.challanNumber : "--", date: entry.challanDate ? new Date(entry.challanDate).toLocaleDateString('en-In') : new Date(entry.date).toLocaleDateString(), debit: entry.challanNumber ? entry.amount : '--', credit: entry.challanNumber ? "--" : entry.amount }
     ))
   }, [entries, changed])
 
