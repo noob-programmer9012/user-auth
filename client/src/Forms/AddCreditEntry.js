@@ -21,7 +21,9 @@ export default function AddCreditEntry(props) {
 
   const { handleClose, open, setChanged, debtor, setTo } = props.data
 
-  const [date, setDate] = React.useState(dayjs(new Date()));
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const [date, setDate] = React.useState(dayjs(today));
   const [amount, setAmount] = React.useState(undefined);
   const [cno, setCno] = React.useState(undefined);
   const [show, setShow] = React.useState(false)
@@ -61,7 +63,7 @@ export default function AddCreditEntry(props) {
       const body = {
         firmId,
         clientId: debtorId,
-        date,
+        date: new Date(date).toLocaleDateString(),
         amount,
         againstChallanNumber: cno,
         paymentType
@@ -75,9 +77,7 @@ export default function AddCreditEntry(props) {
       const data = await axios.post(url, body, config);
       if (data.data.success) {
         setChanged(true);
-        let date = new Date();
-        date.setDate(date.getDate() + 1)
-        setTo(dayjs(date))
+        // setTo(dayjs(date))
         handleClose();
       }
     } catch (error) {

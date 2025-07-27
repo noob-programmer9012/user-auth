@@ -4,6 +4,7 @@ import { ErrorResponse } from '../utils/errorResponse.js'
 import { gstStates } from '../utils/gstStates.js'
 import { titleCase } from '../utils/titleCase.js'
 
+// add current financial year to the model
 const FirmSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.ObjectId,
@@ -42,7 +43,15 @@ const FirmSchema = new mongoose.Schema({
     maxlength: 15
   },
   gst_state: String,
-  pan_no: String
+  pan_no: String,
+  fYearStart: {
+    type: Date,
+    required: [true, "Please enter current financial year start date."]
+  },
+  fYearEnd: {
+    type: Date,
+    required: [true, "Please enter current financial year end date."]
+  }
 })
 
 FirmSchema.pre('save', async function(next) {

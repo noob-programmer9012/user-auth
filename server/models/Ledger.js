@@ -59,7 +59,7 @@ const LedgerSchema = new mongoose.Schema({
   }
 })
 
-LedgerSchema.pre('save', function (next) {
+LedgerSchema.pre('save', function(next) {
   this.pan_no = this.gst_no.slice(2, 12)
   this.companyName = titleCase(this.companyName)
   const gstCode = parseInt(this.gst_no.slice(0, 2))

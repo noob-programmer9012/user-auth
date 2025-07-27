@@ -181,7 +181,7 @@ export default function ChallanDataGrid() {
       id: index + 1,
       challanId: challan._id,
       challanNumber: challan.challanNumber,
-      date: new Date(challan.challanDate).toLocaleDateString(),
+      date: new Date(challan.challanDate).toLocaleDateString('en-IN'),
       clientName: challan.clientId.companyName,
     }));
 

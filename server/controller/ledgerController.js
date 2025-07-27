@@ -6,7 +6,7 @@ import { createPDF } from "../utils/createPDF.js";
 import Debit from "../models/Debit.js";
 import Credit from "../models/Credit.js";
 import mongoose from "mongoose";
-import path from "node:path";
+// import path from "node:path";
 
 export async function createLedger(req, res, next) {
   const {
@@ -284,6 +284,9 @@ export async function addCreditEntry(req, res, next) {
 export async function getStatement(req, res, next) {
   const { firmId, clientId } = req.params;
   const { from, to } = req.query;
+
+  // console.log(from, to);
+  // console.log(new Date(Date.parse(from)).toLocaleDateString(), new Date(Date.parse(to)).toLocaleDateString())
 
   if (!from || !to) return next(new ErrorResponse("Please enter date range"))
 
