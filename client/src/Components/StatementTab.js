@@ -28,7 +28,7 @@ const StatementTab = ({ debtor }) => {
   const [open, setOpen] = useState(false);
   const [changed, setChanged] = useState(false);
   dayjs.locale('en-in')
-  const today = new Date().toLocaleDateString();
+  const today = new Date();
   const [to, setTo] = useState(dayjs(today));
   const [from, setFrom] = useState(dayjs(today));
   const handleOpen = () => setOpen(true);

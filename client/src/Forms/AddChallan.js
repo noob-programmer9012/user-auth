@@ -133,7 +133,7 @@ export default function AddChallan(props) {
           // challanNo: Number(challanNo),
           clientId: companyName,
           products: data,
-          challanDate: new Date(date).toLocaleDateString(),
+          challanDate: new Date(date),
         },
         { headers: config.headers }
       );

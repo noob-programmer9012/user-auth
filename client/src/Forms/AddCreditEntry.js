@@ -77,7 +77,7 @@ export default function AddCreditEntry(props) {
       const data = await axios.post(url, body, config);
       if (data.data.success) {
         setChanged(true);
-        // setTo(dayjs(date))
+        setTo(dayjs(date))
         handleClose();
       }
     } catch (error) {
