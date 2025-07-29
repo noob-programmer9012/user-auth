@@ -130,6 +130,7 @@ export async function createChallan(req, res, next) {
     challanNumber,
     challanDate,
     products,
+    edit: false
   });
   try {
     const data = await challan.save();
@@ -153,7 +154,7 @@ export async function editChallan(req, res, next) {
   try {
     const filter = { _id: challanId };
     const update = { clientId: clientId, challanDate, products, edit: true };
-    const updatedChallan = await Challan.findOneAndUpdate(filter, update);
+    const updatedChallan = await Challan.findOneAndUpdate(filter, update, { new: true });
     await updatedChallan.save();
 
     const filterDebit = { firmId, challanNumber: updatedChallan.challanNumber };
