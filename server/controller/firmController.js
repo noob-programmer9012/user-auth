@@ -61,8 +61,8 @@ async function yearEnd(req, res, next) {
     firm.fYearStart = new Date(fYearStart);
     firm.fYearEnd = new Date(fYearEnd);
 
-    // firm.markModified('fYearStart');
-    // firm.markModified('fYearEnd');
+    firm.markModified('fYearStart');
+    firm.markModified('fYearEnd');
     await firm.save();
 
     return res.status(200).json({

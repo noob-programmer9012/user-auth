@@ -15,11 +15,14 @@ import { useState, useContext, useEffect } from "react";
 
 import UserContext from "../Context/UserContext";
 import axios from "axios";
+import YearEndDialog from "./YearEndDialog";
 
 function Main(props) {
   const { user, setUser, setFirm, serverUrl, component } =
     useContext(UserContext);
   const { _id } = JSON.parse(user).data;
+
+  const [yearEndDialog, setYearEndDialog] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
@@ -115,6 +118,10 @@ function Main(props) {
               open={Boolean(anchorEl)}
               onClose={handleClose}
             >
+              <MenuItem onClick={() => {
+                setYearEndDialog(true);
+                handleClose();
+              }}>Year End</MenuItem>
               <MenuItem
                 onClick={() => {
                   handleClose();
@@ -134,6 +141,7 @@ function Main(props) {
           </div>
         </Toolbar>
       </AppBar>
+      <YearEndDialog yearEndDialog={yearEndDialog} setYearEndDialog={setYearEndDialog} />
 
       {/* Main Content */}
       <Box>{component}</Box>
